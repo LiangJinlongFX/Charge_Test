@@ -7,18 +7,25 @@
 #include "ff.h"
 #include "sys.h"
 #include "stm32f4xx.h"
+#include "rtc.h"
+#include "usart1.h"
 
 
 
-
+//定义数据文件头部标签 
+const char Data_FileHeader[370]="Serial_Number,Test_Time,Ripple_Voltage,Vout_Max,Cout_Max,"
+		"Over_Voltage_Protection,Over_Current_Protection,Short_Current,Quick_Charge,Poweron_Time,Efficiency,Test_Subsequence," ;
+const char CommaStr=',';
+const char EnterStr[2]="..";
 
 
 /**
  * 测试数据信息存储到文件系统
  * @param  DataStruct [description]
  * @return            [description]
+ *	返回代码
  */
-u8 Write_Data(TestData_Type DataStruct)
+u8 Test_WriteData(TestData_Type DataStruct,char * File_Title)
 {
 	u8 res;
 	FIL 	Fsrc;									//定义文件对象
@@ -26,7 +33,7 @@ u8 Write_Data(TestData_Type DataStruct)
 	u16 	count=0;								//定义统计数
 	u16		count_CRC=0;																		
 	u32   	REsize;
-	char 	File_Name[12];							//定义文件名数组
+	char 	File_Name[30];							//定义文件名数组
 	char  	Dir_Name[6];							//定义目录名数组
 	char 	countStr[5];
 	char 	TempStr[6];
@@ -45,21 +52,29 @@ u8 Write_Data(TestData_Type DataStruct)
 	DataStruct.Test_Time[3]=RTC_TimeStruct.RTC_Hours;
 	DataStruct.Test_Time[4]=RTC_TimeStruct.RTC_Minutes;
 	DataStruct.Test_Time[5]=RTC_TimeStruct.RTC_Seconds;
+	
+//	printf("year=%d",DataStruct.Test_Time[0]);
+//	printf("month=%d\n",DataStruct.Test_Time[2]);
+	
 
 	//生成目录名
-	sprintf(Dir_Name,"0:%02d%02d",RTC_DateStruct.RTC_Year,RTC_DateStruct.RTC_Month);
+	sprintf(Dir_Name,"0:/%02d%02d%02d",RTC_DateStruct.RTC_Year,RTC_DateStruct.RTC_Month,RTC_DateStruct.RTC_Date);
 	//生成文件名
-	sprintf(File_Name,"0:%02d%02d%02d.csv",RTC_DateStruct.RTC_Year,RTC_DateStruct.RTC_Month,RTC_DateStruct.RTC_Date);
+	strcpy(File_Name,Dir_Name);
+	strcat(File_Name,"/");
+	strcat(File_Name,File_Title);
+	strcat(File_Name,".csv");
+	printf("%s\r\n",File_Name);
 	//打开目录
 	res=f_opendir(&Dir,(const TCHAR*)Dir_Name);
 	if(res==FR_NO_PATH)
 	{
 		res=f_mkdir((const TCHAR*)Dir_Name);
-		if(res!=0) return 1;
+		if(res!=0) return 1;		//创建目录失败返回
 		res=f_opendir(&Dir,(const TCHAR*)Dir_Name);
-		if(res!=0) return 1;
+		if(res!=0) return 2;		//打开目录失败返回
 	}
-	else if(res!=0) return 1;
+	else if(res!=0) return 2;
 
 	//打开文件
 	res=f_open(&Fsrc,File_Name,FA_READ|FA_WRITE);
@@ -67,10 +82,10 @@ u8 Write_Data(TestData_Type DataStruct)
 	if(res!=0)
 	{ 
 		if(Creat_FileHeader(File_Name)!=0)
-			return 1;
+		return 3;			//创建文件头失败返回
+		res=f_open(&Fsrc,File_Name,FA_READ|FA_WRITE);
+		if(res!=0) return 3;  //仍不能成功打开文件
 	}
-	// 如果其他未知错误则结束
-	else return 1;
 	//读取文件数据总量并转换为数值(偏移量：371 字节数：5)
 	res=f_lseek(&Fsrc,371);
 	if(res!=0) return 1;
@@ -78,6 +93,7 @@ u8 Write_Data(TestData_Type DataStruct)
 	res=f_read(&Fsrc,&countStr,5,&check_count);
 	if(res!=0||check_count!=5) return 1; 
 	// 转换格式
+	printf("count=%s",countStr);
 	count=my_atoi(countStr);
 	// 根据总数给数据体写入序列号
 	DataStruct.Serial_Number=count+1;		
@@ -340,10 +356,11 @@ u8 Creat_FileHeader(char *File_Name)
 	res=f_lseek(&Fsrc,0);
 	if(res!=0) return 1;
 	//写入文件头部标签
-	res=f_write(&Fsrc,Data_FileHeader,370,&check_count);
+	printf("size=%d\n",sizeof(Data_FileHeader));
+	res=f_write(&Fsrc,Data_FileHeader,172,&check_count);
 	if(check_count!=370||res!=0) return 1;
 	//初始化总数
-	res=f_lseek(&Fsrc,371);
+	res=f_lseek(&Fsrc,172);
 	if(res!=0) return 1;
 	// 将初始总数转换为字符串
 	my_itoa(count,countStr);
@@ -351,7 +368,7 @@ u8 Creat_FileHeader(char *File_Name)
 	res=f_write(&Fsrc,&countStr,5,&check_count);
 	if(check_count!=5||res!=0) return 1;
 	// 写入换行符
-	res=f_lseek(&Fsrc,376);
+	res=f_lseek(&Fsrc,370+sizeof(countStr));
 	if(res!=0) return 1;
 	res=f_write(&Fsrc,&EnterStr,2,&check_count);
 	if(check_count!=2||res!=0) return 1;
@@ -375,24 +392,26 @@ u8 Get_DataNum(u8 *path)
 	}
 }
 
-int my_atoi(char s[])
+unsigned int my_atoi(char s[])
 {
-	int i,n,sign;
-	for(i=0;isspace(s[i]);i++)//跳过空白符;
-	sign=(s[i]=='-')?-1:1;
-	if(s[i]=='+'||s[i]==' -')//跳过符号
+	u8 i,n=0;
+	i=0;
+	while(s[i]!='\0')
+	{
+		if(s[i]>='0'&&s[i]<='9') n=10*n+(s[i]-'0');
 		i++;
-	for(n=0;isdigit(s[i]);i++)
-				 n=10*n+(s[i]-'0');//将数字字符转换成整形数字
-	return sign *n;
+	}
+	return n;
 }
 
-void my_itoa(int n,char s[])
+void my_itoa(int n,char str[])
 {
-	int i,j,sign;
+	int i,j,sign,k;
+	char s[10];
 	if((sign=n)<0)//记录符号
 	n=-n;//使n成为正数
 	i=0;
+	k=0;
 	do{
 				 s[i++]=n%10+'0';//取下一个数字
 	}
@@ -400,8 +419,12 @@ void my_itoa(int n,char s[])
 	if(sign<0)
 	s[i++]='-';
 	s[i]='\0';
-	for(j=i;j>=0;j--)//生成的数字是逆序的，所以要逆序输出
-				 printf("%c",s[j]);
+	for(j=i-1;j>=0;j--)//生成的数字是逆序的，所以要逆序输出
+	{
+		str[k]=s[j];
+		k++;
+	}
+	str[k]='\0';
 }
 
 

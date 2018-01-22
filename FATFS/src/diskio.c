@@ -10,7 +10,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "diskio.h"					/* FatFs lower layer API */
 #include "sdio_sdcard.h"		/*包含SD卡头文件*/
-#include "malloc.h"					/*包含内存管理头文件*/
+#include "rtthread.h"					/*包含内存管理头文件*/
 /**
   ******************************************************************************
   * @attention
@@ -163,18 +163,24 @@ DRESULT disk_ioctl (BYTE pdrv,BYTE cmd,void *buff	)
 //31-25: Year(0-127 org.1980), 24-21: Month(1-12), 20-16: Day(1-31) */                                                                                                                                                                                                                                          
 //15-11: Hour(0-23), 10-5: Minute(0-59), 4-0: Second(0-29 *2) */                                                                                                                                                                                                                                                
 DWORD get_fattime (void)
-{				 
+{
+	
+	RTC_TimeTypeDef RTC_TimeStruct;
+	RTC_DateTypeDef RTC_DateStruct;
+
+	RTC_GetDate(RTC_Format_BIN, &RTC_DateStruct);
+	RTC_GetTime(RTC_Format_BIN,&RTC_TimeStruct);
 	return 0;
 }			 
 //动态分配内存
 void *ff_memalloc (UINT size)			
 {
-	return (void*)mymalloc(SRAMIN,size);
+	return (void*)rt_malloc((rt_size_t)size);
 }
 //释放内存
 void ff_memfree (void* mf)		 
 {
-	myfree(SRAMIN,mf);
+	rt_free(mf);
 }
 
 

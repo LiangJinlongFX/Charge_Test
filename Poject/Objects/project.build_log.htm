@@ -22,70 +22,38 @@ Dialog DLL:      TCM.DLL V1.14.9.0
  
 <h2>Project:</h2>
 E:\嵌入式文件与资料\Keil\Charge_Test\Charge_Test\Poject\project.uvprojx
-Project File Date:  01/21/2018
+Project File Date:  01/22/2018
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 2 (build 183)', folder: 'D:\Program Files\keil\ARM\ARMCC\Bin'
-Rebuild target 'Target 1'
-assembling startup_stm32f40_41xxx.s...
-compiling stm32f4xx_it.c...
-compiling system_stm32f4xx.c...
+Build target 'Target 1'
 compiling main.c...
-..\SYSTEM\main.c(51): warning:  #550-D: variable "sd_res" was set but never used
-  	u8 sd_res;
-..\SYSTEM\main.c: 1 warning, 0 errors
-compiling led.c...
-compiling malloc.c...
-compiling sdio_sdcard.c...
-compiling mcp3421.c...
-compiling myiic.c...
-compiling dac.c...
-compiling CSV_Database.c...
-..\BSP_USER\CSV_Database\CSV_Database.c(27): warning:  #177-D: variable "count_CRC" was declared but never referenced
-  	u16		count_CRC=0;																		
-..\BSP_USER\CSV_Database\CSV_Database.c(361): warning:  #940-D: missing return statement at end of non-void function "Creat_FileHeader"
-  }
-..\BSP_USER\CSV_Database\CSV_Database.c(366): warning:  #177-D: variable "rval" was declared but never referenced
-  	u16 rval;
-..\BSP_USER\CSV_Database\CSV_Database.c(369): warning:  #177-D: variable "fn" was declared but never referenced
-  	u8 *fn;
-..\BSP_USER\CSV_Database\CSV_Database.c(383): warning:  #2548-D: multicharacter character literal (potential portability problem)
-  	if(s[i]=='+'||s[i]==' -')//璺?杩?绗?鍙?
-..\BSP_USER\CSV_Database\CSV_Database.c: 5 warnings, 0 errors
-compiling delay.c...
-compiling sys.c...
-compiling usart1.c...
-compiling misc.c...
-compiling stm32f4xx_gpio.c...
-compiling stm32f4xx_rcc.c...
-compiling stm32f4xx_usart.c...
-compiling stm32f4xx_syscfg.c...
-compiling stm32f4xx_dma.c...
-compiling stm32f4xx_sdio.c...
-compiling stm32f4xx_dac.c...
-compiling stm32f4xx_rtc.c...
-compiling exfuns.c...
-compiling diskio.c...
-compiling ff.c...
-compiling usb_dcd.c...
-compiling usb_core.c...
-compiling usb_dcd_int.c...
-compiling usbd_core.c...
-compiling usbd_ioreq.c...
-compiling usbd_req.c...
-compiling usbd_msc_bot.c...
-compiling usbd_msc_core.c...
-compiling usbd_msc_data.c...
-compiling usbd_msc_scsi.c...
-compiling usb_bsp.c...
-compiling usbd_desc.c...
-compiling usbd_storage_msd.c...
-compiling usbd_usr.c...
+..\SYSTEM\main.c(68): warning:  #177-D: variable "fsrc" was declared but never referenced
+  		FIL fsrc;	  		//?募?1
+..\SYSTEM\main.c(70): warning:  #177-D: variable "str" was declared but never referenced
+  		char str[20];
+..\SYSTEM\main.c(72): warning:  #550-D: variable "Temp_struct" was set but never used
+  		TestData_Type Temp_struct;
+..\SYSTEM\main.c(45): warning:  #177-D: variable "led0_thread" was declared but never referenced
+  static struct rt_thread led0_thread;//?叱炭??瓶?
+..\SYSTEM\main.c(48): warning:  #177-D: variable "rt_led0_thread_stack" was declared but never referenced
+  static rt_uint8_t rt_led0_thread_stack[256];//?叱?栈
+..\SYSTEM\main.c(53): warning:  #177-D: function "led0_thread_entry" was declared but never referenced
+  static void led0_thread_entry(void* parameter)
+..\SYSTEM\main.c: 6 warnings, 0 errors
 linking...
-Program Size: Code=29100 RO-data=520 RW-data=428 ZI-data=1234460  
+Program Size: Code=34288 RO-data=1976 RW-data=348 ZI-data=5300  
 ".\Objects\project.axf" - 0 Error(s), 6 Warning(s).
 
 <h2>Software Packages used:</h2>
+
+Package Vendor: rt-thread
+                http://www.rt-thread.org/download/mdk/rt-thread.rtthread.2.1.1.pack
+                rt-thread.RT-Thread::RTOS:shell:2.1.2
+                RT-Thread Software Components
+   * Component: shell Version: 2.1.2
+   * Component: device drivers Version: 2.1.2
+   * Component: kernel Version: 2.1.2
 
 Package Vendor: ARM
                 http://www.keil.com/pack/ARM.CMSIS.4.5.0.pack
@@ -95,13 +63,51 @@ Package Vendor: ARM
 
 <h2>Collection of Component include folders:</h2>
   E:\嵌入式文件与资料\Keil\Charge_Test\Charge_Test\Poject\RTE
+  E:\嵌入式文件与资料\Keil\Charge_Test\Charge_Test\Poject\RTE\RTOS
   D:\Program Files\keil\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include
   D:\Program Files\keil\ARM\PACK\Keil\STM32F4xx_DFP\2.10.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
+  D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\components\drivers\include
+  D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\components\finsh
+  D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include
 
 <h2>Collection of Component Files used:</h2>
 
+   * Component: rt-thread.RT-Thread::RTOS:shell:2.1.2
+      Source file:   components\finsh\msh.c
+      Source file:   components\finsh\shell.c
+      Source file:   components\finsh\cmd.c
+      Source file:   components\finsh\symbol.c
+      Source file:   components\finsh\msh_file.c
+      Source file:   components\finsh\msh_cmd.c
+
+   * Component: rt-thread.RT-Thread::RTOS:device drivers:2.1.2
+      Source file:   components\drivers\src\completion.c
+      Source file:   components\drivers\src\pipe.c
+      Source file:   components\drivers\src\portal.c
+      Include file:  components\drivers\include\rtdevice.h
+      Source file:   components\drivers\src\ringbuffer.c
+      Source file:   components\drivers\src\workqueue.c
+
+   * Component: rt-thread.RT-Thread::RTOS:kernel:2.1.2
+      Source file:   src\object.c
+      Source file:   src\thread.c
+      Source file:   src\clock.c
+      Source file:   src\components.c
+      Source file:   src\ipc.c
+      Include file:  bsp\rtconfig.h
+      Source file:   src\scheduler.c
+      Source file:   src\timer.c
+      Source file:   src\idle.c
+      Source file:   src\kservice.c
+      Source file:   libcpu\arm\cortex-m4\cpuport.c
+      Source file:   src\mem.c
+      Source file:   bsp\board.c
+      Source file:   src\irq.c
+      Source file:   src\device.c
+      Source file:   libcpu\arm\cortex-m4\context_rvds.S
+
    * Component: ARM::CMSIS:CORE:4.3.0
-Build Time Elapsed:  00:00:22
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

@@ -36,7 +36,7 @@ extern u8 USART_RX_STA;         		//接收状态标记
 extern u8 UASRT1_RX_BUFFER_LEN;  //有效字符长度
 extern u8 USART1_0XFF_FLAG;	//oxff计数
 
-void uart_init(u32 bound);
+void uart1_init(u32 bound);
 void HMI_Send_TXEND(void);
 
 #endif

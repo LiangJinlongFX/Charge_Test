@@ -19,7 +19,7 @@
 
 //0,不支持ucos
 //1,支持ucos
-#define SYSTEM_SUPPORT_UCOS		0		//定义系统文件夹是否支持UCOS
+#define SYSTEM_SUPPORT_OS		1		//定义系统文件夹是否支持UCOS
 																	    
 	 
 //位带操作,实现51类似的GPIO控制功能
@@ -83,6 +83,7 @@ void WFI_SET(void);		//执行WFI指令
 void INTX_DISABLE(void);//关闭所有中断
 void INTX_ENABLE(void);	//开启所有中断
 void MSR_MSP(u32 addr);	//设置堆栈地址 
+void Error_Handler(void);
 #endif
 
 

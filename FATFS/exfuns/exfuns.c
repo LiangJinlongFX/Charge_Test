@@ -13,7 +13,7 @@
 /* Includes ------------------------------------------------------------------*/	
 #include "string.h"
 #include "exfuns.h"
-#include "malloc.h"
+#include "rtthread.h"
 
 #define FILE_MAX_TYPE_NUM		7	//最多FILE_MAX_TYPE_NUM个大类
 #define FILE_MAX_SUBT_NUM		4	//最多FILE_MAX_SUBT_NUM个小类
@@ -48,12 +48,12 @@ u8 exfuns_init(void)
 	u8 i;
 	for(i=0;i<_VOLUMES;i++)
 	{
-		fs[i]=(FATFS*)mymalloc(SRAMIN,sizeof(FATFS));	//为磁盘i工作区申请内存	
+		fs[i]=(FATFS*)rt_malloc(sizeof(FATFS));	//为磁盘i工作区申请内存	
 		if(!fs[i])break;
 	}
-	file=(FIL*)mymalloc(SRAMIN,sizeof(FIL));		//为file申请内存
-	ftemp=(FIL*)mymalloc(SRAMIN,sizeof(FIL));		//为ftemp申请内存
-	fatbuf=(u8*)mymalloc(SRAMIN,512);				//为fatbuf申请内存
+	file=(FIL*)rt_malloc(sizeof(FIL));		//为file申请内存
+	ftemp=(FIL*)rt_malloc(sizeof(FIL));		//为ftemp申请内存
+	fatbuf=(u8*)rt_malloc(512);				//为fatbuf申请内存
 	if(i==_VOLUMES&&file&&ftemp&&fatbuf)return 0;  //申请有一个失败,即失败.
 	else return 1;	
 }

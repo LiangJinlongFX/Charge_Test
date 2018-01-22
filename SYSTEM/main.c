@@ -22,11 +22,13 @@
 #include "dac.h"
 #include "ff.h"  
 #include "exfuns.h"
-#include "malloc.h"
 #include "usbd_msc_core.h"
 #include "usbd_usr.h"
 #include "usbd_desc.h"
-#include "usb_conf.h" 
+#include "usb_conf.h"
+#include "usart2.h"
+#include <rtthread.h>
+#include "CSV_Database.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -40,6 +42,70 @@ extern vu8 bDeviceState;		//USB连接 情况
 /* Private functions ---------------------------------------------------------*/
 
 
+static struct rt_thread led0_thread;//线程控制块
+static struct rt_thread led1_thread;//线程控制块
+ALIGN(RT_ALIGN_SIZE)
+static rt_uint8_t rt_led0_thread_stack[256];//线程栈
+static rt_uint8_t rt_led1_thread_stack[256];//线程栈
+
+
+//线程LED0
+static void led0_thread_entry(void* parameter)
+{
+	while(1)
+	{
+		LED0=~LED0;
+		delay_ms(300);	
+		delay_us(100000);
+		rt_thread_delay(100);
+	}
+}
+  
+//线程LED1
+static void led1_thread_entry(void* parameter)
+{
+		u32 total,free;
+		FIL fsrc;	  		//文件1
+		u8 res;
+		char str[20];
+	
+		TestData_Type Temp_struct;
+	
+		Temp_struct.Test_Time[0]=18;
+		Temp_struct.Test_Time[1]=1;
+		Temp_struct.Test_Time[2]=22;
+		Temp_struct.Test_Time[3]=13;
+		Temp_struct.Test_Time[4]=55;
+		Temp_struct.Test_Time[5]=18;
+		Temp_struct.Ripple_Voltage=200;
+		Temp_struct.Vout_Max=200;
+		Temp_struct.Cout_Max=150;
+		Temp_struct.Over_Current_Protection=1;
+		Temp_struct.Over_Voltage_Protection=1;
+		Temp_struct.Poweron_Time=20;
+		Temp_struct.Quick_Charge=3;
+		Temp_struct.Short_Current=1;
+		Temp_struct.Efficiency=67;
+		Temp_struct.Test_Subsequence=9;
+		
+		printf("OK");
+		exfuns_init();
+		if(f_mount(fs[0],"0:",1)) printf("挂载失败");
+		printf("挂载成功\r\n");
+		if(exf_getfree("0:",&total,&free)) printf("获取错误");
+		printf("total=%dMB\r\nfree=%dMB\r\n",total>>10,free>>10);
+		//res=Test_WriteData(Temp_struct,"123");
+		res=Creat_FileHeader("0:/323.csv");
+		printf("rse=%d",res);
+	while(1)
+	{
+//		LED1=~LED1; 
+//		delay_ms(10);
+//		delay_us(50);
+//		rt_thread_delay(30);
+	}
+}
+
 /**
   * @brief  Main program
   * @param  None
@@ -47,36 +113,33 @@ extern vu8 bDeviceState;		//USB连接 情况
   */
 int main()
 {
-	u32 res;
-	u8 sd_res;
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);//设置系统中断优先级分组2
-	delay_init(168);
-	uart_init(115200);
-	my_mem_init(SRAMIN);		//初始化内部内存池 
-	my_mem_init(SRAMCCM);		//初始化CCM内存池
-	LED_Init();
-	IIC_Init();
-	Dac1_Init();
-	exfuns_init();
-	LED0=0;
-	sd_res=SD_Init();
-	res=f_mount(fs[0],"0:",1);
-	printf("sd_res=%d\n",res);
-	USBD_Init(&USB_OTG_dev,USB_OTG_FS_CORE_ID,&USR_desc,&USBD_MSC_cb,&USR_cb);
-	Dac1_Set_Vol(1700);
-	while(1)
-	{
-//		while(!USART_RX_STA);
-//		USART_RX_STA=0;
-//		for(a=0;a<=UASRT1_RX_BUFFER_LEN-4;a++)
-//			printf("%x",USART_RX_BUF[a]);
-//		USART1_0XFF_FLAG=0;
-//		UASRT1_RX_BUFFER_LEN=0;
-//		printf("\r\n");
-		res=Get_Mcp3421_18BAdc();
-		printf("res=%d\n",res);
-		delay_ms(300);
-	}
+//		
+//    // 创建静态线程
+//    rt_thread_init(&led0_thread,               	  //线程控制块
+//                   "led0",                     	  //线程名字，在shell里面可以看到
+//                   led0_thread_entry,          	  //线程入口函数
+//                   RT_NULL,                    	  //线程入口函数参数
+//                   &rt_led0_thread_stack[0],      //线程栈起始地址
+//                   sizeof(rt_led0_thread_stack),  //线程栈大小
+//                   3,                          	  //线程的优先级
+//                   20);                           //线程时间片
+//                               
+//    rt_thread_startup(&led0_thread);           	  //启动线程led0_thread，开启调度
+//				   
+    // 创建静态线程                          
+	rt_thread_init(&led1_thread,                  //线程控制块
+				   "led1",                        //线程名字，在shell里面可以看到
+				   led1_thread_entry,             //线程入口函数
+				   RT_NULL,                       //线程入口函数参数
+				   &rt_led1_thread_stack[0],      //线程栈起始地址
+				   sizeof(rt_led1_thread_stack),  //线程栈大小
+				   3,                             //线程的优先级
+				   20);                           //线程时间片     
+
+	rt_thread_startup(&led1_thread);              //启动线程led1_thread，开启调度  	
+		
+		return 0;
 }
+
 
 

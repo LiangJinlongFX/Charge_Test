@@ -310,7 +310,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>1</Optim>
+            <Optim>4</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -334,7 +334,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F40_41xxx,USE_STDPERIPH_DRIVER,USE_USB_OTG_FS</Define>
               <Undefine></Undefine>
-              <IncludePath>..\BSP_USER\LED;..\CORE;..\Common;..\STM32f4_LIB\inc;..\SYSTEM;..\BSP_USER\SDIO_SD;..\FATFS\exfuns;..\FATFS\src;..\BSP_USER\MALLOC;..\BSP_USER\MCP3421;..\BSP_USER\IIC;..\BSP_USER\DAC;..\BSP_USER\CSV_Database;..\USB\STM32_USB_Device_Library\Class\msc\inc;..\USB\STM32_USB_Device_Library\Core\inc;..\USB\STM32_USB_OTG_Driver\inc;..\USB\USB_APP</IncludePath>
+              <IncludePath>..\BSP_USER\LED;..\CORE;..\Common;..\STM32f4_LIB\inc;..\SYSTEM;..\BSP_USER\SDIO_SD;..\FATFS\exfuns;..\FATFS\src;..\BSP_USER\MCP3421;..\BSP_USER\IIC;..\BSP_USER\DAC;..\BSP_USER\CSV_Database;..\USB\STM32_USB_Device_Library\Class\msc\inc;..\USB\STM32_USB_Device_Library\Core\inc;..\USB\STM32_USB_OTG_Driver\inc;..\USB\USB_APP;.\RTE\RTOS;.\RTE;..\BSP_USER\RTC</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -367,7 +367,7 @@
             <ScatterFile></ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
-            <Misc></Misc>
+            <Misc>--keep *.o(.rti_fn.*) --keep *.o(FSymTab)</Misc>
             <LinkerInputFile></LinkerInputFile>
             <DisabledWarnings></DisabledWarnings>
           </LDads>
@@ -438,11 +438,6 @@
               <FilePath>..\BSP_USER\SDIO_SD\sdio_sdcard.c</FilePath>
             </File>
             <File>
-              <FileName>malloc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\BSP_USER\MALLOC\malloc.c</FilePath>
-            </File>
-            <File>
               <FileName>mcp3421.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\BSP_USER\MCP3421\mcp3421.c</FilePath>
@@ -461,6 +456,11 @@
               <FileName>CSV_Database.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\BSP_USER\CSV_Database\CSV_Database.c</FilePath>
+            </File>
+            <File>
+              <FileName>rtc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP_USER\RTC\rtc.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -484,6 +484,11 @@
               <FileName>usart1.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Common\usart1.c</FilePath>
+            </File>
+            <File>
+              <FileName>usart2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Common\usart2.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -534,6 +539,16 @@
               <FileName>stm32f4xx_rtc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\STM32f4_LIB\src\stm32f4xx_rtc.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_exti.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\STM32f4_LIB\src\stm32f4xx_exti.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_pwr.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\STM32f4_LIB\src\stm32f4xx_pwr.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -648,6 +663,9 @@
         <Group>
           <GroupName>::CMSIS</GroupName>
         </Group>
+        <Group>
+          <GroupName>::RTOS</GroupName>
+        </Group>
       </Groups>
     </Target>
   </Targets>
@@ -661,8 +679,43 @@
           <targetInfo name="Target 1"/>
         </targetInfos>
       </component>
+      <component Cbundle="RT-Thread" Cclass="RTOS" Cgroup="device drivers" Cvendor="rt-thread" Cversion="2.1.2" condition="device">
+        <package license="documentation/License.txt" name="rtthread" schemaVersion="1.4" supportContact="http://www.rt-thread.org" url="http://www.rt-thread.org/download/mdk/" vendor="rt-thread" version="2.1.1"/>
+        <targetInfos>
+          <targetInfo name="Target 1"/>
+        </targetInfos>
+      </component>
+      <component Cbundle="RT-Thread" Cclass="RTOS" Cgroup="kernel" Cvendor="rt-thread" Cversion="2.1.2" condition="CMSIS Core with RTOS">
+        <package license="documentation/License.txt" name="rtthread" schemaVersion="1.4" supportContact="http://www.rt-thread.org" url="http://www.rt-thread.org/download/mdk/" vendor="rt-thread" version="2.1.1"/>
+        <targetInfos>
+          <targetInfo name="Target 1"/>
+        </targetInfos>
+      </component>
+      <component Cbundle="RT-Thread" Cclass="RTOS" Cgroup="shell" Cvendor="rt-thread" Cversion="2.1.2" condition="shell">
+        <package license="documentation/License.txt" name="rtthread" schemaVersion="1.4" supportContact="http://www.rt-thread.org" url="http://www.rt-thread.org/download/mdk/" vendor="rt-thread" version="2.1.1"/>
+        <targetInfos>
+          <targetInfo name="Target 1"/>
+        </targetInfos>
+      </component>
     </components>
-    <files/>
+    <files>
+      <file attr="config" category="source" name="bsp\board.c" version="2.1.1">
+        <instance index="0">RTE\RTOS\board.c</instance>
+        <component Cbundle="RT-Thread" Cclass="RTOS" Cgroup="kernel" Cvendor="rt-thread" Cversion="2.1.2" condition="CMSIS Core with RTOS"/>
+        <package license="documentation/License.txt" name="rtthread" schemaVersion="1.4" supportContact="http://www.rt-thread.org" url="http://www.rt-thread.org/download/mdk/" vendor="rt-thread" version="2.1.1"/>
+        <targetInfos>
+          <targetInfo name="Target 1"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="header" name="bsp\rtconfig.h" version="2.1.1">
+        <instance index="0">RTE\RTOS\rtconfig.h</instance>
+        <component Cbundle="RT-Thread" Cclass="RTOS" Cgroup="kernel" Cvendor="rt-thread" Cversion="2.1.2" condition="CMSIS Core with RTOS"/>
+        <package license="documentation/License.txt" name="rtthread" schemaVersion="1.4" supportContact="http://www.rt-thread.org" url="http://www.rt-thread.org/download/mdk/" vendor="rt-thread" version="2.1.1"/>
+        <targetInfos>
+          <targetInfo name="Target 1"/>
+        </targetInfos>
+      </file>
+    </files>
   </RTE>
 
 </Project>

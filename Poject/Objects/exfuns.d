@@ -39,5 +39,12 @@
 .\objects\exfuns.o: ..\FATFS\src\ff.h
 .\objects\exfuns.o: ..\FATFS\src\integer.h
 .\objects\exfuns.o: ..\FATFS\src\ffconf.h
-.\objects\exfuns.o: ..\BSP_USER\MALLOC\malloc.h
-.\objects\exfuns.o: ..\Common\sys.h
+.\objects\exfuns.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
+.\objects\exfuns.o: .\RTE\RTOS\rtconfig.h
+.\objects\exfuns.o: .\RTE\RTE_Components.h
+.\objects\exfuns.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdebug.h
+.\objects\exfuns.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdef.h
+.\objects\exfuns.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\exfuns.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtservice.h
+.\objects\exfuns.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtm.h
+.\objects\exfuns.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h

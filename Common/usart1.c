@@ -16,7 +16,7 @@
 	* 修改了USART_RX_STA,使得串口最大接收字节数为2的14次方
 	* 增加了USART_REC_LEN,用于定义串口最大允许接收的字节数(不大于2的14次方)
 	* 修改了EN_USART1_RX的使能方式
-	* 增加了对UCOSII的支持
+	* 
   ******************************************************************************
 **/
 
@@ -59,7 +59,7 @@ u8 UASRT1_RX_BUFFER_LEN=0;  //有效字符长度
 u8 USART1_0XFF_FLAG=0;	//oxff计数
 //初始化IO 串口1 
 //bound:波特率
-void uart_init(u32 bound){
+void uart1_init(u32 bound){
    //GPIO端口设置
 	GPIO_InitTypeDef GPIO_InitStructure;
 	USART_InitTypeDef USART_InitStructure;

@@ -43,3 +43,5 @@
 .\objects\csv_database.o: ..\FATFS\src\ff.h
 .\objects\csv_database.o: ..\FATFS\src\integer.h
 .\objects\csv_database.o: ..\FATFS\src\ffconf.h
+.\objects\csv_database.o: ..\BSP_USER\RTC\rtc.h
+.\objects\csv_database.o: ..\Common\usart1.h

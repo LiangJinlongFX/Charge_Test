@@ -39,6 +39,11 @@ __asm void MSR_MSP(u32 addr)
 	BX r14
 }
 
+void Error_Handler(void)
+{
+	while(1);
+}
+
 
 
 

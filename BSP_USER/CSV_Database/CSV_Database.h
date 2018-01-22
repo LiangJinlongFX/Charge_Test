@@ -4,12 +4,6 @@
 #include "stm32f4xx.h"
 #include "sys.h"
 
-//定义数据文件头部标签 
-const char Data_FileHeader[370]= "Serial_Number,Test_Time,Ripple_Voltage,Vout_Max,Cout_Max,"
-	"Over_Voltage_Protection,Over_Current_Protection,Short_Current,Quick_Charge,Poweron_Time,Efficiency,Test_Subsequence," ;
-const char CommaStr = ',';
-const char EnterStr[2] = {".."};
-
 
 // 测试数据信息结构体
 typedef struct 
@@ -40,7 +34,7 @@ typedef enum
 
 u8 Test_ReadData(TestData_Type TestData_Struct);
 
-u8 Test_WriteData(TestData_Type TestData_Struct);
+u8 Test_WriteData(TestData_Type TestData_Struct,char * File_Title);
 
 u8 Num_To_Str(u8 number);
 
@@ -48,9 +42,9 @@ u8 Creat_FileHeader(char *File_Name);
 
 u8 Get_DataNum(u8 *path);
 
-int my_atoi(char s[]);
+unsigned int my_atoi(char s[]);
 
-void my_itoa(int n,char s[]);
+void my_itoa(int n,char str[]);
 
 #endif
 

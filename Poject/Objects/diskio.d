@@ -38,4 +38,12 @@
 .\objects\diskio.o: ..\STM32f4_LIB\inc\stm32f4xx_dac.h
 .\objects\diskio.o: ..\STM32f4_LIB\inc\stm32f4xx_dcmi.h
 .\objects\diskio.o: ..\STM32f4_LIB\inc\stm32f4xx_fsmc.h
-.\objects\diskio.o: ..\BSP_USER\MALLOC\malloc.h
+.\objects\diskio.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
+.\objects\diskio.o: .\RTE\RTOS\rtconfig.h
+.\objects\diskio.o: .\RTE\RTE_Components.h
+.\objects\diskio.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdebug.h
+.\objects\diskio.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdef.h
+.\objects\diskio.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\diskio.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtservice.h
+.\objects\diskio.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtm.h
+.\objects\diskio.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
