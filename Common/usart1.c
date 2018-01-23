@@ -126,6 +126,7 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 	if(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET)  //接收中断(接收到的数据必须是0xff 0xff 0xff结尾)
 	{
 		Res =USART_ReceiveData(USART1);//(USART1->DR);	//读取接收到的数据
+		//printf("%x",Res);
 			if(Res==0xff)
 			{
 				//成功接收到3个0XFF,该语句接收完毕

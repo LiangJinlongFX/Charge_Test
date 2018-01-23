@@ -13,10 +13,10 @@
 
 
 //定义数据文件头部标签 
-const char Data_FileHeader[370]="Serial_Number,Test_Time,Ripple_Voltage,Vout_Max,Cout_Max,"
+const char Data_FileHeader[]="Serial_Number,Test_Time,Ripple_Voltage,Vout_Max,Cout_Max,"
 		"Over_Voltage_Protection,Over_Current_Protection,Short_Current,Quick_Charge,Poweron_Time,Efficiency,Test_Subsequence," ;
 const char CommaStr=',';
-const char EnterStr[2]="..";
+const char EnterStr[2]={0x0d,0x0a};
 
 
 /**
@@ -349,29 +349,29 @@ u8 Creat_FileHeader(char *File_Name)
 	res=f_open(&Fsrc,File_Name,FA_READ|FA_WRITE|FA_CREATE_NEW);
 	// 创建出错，结束
 	if(res!=0) return 1;
-	//空间预分配   偏移5000
-	res=f_lseek(&Fsrc,5000);
+	//空间预分配   偏移3000
+	res=f_lseek(&Fsrc,3000);
 	if(res!=0) return 1;
 	// 返回文件开始位置
 	res=f_lseek(&Fsrc,0);
 	if(res!=0) return 1;
-	//写入文件头部标签
-	printf("size=%d\n",sizeof(Data_FileHeader));
-	res=f_write(&Fsrc,Data_FileHeader,172,&check_count);
-	if(check_count!=370||res!=0) return 1;
+	//写入文件头部标签   文件标签长度： 
+	res=f_write(&Fsrc,Data_FileHeader,sizeof(Data_FileHeader),&check_count);
+	if(check_count!=sizeof(Data_FileHeader)||res!=0) return 1;
 	//初始化总数
-	res=f_lseek(&Fsrc,172);
+	res=f_lseek(&Fsrc,sizeof(Data_FileHeader));
 	if(res!=0) return 1;
 	// 将初始总数转换为字符串
 	my_itoa(count,countStr);
 	// 写入初始总数
-	res=f_write(&Fsrc,&countStr,5,&check_count);
-	if(check_count!=5||res!=0) return 1;
+	res=f_write(&Fsrc,&countStr,sizeof(countStr),&check_count);
+	if(check_count!=sizeof(countStr)||res!=0) return 1;
 	// 写入换行符
-	res=f_lseek(&Fsrc,370+sizeof(countStr));
+	res=f_lseek(&Fsrc,sizeof(Data_FileHeader)+sizeof(countStr));	//移动到指针位置
 	if(res!=0) return 1;
 	res=f_write(&Fsrc,&EnterStr,2,&check_count);
 	if(check_count!=2||res!=0) return 1;
+	
 	//关闭文件
 	res=f_close(&Fsrc);
 	if(res!=0)  return 1;

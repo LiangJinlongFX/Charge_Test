@@ -42,14 +42,24 @@ extern int __bss_end;
  * This function will initial STM32 board.
  */
 
+#include "sys.h"
 #include "led.h"
-#include "usart1.h"
-#include "usart2.h"
 #include "delay.h"
-#include "exfuns.h"
+#include "usart1.h"
 #include "sdio_sdcard.h"
+#include "mcp3421.h"
+#include "myiic.h"
+#include "dac.h"
+#include "ff.h"  
+#include "exfuns.h"
+#include "usbd_msc_core.h"
+#include "usbd_usr.h"
+#include "usbd_desc.h"
+#include "usb_conf.h"
+#include "usart2.h"
+#include <rtthread.h>
+#include "CSV_Database.h"
 #include "rtc.h"
-
  
 void rt_hw_board_init()
 {    
@@ -58,13 +68,20 @@ void rt_hw_board_init()
 	SysTick_Config(SystemCoreClock / RT_TICK_PER_SECOND);
 	
 	delay_init(168);		//初始化延时函数
+	//NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
 	uart1_init(115200);	//初始化串口1 HMI用
+	uart2_init(115200);	//提前初始化串口2以输出初始化状态
 	LED_Init();					//初始化指示灯
-	if(SD_Init()) printf("SD");
-	My_RTC_Init();
-	//exfuns_init();			//为FATFS工作区申请内存
-	
-
+	USART2_printf("================================\r\n");
+	if(SD_Init())  USART2_printf("SD_Init_Error!\r\n");
+	else USART2_printf("SD_Init_OK!\r\n");
+	//My_RTC_Init();
+	IIC_Init();
+	USART2_printf("IIC_Init_OK!\r\n");
+	Dac1_Init();
+	USART2_printf("DAC1_Init_OK!\r\n");
+	USART2_printf("================================\r\n");
+		
     /* Call components board initial (use INIT_BOARD_EXPORT()) */
 #ifdef RT_USING_COMPONENTS_INIT
     rt_components_board_init();

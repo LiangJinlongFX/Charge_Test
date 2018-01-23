@@ -28,6 +28,8 @@
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __USB_CONF__H__
 #define __USB_CONF__H__
+
+/* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx.h"
 
 /** @addtogroup USB_OTG_DRIVER
@@ -167,8 +169,7 @@
 #endif
 
 /****************** USB OTG MISC CONFIGURATION ********************************/
-//Explorer STM32F407开发板没用到VBUS,所以禁止检测VBUS上面的电压
-//#define VBUS_SENSING_ENABLED
+#define VBUS_SENSING_ENABLED
 
 /****************** USB OTG MODE CONFIGURATION ********************************/
 //#define USE_HOST_MODE

@@ -39,7 +39,6 @@
 .\objects\usb_bsp.o: ..\STM32f4_LIB\inc\stm32f4xx_fsmc.h
 .\objects\usb_bsp.o: ..\USB\STM32_USB_OTG_Driver\inc\usb_regs.h
 .\objects\usb_bsp.o: ..\USB\STM32_USB_OTG_Driver\inc\usb_defines.h
+.\objects\usb_bsp.o: ..\USB\USB_APP\usbd_conf.h
 .\objects\usb_bsp.o: ..\Common\sys.h
 .\objects\usb_bsp.o: ..\Common\delay.h
-.\objects\usb_bsp.o: ..\Common\usart1.h
-.\objects\usb_bsp.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdio.h

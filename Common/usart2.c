@@ -53,6 +53,7 @@ void uart_irq_handler(struct stm32_uart* uart)
     
     if(USART_GetITStatus(USART2, USART_IT_RXNE) != RESET)  //接收中断
     {
+				//printf("OK");
         rt_ringbuffer_putchar_force(&(uart->rx_rb), (rt_uint8_t)USART_ReceiveData(uart->uart_base));
         /* invoke callback */
         if(uart->parent.rx_indicate != RT_NULL)
@@ -66,26 +67,25 @@ void uart_irq_handler(struct stm32_uart* uart)
 }
 
 
-//重映射串口1到rt_kprintf
-//void rt_hw_console_output(const char *str)
-//{
-//   /* empty console output */
-//	
-//	rt_enter_critical();
+//重映射串口2到rt_kprintf
+void rt_hw_console_output(const char *str)
+{
+   /* empty console output */
+	
+	rt_enter_critical();
 
-//	while(*str!='\0')
-//	{
-//		if(*str=='\n')
-//		{
-//			USART_SendData(USART2, '\r'); 
-//			while(USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);
-//		}
-//		USART_SendData(USART2, *str++); 
-//		while(USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);	
-//	}
-
-//	rt_exit_critical();
-//}
+	while(*str!='\0')
+	{
+		if(*str=='\n')
+		{
+			USART_SendData(USART2, '\r'); 
+			while(USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);
+		}
+		USART_SendData(USART2, *str++); 
+		while(USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);	
+	}
+	rt_exit_critical();
+}
 
 void USART2_printf(char *fmt,...)
 {

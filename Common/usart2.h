@@ -19,6 +19,7 @@
 #include "sys.h"
 
 int rt_hw_usart_init(void);
+void uart2_init(u32 bound);
 void USART2_printf(char *fmt,...);
 
 #endif

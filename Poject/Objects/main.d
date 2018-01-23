@@ -70,3 +70,8 @@
 .\objects\main.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtm.h
 .\objects\main.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
 .\objects\main.o: ..\BSP_USER\CSV_Database\CSV_Database.h
+.\objects\main.o: ..\BSP_USER\RTC\rtc.h
+.\objects\main.o: ..\APP\app.h
+.\objects\main.o: ..\USB\USB_APP\usb_app.h
+.\objects\main.o: ..\USB\STM32_USB_OTG_Driver\inc\usb_dcd_int.h
+.\objects\main.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\string.h

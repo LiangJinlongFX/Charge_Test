@@ -43,7 +43,16 @@
 .\objects\usbd_usr.o: ..\USB\STM32_USB_OTG_Driver\inc\usb_defines.h
 .\objects\usbd_usr.o: ..\USB\STM32_USB_Device_Library\Core\inc\usbd_def.h
 .\objects\usbd_usr.o: ..\USB\USB_APP\usbd_conf.h
-.\objects\usbd_usr.o: ..\USB\STM32_USB_OTG_Driver\inc\usb_dcd_int.h
 .\objects\usbd_usr.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\usbd_usr.o: ..\USB\STM32_USB_OTG_Driver\inc\usb_dcd_int.h
 .\objects\usbd_usr.o: ..\Common\usart1.h
 .\objects\usbd_usr.o: ..\Common\sys.h
+.\objects\usbd_usr.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
+.\objects\usbd_usr.o: .\RTE\RTOS\rtconfig.h
+.\objects\usbd_usr.o: .\RTE\RTE_Components.h
+.\objects\usbd_usr.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdebug.h
+.\objects\usbd_usr.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdef.h
+.\objects\usbd_usr.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\usbd_usr.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtservice.h
+.\objects\usbd_usr.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtm.h
+.\objects\usbd_usr.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h

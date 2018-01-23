@@ -63,7 +63,7 @@
 
 #define USBD_PRODUCT_HS_STRING        "Mass Storage in HS Mode"
 #define USBD_SERIALNUMBER_HS_STRING   "00000000001A"
-#define USBD_PRODUCT_FS_STRING        "ALIENTEK USB Card Reader"
+#define USBD_PRODUCT_FS_STRING        "Mass Storage in FS Mode"
 #define USBD_SERIALNUMBER_FS_STRING   "00000000001B"
 #define USBD_CONFIGURATION_HS_STRING  "MSC Config"
 #define USBD_INTERFACE_HS_STRING      "MSC Interface"
@@ -113,7 +113,7 @@ __ALIGN_BEGIN uint8_t USBD_DeviceDesc[USB_SIZ_DEVICE_DESC] __ALIGN_END =
     0x00,                       /*bDeviceClass*/
     0x00,                       /*bDeviceSubClass*/
     0x00,                       /*bDeviceProtocol*/
-    USB_OTG_MAX_EP0_SIZE,      	/*bMaxPacketSize*/
+    USB_OTG_MAX_EP0_SIZE,      /*bMaxPacketSize*/
     LOBYTE(USBD_VID),           /*idVendor*/
     HIBYTE(USBD_VID),           /*idVendor*/
     LOBYTE(USBD_PID),           /*idVendor*/
