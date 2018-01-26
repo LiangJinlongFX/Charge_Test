@@ -56,7 +56,7 @@ void usbapp_mode_set(u8 mode)
 	switch(usbx.mode)
 	{
 		case USBD_MSC_MODE:
-			MSC_BOT_Data=rt_malloc(MSC_MEDIA_PACKET);	//给MSC缓冲区申请内存
+			//MSC_BOT_Data=rt_malloc(MSC_MEDIA_PACKET);	//给MSC缓冲区申请内存
 			USBD_Init(&USB_OTG_Core_dev,USB_OTG_FS_CORE_ID,&USR_desc,&USBD_MSC_cb,&USR_cb);	//初始化MSC
 			break;	  
 	}

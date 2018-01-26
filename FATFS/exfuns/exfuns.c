@@ -45,17 +45,17 @@ u8 *fatbuf;			//SD卡数据缓存区
 //1,失败
 u8 exfuns_init(void)
 {
-	u8 i;
-	for(i=0;i<_VOLUMES;i++)
-	{
-		fs[i]=(FATFS*)rt_malloc(sizeof(FATFS));	//为磁盘i工作区申请内存	
-		if(!fs[i])break;
-	}
-	file=(FIL*)rt_malloc(sizeof(FIL));		//为file申请内存
-	ftemp=(FIL*)rt_malloc(sizeof(FIL));		//为ftemp申请内存
-	fatbuf=(u8*)rt_malloc(512);				//为fatbuf申请内存
-	if(i==_VOLUMES&&file&&ftemp&&fatbuf)return 0;  //申请有一个失败,即失败.
-	else return 1;	
+//	u8 i;
+//	for(i=0;i<_VOLUMES;i++)
+//	{
+//		fs[i]=(FATFS*)rt_malloc(sizeof(FATFS));	//为磁盘i工作区申请内存	
+//		if(!fs[i])break;
+//	}
+//	file=(FIL*)rt_malloc(sizeof(FIL));		//为file申请内存
+//	ftemp=(FIL*)rt_malloc(sizeof(FIL));		//为ftemp申请内存
+//	fatbuf=(u8*)rt_malloc(512);				//为fatbuf申请内存
+//	if(i==_VOLUMES&&file&&ftemp&&fatbuf)return 0;  //申请有一个失败,即失败.
+//	else return 1;	
 }
 
 //将小写字母转为大写字母,如果是数字,则保持不变.

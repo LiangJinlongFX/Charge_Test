@@ -60,6 +60,7 @@ extern int __bss_end;
 #include <rtthread.h>
 #include "CSV_Database.h"
 #include "rtc.h"
+#include "usb_app.h"
  
 void rt_hw_board_init()
 {    
@@ -81,6 +82,9 @@ void rt_hw_board_init()
 	Dac1_Init();
 	USART2_printf("DAC1_Init_OK!\r\n");
 	USART2_printf("================================\r\n");
+	
+//	usbapp_init();
+//	usbapp_mode_set(USBD_MSC_MODE);
 		
     /* Call components board initial (use INIT_BOARD_EXPORT()) */
 #ifdef RT_USING_COMPONENTS_INIT

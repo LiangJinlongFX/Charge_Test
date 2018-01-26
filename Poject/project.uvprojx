@@ -137,7 +137,7 @@
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
-          <Flash3></Flash3>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -334,7 +334,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F40_41xxx,USE_STDPERIPH_DRIVER,USE_USB_OTG_FS</Define>
               <Undefine></Undefine>
-              <IncludePath>..\BSP_USER\LED;..\CORE;..\Common;..\STM32f4_LIB\inc;..\SYSTEM;..\BSP_USER\SDIO_SD;..\FATFS\exfuns;..\FATFS\src;..\BSP_USER\MCP3421;..\BSP_USER\IIC;..\BSP_USER\DAC;..\BSP_USER\CSV_Database;..\USB\STM32_USB_Device_Library\Class\msc\inc;..\USB\STM32_USB_Device_Library\Core\inc;..\USB\STM32_USB_OTG_Driver\inc;..\USB\USB_APP;.\RTE\RTOS;.\RTE;..\BSP_USER\RTC;..\APP</IncludePath>
+              <IncludePath>..\BSP_USER\LED;..\CORE;..\Common;..\STM32f4_LIB\inc;..\SYSTEM;..\BSP_USER\SDIO_SD;..\FATFS\exfuns;..\FATFS\src;..\BSP_USER\MCP3421;..\BSP_USER\IIC;..\BSP_USER\DAC;..\BSP_USER\CSV_Database;..\USB\STM32_USB_Device_Library\Class\msc\inc;..\USB\STM32_USB_Device_Library\Core\inc;..\USB\STM32_USB_OTG_Driver\inc;..\USB\USB_APP;.\RTE\RTOS;.\RTE;..\BSP_USER\RTC;..\APP;..\BSP_USER\HMI</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -461,6 +461,11 @@
               <FileName>rtc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\BSP_USER\RTC\rtc.c</FilePath>
+            </File>
+            <File>
+              <FileName>HMI.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP_USER\HMI\HMI.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -667,6 +672,13 @@
         </Group>
         <Group>
           <GroupName>APP</GroupName>
+          <Files>
+            <File>
+              <FileName>msh.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\APP\msh.c</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>::CMSIS</GroupName>

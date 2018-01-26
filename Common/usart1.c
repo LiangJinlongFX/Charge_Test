@@ -53,8 +53,9 @@ int fputc(int ch, FILE *f)
 //注意,读取USARTx->SR能避免莫名其妙的错误   	
 u8 USART_RX_BUF[USART_REC_LEN];     //接收缓冲,最大USART_REC_LEN个字节.
 
+
 //接收状态
-u8 USART_RX_STA=0;       //接收状态标记
+u8 HMI_RX_FLAG=0;       //接收状态标记
 u8 UASRT1_RX_BUFFER_LEN=0;  //有效字符长度
 u8 USART1_0XFF_FLAG=0;	//oxff计数
 //初始化IO 串口1 
@@ -98,7 +99,7 @@ void uart1_init(u32 bound){
 
 	//Usart1 NVIC 配置
 	NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;//串口1中断通道
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=3;//抢占优先级3
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=2;//抢占优先级3
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority =3;		//子优先级3
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;			//IRQ通道使能
 	NVIC_Init(&NVIC_InitStructure);	//根据指定的参数初始化VIC寄存器、
@@ -133,7 +134,7 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 				if(USART1_0XFF_FLAG==2) 
 				{
 
-					USART_RX_STA=1;	//语句接收结束标志置位
+					HMI_RX_FLAG=1;	//语句接收结束标志置位
 				}
 				//非终止情况下接收到0xff
 				USART_RX_BUF[UASRT1_RX_BUFFER_LEN]=Res;	//放入缓存数组

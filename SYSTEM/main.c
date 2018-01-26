@@ -32,6 +32,7 @@
 #include "rtc.h"
 #include "app.h"
 #include "usb_app.h"
+#include "HMI.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -40,6 +41,7 @@
 USB_OTG_CORE_HANDLE USB_OTG_dev;
 extern vu8 USB_STATUS_REG;		//USB状态
 extern vu8 bDeviceState;		//USB连接 情况
+extern u8 HMI_Rx_String[100];
 
 /* Private function prototypes -----------------------------------------------*/
 //线程LED0
@@ -62,14 +64,27 @@ static void usb_thread_entry(void* parameter)
 	//usbapp_mode_set(USBD_MSC_MODE);
 	while(1)
 	{
-		if(usbx.bDeviceState&0x01) USART2_printf("USB Writing...\r\n");
-		if(usbx.bDeviceState&0x02) USART2_printf("USB Reading...\r\n");
-		if(usbx.bDeviceState&0x04) USART2_printf("USB Write Err...\r\n");
-		if(usbx.bDeviceState&0x08) USART2_printf("USB Read  Err...\r\n");
-		if(usbx.bDeviceState&0x10) USART2_printf("USB Connecting...\r\n");
-		if(usbx.bDeviceState&0x40) USART2_printf("USB Connected...\r\n");
-		else USART2_printf("USB DisConnected...\r\n");
-		delay_ms(100);
+//		rt_kprintf("OK\r\n");
+//		if(usbx.bDeviceState&0x01) printf("USB Writing...\r\n");
+//		if(usbx.bDeviceState&0x02) printf("USB Reading...\r\n");
+//		if(usbx.bDeviceState&0x04) printf("USB Write Err...\r\n");
+//		if(usbx.bDeviceState&0x08) printf("USB Read  Err...\r\n");
+//		if(usbx.bDeviceState&0x10) printf("USB Connecting...\r\n");
+//		if(usbx.bDeviceState&0x40) printf("USB Connected...\r\n");
+//		else printf("USB DisConnected...\r\n");
+		rt_thread_delay(1000);
+
+		HMI_File_Page("start");
+		//HMI_Print_Str("t0","123");
+		//HMI_Print("t0.txt=\"123\"");
+		if(HMI_RX_FLAG)
+		{
+			printf("OK\r\n");
+			USART_Solution();
+			//printf("%s\r\n",HMI_Rx_String);
+			HMI_RX_FLAG=0;
+			UASRT1_RX_BUFFER_LEN=0;
+		}
 	}
 }
   
@@ -162,9 +177,9 @@ int main()
 				   &rt_usb_thread_stack[0],      //线程栈起始地址
 				   sizeof(rt_usb_thread_stack),  //线程栈大小
 				   3,                             //线程的优先级
-				   20);                           //线程时间片     
+				   5);                           //线程时间片     
 
-	rt_thread_startup(&led1_thread);              //启动线程led1_thread，开启调度  	
+	rt_thread_startup(&usb_thread);              //启动线程led1_thread，开启调度  	
 		
 		return 0;
 }

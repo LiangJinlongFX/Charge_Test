@@ -72,3 +72,6 @@
 .\objects\board.o: ..\Common\usart2.h
 .\objects\board.o: ..\BSP_USER\CSV_Database\CSV_Database.h
 .\objects\board.o: ..\BSP_USER\RTC\rtc.h
+.\objects\board.o: ..\USB\USB_APP\usb_app.h
+.\objects\board.o: ..\USB\STM32_USB_OTG_Driver\inc\usb_dcd_int.h
+.\objects\board.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\string.h
