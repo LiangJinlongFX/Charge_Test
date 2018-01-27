@@ -1,4 +1,5 @@
 #include <finsh.h>
+#include "HMI.h"
 
 int mycmd(void)
 {
@@ -12,7 +13,11 @@ int print(int argc,char** argv)
 {
 	rt_kprintf("print ");
 	
-	if(argc>1)	rt_kprintf("%s\r\n",argv[1]);
+	if(argc>1)	
+	{
+		rt_kprintf("%s\r\n",argv[1]);
+		HMI_Print(argv[1]);
+	}
 	return 0;
 }
 

@@ -678,6 +678,11 @@
               <FileType>1</FileType>
               <FilePath>..\APP\msh.c</FilePath>
             </File>
+            <File>
+              <FileName>app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\APP\app.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

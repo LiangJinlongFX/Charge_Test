@@ -22,15 +22,20 @@ Dialog DLL:      TCM.DLL V1.14.9.0
  
 <h2>Project:</h2>
 E:\嵌入式文件与资料\Keil\Charge_Test\Charge_Test\Poject\project.uvprojx
-Project File Date:  01/26/2018
+Project File Date:  01/27/2018
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 2 (build 183)', folder: 'D:\Program Files\keil\ARM\ARMCC\Bin'
 Build target 'Target 1'
-compiling main.c...
+compiling app.c...
+..\APP\app.c(67): warning:  #177-D: variable "major" was declared but never referenced
+  	rt_uint8_t major, minor;
+..\APP\app.c(67): warning:  #177-D: variable "minor" was declared but never referenced
+  	rt_uint8_t major, minor;
+..\APP\app.c: 2 warnings, 0 errors
 linking...
-Program Size: Code=31786 RO-data=1646 RW-data=344 ZI-data=6144  
-".\Objects\project.axf" - 0 Error(s), 0 Warning(s).
+Program Size: Code=30868 RO-data=1608 RW-data=336 ZI-data=8664  
+".\Objects\project.axf" - 0 Error(s), 2 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -62,36 +67,36 @@ Package Vendor: rt-thread
    * Component: ARM::CMSIS:CORE:4.3.0
 
    * Component: rt-thread.RT-Thread::RTOS:kernel:2.1.2
-      Source file:   src\components.c
-      Source file:   src\device.c
-      Source file:   src\ipc.c
-      Source file:   src\idle.c
-      Source file:   src\irq.c
-      Source file:   src\kservice.c
-      Source file:   src\mem.c
-      Source file:   src\object.c
-      Source file:   bsp\board.c
-      Include file:  bsp\rtconfig.h
-      Source file:   src\clock.c
-      Source file:   src\thread.c
-      Source file:   src\scheduler.c
       Source file:   src\timer.c
+      Source file:   src\components.c
+      Source file:   bsp\board.c
+      Source file:   src\kservice.c
+      Source file:   src\thread.c
+      Source file:   src\object.c
+      Include file:  bsp\rtconfig.h
+      Source file:   src\device.c
+      Source file:   src\idle.c
+      Source file:   src\ipc.c
+      Source file:   src\clock.c
+      Source file:   src\mem.c
+      Source file:   src\irq.c
+      Source file:   src\scheduler.c
       Source file:   libcpu\arm\cortex-m4\context_rvds.S
       Source file:   libcpu\arm\cortex-m4\cpuport.c
 
    * Component: rt-thread.RT-Thread::RTOS:device drivers:2.1.2
-      Include file:  components\drivers\include\rtdevice.h
-      Source file:   components\drivers\src\portal.c
-      Source file:   components\drivers\src\pipe.c
-      Source file:   components\drivers\src\ringbuffer.c
       Source file:   components\drivers\src\completion.c
+      Source file:   components\drivers\src\portal.c
       Source file:   components\drivers\src\workqueue.c
+      Source file:   components\drivers\src\pipe.c
+      Include file:  components\drivers\include\rtdevice.h
+      Source file:   components\drivers\src\ringbuffer.c
 
    * Component: rt-thread.RT-Thread::RTOS:shell:2.1.2
       Source file:   components\finsh\symbol.c
+      Source file:   components\finsh\shell.c
       Source file:   components\finsh\msh.c
       Source file:   components\finsh\msh_file.c
-      Source file:   components\finsh\shell.c
       Source file:   components\finsh\msh_cmd.c
       Source file:   components\finsh\cmd.c
 Build Time Elapsed:  00:00:02

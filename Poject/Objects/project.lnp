@@ -45,6 +45,7 @@
 ".\objects\usbd_usr.o"
 ".\objects\usb_app.o"
 ".\objects\msh.o"
+".\objects\app.o"
 ".\objects\completion.o"
 ".\objects\pipe.o"
 ".\objects\portal.o"

@@ -54,7 +54,7 @@
 // </c>
 // <c1>using idle hook
 //  <i>using idle hook
-//#define RT_USING_IDLE_HOOK
+#define RT_USING_IDLE_HOOK
 // </c>
 // </h>
 
@@ -105,7 +105,7 @@
 // </c>
 // <c1>Dynamic Heap Management
 //  <i>Dynamic Heap Management
-#define RT_USING_HEAP
+//#define RT_USING_HEAP
 // </c>
 // <c1>using small memory
 //  <i>using small memory

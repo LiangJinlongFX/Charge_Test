@@ -47,3 +47,6 @@
 .\objects\app.o: ..\STM32f4_LIB\inc\stm32f4xx_dcmi.h
 .\objects\app.o: ..\STM32f4_LIB\inc\stm32f4xx_fsmc.h
 .\objects\app.o: ..\APP\app.h
+.\objects\app.o: ..\BSP_USER\HMI\HMI.h
+.\objects\app.o: ..\Common\usart1.h
+.\objects\app.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdio.h

@@ -20,7 +20,20 @@ typedef struct
 	u8 Poweron_Time;			//上电时间		  0 - 255 ms
 	u8 Efficiency;				//转换效率		  0 - 100 %
 	u8 Test_Subsequence;		//测试结果		  测试结果代码
-} TestData_Type;			
+} TestData_Type;
+
+typedef struct
+{
+	u8 Ripple_Voltage;			//纹波电压峰值     0 - 255 mV
+	u8 Vout_Max;				//最大输出电压     0 - 25.5 V  *10	   
+	u8 Cout_Max;				//最大输出电流	  0 - 2.55 A  *100	  
+	u8 Over_Voltage_Protection;	//过电压保护		  0 : 不合格/无	1 ： 合格
+	u8 Over_Current_Protection;	//过电流保护		  0 : 不合格/无	1 ： 合格
+	u8 Short_Current;			//短路保护标志位	  0 : 不合格/无	1 ： 合格
+	u8 Quick_Charge;			//快充支持		  0 : 不合格/无	1 ： QC2.0 	2 : QC3.0 	3 : QC4.0 	4 : MTK
+	u8 Poweron_Time;			//上电时间		  0 - 255 ms
+	u8 Efficiency;				//转换效率		  0 - 100 %
+}TestStandard_Type;
 
 typedef enum 
 {

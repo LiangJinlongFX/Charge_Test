@@ -39,3 +39,4 @@
 .\objects\hmi.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\hmi.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\string.h
 .\objects\hmi.o: ..\Common\usart1.h
+.\objects\hmi.o: ..\BSP_USER\CSV_Database\CSV_Database.h

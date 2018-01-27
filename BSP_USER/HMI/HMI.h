@@ -3,12 +3,31 @@
 
 #include "sys.h"
 
-/**
- * HMI数据返回格式（都是以0XFF 0XFF 0XFF 作为结束符）
- * 页面返回格式	0x66+page_ID+0XFF
- * 
- */
 
+/*
+ * 页面ID
+ */
+#define Page_start 0
+#define Page_main	 1
+#define Page_quick_test 2
+#define Page_Init 3
+#define Page_keyboard 4
+#define Page_batch_test 5
+#define Page_old_batch 6
+#define Page_new_batch 7
+#define Page_Error 8
+#define Page_database_sel 9
+#define Page_list 10
+#define Page_USB 11
+#define Page_setting 12
+#define Page_standard 13
+#define Page_fast_charge 14
+#define Page_select_test 15
+#define Page_system_setting 16
+#define Page_system_info 17
+#define Page_batch_start 18
+#define Page_batch_testing 19
+#define Page_warning 20
 
 
 /*
@@ -49,19 +68,21 @@
  */
 typedef enum 
 {
-	HMI_Page_Error		=(1),		//页面跳转错误
+	HMI_NoResponse		=(1),		//无响应
+	HMI_Parse_Error		=(2),		//解析错误
+	HMI_Page_Error		=(3),		//页面跳转错误
 	HMI_OK = 0,						//成功执行
 }HMI_Error;
 
-extern u8 HMI_Rx_String[100];
 
-HMI_Error USART_Solution(void);
-
+HMI_Error USART_Solution(u8* HMI_Type,char* HMI_Rx_String);
 
 
-HMI_Error HMI_File_Page(char* Page_ID);	//页面跳转
+
+HMI_Error HMI_File_Page(u8 Page_ID);	//页面跳转
 HMI_Error HMI_Print_Str(char* Str_ID,char* fmt);	//发送字符串至串口设备
 HMI_Error HMI_Print(char* str);
+HMI_Error HMI_Page_ACK(u8 Page_ID);
 
 
 
