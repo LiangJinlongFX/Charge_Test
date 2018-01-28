@@ -82,7 +82,7 @@
 // </c>
 // <c1>Using Mutex
 //  <i>Using Mutex
-//#define RT_USING_MUTEX
+#define RT_USING_MUTEX
 // </c>
 // <c1>Using Event
 //  <i>Using Event
@@ -105,7 +105,7 @@
 // </c>
 // <c1>Dynamic Heap Management
 //  <i>Dynamic Heap Management
-//#define RT_USING_HEAP
+#define RT_USING_HEAP
 // </c>
 // <c1>using small memory
 //  <i>using small memory
@@ -155,7 +155,7 @@
 // <o>the priority of finsh thread <1-7>
 //  <i>the priority of finsh thread
 //  <i>Default: 6
-#define __FINSH_THREAD_PRIORITY     6
+#define __FINSH_THREAD_PRIORITY     3
 #define FINSH_THREAD_PRIORITY       (RT_THREAD_PRIORITY_MAX / 8 * __FINSH_THREAD_PRIORITY + 1)
 // <o>the stack of finsh thread <1-4096>
 //  <i>the stack of finsh thread

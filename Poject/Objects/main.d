@@ -76,3 +76,4 @@
 .\objects\main.o: ..\USB\STM32_USB_OTG_Driver\inc\usb_dcd_int.h
 .\objects\main.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\string.h
 .\objects\main.o: ..\BSP_USER\HMI\HMI.h
+.\objects\main.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rthw.h

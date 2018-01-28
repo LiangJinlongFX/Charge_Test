@@ -43,6 +43,8 @@ typedef enum
 
 #define TestData_Size 18;   //数据存储结构体大小
 
+extern TestStandard_Type TestStandard_Arrary[4];
+extern u8 Current_event;
 
 
 u8 Test_ReadData(TestData_Type TestData_Struct);

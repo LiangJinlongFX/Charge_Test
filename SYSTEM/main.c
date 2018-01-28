@@ -33,6 +33,7 @@
 #include "app.h"
 #include "usb_app.h"
 #include "HMI.h"
+#include <rthw.h>
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -56,6 +57,9 @@ int main()
 	
 	/* set idle thread hook */
     rt_thread_idle_sethook(cpu_usage_idle_hook);
+		/* 初始化互斥锁 */
+	rt_mutex_init(&mutex,"mutex", RT_IPC_FLAG_FIFO);
+	rt_sem_init(&sem, "sem", 0, RT_IPC_FLAG_FIFO);
 		
 	// 创建静态线程
 	rt_thread_init(&led0_thread,               	  //线程控制块
@@ -79,7 +83,7 @@ int main()
 				   3,                             //线程的优先级
 				   20);                           //线程时间片     
 
-	rt_thread_startup(&led1_thread);              //启动线程led1_thread，开启调度  	
+	//rt_thread_startup(&led1_thread);              //启动线程led1_thread，开启调度  	
 
     // 创建静态线程                          
 	rt_thread_init(&usb_thread,                  //线程控制块
@@ -94,17 +98,30 @@ int main()
 	rt_thread_startup(&usb_thread);              //启动线程led1_thread，开启调度  	
 
     // 创建静态线程                          
-	rt_thread_init(&HMI_thread,                  //线程控制块
-				   "HMI",                        //线程名字，在shell里面可以看到
-				   HMI_thread_entry,             //线程入口函数
+	rt_thread_init(&HMIMonitor_thread,                  //线程控制块
+				   "HMIMonitor",                        //线程名字，在shell里面可以看到
+				   HMIMonitor_thread_entry,             //线程入口函数
 				   RT_NULL,                        //线程入口函数参数
-				   &rt_HMI_thread_stack[0],      //线程栈起始地址
-				   sizeof(rt_HMI_thread_stack),  //线程栈大小
+				   &rt_HMIMonitor_thread_stack[0],      //线程栈起始地址
+				   sizeof(rt_HMIMonitor_thread_stack),  //线程栈大小
 				   3,                              //线程的优先级
 				   5);                             //线程时间片     
 
-	rt_thread_startup(&HMI_thread);              //启动线程led1_thread，开启调度  
-		return 0;
+	rt_thread_startup(&HMIMonitor_thread);              //启动线程led1_thread，开启调度  
+	
+    // 创建静态线程                          
+	rt_thread_init(&Master_thread,                  //线程控制块
+				   "Master",                        //线程名字，在shell里面可以看到
+				   Master_thread_entry,             //线程入口函数
+				   RT_NULL,                        //线程入口函数参数
+				   &rt_Master_thread_stack[0],      //线程栈起始地址
+				   sizeof(rt_Master_thread_stack),  //线程栈大小
+				   2,                              //线程的优先级
+				   5);                             //线程时间片     
+
+	rt_thread_startup(&Master_thread);              //启动线程led1_thread，开启调度 
+					 
+					 return 0;
 }
 
 

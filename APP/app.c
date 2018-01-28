@@ -20,6 +20,7 @@
 #include "app.h"
 #include "HMI.h"
 #include "usart1.h"
+#include "CSV_Database.h"
 
 
 #define CPU_USAGE_CALC_TICK	10
@@ -33,17 +34,41 @@ u8 HMI_Event;
 char HMI_Info[100];
 u8 HMI_STA;
 
-//HMI串口时间监听
-void HMI_thread_entry(void* parameter)
+
+void Master_thread_entry(void* parameter)
 {
-	//如果有外设初始化不通过，显示错误界面
-	if(!Device_STA) HMI_File_Page(Page_Error);
-	HMI_File_Page(Page_Init);
 	while(1)
 	{
-		if(!USART_Solution(&HMI_Event,HMI_Info))
-		printf("%x",HMI_Event);
-		rt_thread_delay(50);
+		rt_thread_delay(100);
+		rt_sem_take(&sem,RT_WAITING_FOREVER);//死等
+		rt_kprintf("high task has take mutex!\r\n");
+		rt_kprintf("high task running!\r\n");
+		rt_sem_release(&sem);
+		rt_thread_delay(400); 
+	}
+}
+
+
+/*
+ * HMI监听进程 空闲状态监听HMI串口 一进入特定页面立即触发主进程，并将hmi串口交由主进程控制
+ */
+void HMIMonitor_thread_entry(void* parameter)
+{
+	u8 res;
+	while(1)
+	{
+		//串口监听抢先占有信号量
+//		rt_sem_take(&sem,1000);
+//		rt_kprintf("res=%d\r\n",sem.value);
+		//有页面跳转消息,释放信号量
+		if(!USART_Solution(HMI_Page_Type,HMI_Info)) 
+		{
+			rt_kprintf("master will running\r\n");
+			res=rt_sem_release(&sem);
+			rt_kprintf("res=%d\r\n",sem.value);
+		}
+		rt_thread_delay(100);
+		LED1=~LED1;
 	}
 }
 
@@ -64,10 +89,27 @@ void led0_thread_entry(void* parameter)
 //线程USB
 void usb_thread_entry(void* parameter)
 {
-	rt_uint8_t major, minor;
+	u8 res;
+	char str[10];
+	//HMI_StandardPage_Show();
+//	res=HMI_Get(HMI_Vaule_Type,"bt1",str);
+//	if(res) rt_kprintf("res=%d\r\n",res);
+//	else rt_kprintf("str=%s\r\n",str);
+//	HMI_Standard_Atoi();
+//	rt_kprintf("Vout_Max=%d\r\n",TestStandard_Arrary[Current_event].Vout_Max);
+//	rt_kprintf("Cout_Max=%d\r\n",TestStandard_Arrary[Current_event].Cout_Max);
+//	rt_kprintf("Ripple_Voltage=%d\r\n",TestStandard_Arrary[Current_event].Ripple_Voltage);
+//	rt_kprintf("Poweron_Time=%d\r\n",TestStandard_Arrary[Current_event].Poweron_Time);
+//	rt_kprintf("Efficiency=%d\r\n",TestStandard_Arrary[Current_event].Efficiency);
+//	rt_kprintf("Over_Voltage_Protection=%d\r\n",TestStandard_Arrary[Current_event].Over_Voltage_Protection);
+//	rt_kprintf("Over_Current_Protection=%d\r\n",TestStandard_Arrary[Current_event].Over_Current_Protection);
+//	rt_kprintf("Quick_Charge=%d\r\n",TestStandard_Arrary[Current_event].Quick_Charge);
+//	HMI_TestLimit_Atoi();
+//	rt_kprintf("res=%x\r\n",HMI_TestLimit);
 	while(1)
 	{
-		rt_thread_delay(100);
+		//HMI_Print_Str("t0","123");
+		rt_thread_delay(1000);
 	}
 }
   

@@ -50,3 +50,4 @@
 .\objects\app.o: ..\BSP_USER\HMI\HMI.h
 .\objects\app.o: ..\Common\usart1.h
 .\objects\app.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\app.o: ..\BSP_USER\CSV_Database\CSV_Database.h

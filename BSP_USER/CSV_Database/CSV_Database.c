@@ -18,6 +18,8 @@ const char Data_FileHeader[]="Serial_Number,Test_Time,Ripple_Voltage,Vout_Max,Co
 const char CommaStr=',';
 const char EnterStr[2]={0x0d,0x0a};
 
+TestStandard_Type TestStandard_Arrary[4];
+u8 Current_event=0;	//定义全局用到的当前标准结构体
 
 /**
  * 测试数据信息存储到文件系统
@@ -391,7 +393,7 @@ u8 Get_DataNum(u8 *path)
 		res=f_readdir(&tdir,&tfileinfo);
 	}
 }
-
+//支持含小数点的数值字符,但一律转换为无符号整型数值
 unsigned int my_atoi(char s[])
 {
 	u8 i,n=0;

@@ -75,7 +75,9 @@ typedef enum
 }HMI_Error;
 
 
-HMI_Error USART_Solution(u8* HMI_Type,char* HMI_Rx_String);
+extern u8 HMI_TestLimit;
+
+HMI_Error USART_Solution(u8 HMI_Type,char* HMI_Rx_String);
 
 
 
@@ -83,6 +85,12 @@ HMI_Error HMI_File_Page(u8 Page_ID);	//页面跳转
 HMI_Error HMI_Print_Str(char* Str_ID,char* fmt);	//发送字符串至串口设备
 HMI_Error HMI_Print(char* str);
 HMI_Error HMI_Page_ACK(u8 Page_ID);
+HMI_Error HMI_StandardPage_Show(void);
+HMI_Error HMI_Print_Val(char* Object_ID,u16 varible);
+HMI_Error HMI_Get(u8 Object_Type,char* Object_ID,char* fmt);
+HMI_Error HMI_Standard_Atoi(void);
+HMI_Error HMI_TestLimit_Itoa(void);
+HMI_Error HMI_TestLimit_Atoi(void);
 
 
 

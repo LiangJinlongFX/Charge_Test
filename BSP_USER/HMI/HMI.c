@@ -4,16 +4,19 @@
 #include "sys.h"
 #include "usart1.h"
 #include "CSV_Database.h"
+#include "rtthread.h"
 
-//u8 HMI_Type;		//当前接收处理的HMI对象类型	
-//u8 HMI_Rx_String[100];	//HMI设备返回的数据内容
+/*
+* 批量检测条目限制变量 bit7:转换效率 bit6:上电时间 bit5:电路保护 bit4:OCP bit3:OVP bit2:cmax bit1:vmax bit0:纹波  1：为有效
+ */
+u8 HMI_TestLimit=0x88;
 
 /**
  * HMI响应处理函数
- * @param  HMI_Type HMI_Rx_String [页面类型指针 有效内容指针]
+ * @param  HMI_Type HMI_Rx_String [页面类型指针 有效内容字符类型指针]
  * @return         [description]
  */
-HMI_Error USART_Solution(u8* HMI_Type,char* HMI_Rx_String)
+HMI_Error USART_Solution(u8 HMI_Type,char* HMI_Rx_String)
 {
 	u16 i=0;
 	
@@ -21,20 +24,20 @@ HMI_Error USART_Solution(u8* HMI_Type,char* HMI_Rx_String)
 	do{
 		if(HMI_RX_FLAG) break;
 		i++;
-	}while(i<1000);
+	}while(i<5000);
 	//仍不能接收到标志位，返回无响应错误
 	if(!HMI_RX_FLAG) return HMI_NoResponse;
 	
 	//判断当前返回的数据类型
 	switch(USART_RX_BUF[0])
 	{
-		case HMI_Touch_Type :	*HMI_Type = HMI_Touch_Type; break;
-		case HMI_Page_Type :	*HMI_Type = HMI_Page_Type; break;
-		case HMI_Touchxy_Type :	*HMI_Type = HMI_Touchxy_Type; break;
-		case HMI_SleepThing_Type :	*HMI_Type = HMI_SleepThing_Type; break;
-		case HMI_String_Type :	*HMI_Type = HMI_String_Type; break;
-		case HMI_Vaule_Type :	*HMI_Type = HMI_Vaule_Type; break;
-		case HMI_Instr_OK :	*HMI_Type = HMI_Instr_OK; break;
+		case HMI_Touch_Type :	HMI_Type = HMI_Touch_Type; break;
+		case HMI_Page_Type :	HMI_Type = HMI_Page_Type; break;
+		case HMI_Touchxy_Type :	HMI_Type = HMI_Touchxy_Type; break;
+		case HMI_SleepThing_Type :	HMI_Type = HMI_SleepThing_Type; break;
+		case HMI_String_Type :	HMI_Type = HMI_String_Type; break;
+		case HMI_Vaule_Type :	HMI_Type = HMI_Vaule_Type; break;
+		case HMI_Instr_OK :	HMI_Type = HMI_Instr_OK; break;
 		default : break;
 	}
 	
@@ -43,6 +46,8 @@ HMI_Error USART_Solution(u8* HMI_Type,char* HMI_Rx_String)
 	{
 		HMI_Rx_String[i-1]=USART_RX_BUF[i];
 	}
+	//加上结尾符号以方便识别
+	HMI_Rx_String[i]='\0';
 	//清除缓冲变量
 	HMI_RX_FLAG=0;
 	UASRT1_RX_BUFFER_LEN=0;
@@ -71,21 +76,42 @@ HMI_Error HMI_File_Page(u8 Page_ID)
 	return HMI_OK;
 }
 /**
- * 发送字符串至HMI
+* 发送字符串至HMI对象
  * @param  str [要发送的字符串]
  * @return     [description]
  */
-HMI_Error HMI_Print_Str(char* Str_ID,char* fmt)
+HMI_Error HMI_Print_Str(char* Object_ID,char* fmt)
 {
 	char str[60];
-	strcpy(str,Str_ID);
+	
+	strcpy(str,Object_ID);
 	strcat(str,".txt=\"");
 	strcat(str,fmt);
-	//strcat(str,"\"");
+	strcat(str,"\"");
 	HMI_Print(str);
 
 	return HMI_OK;
 }
+
+/**
+* 发送数组至HMI对象   !!!必须是无符号整数
+ * @param  str [要发送的数值]
+ * @return     [description]
+ */
+HMI_Error HMI_Print_Val(char* Object_ID,u16 varible)
+{
+	char str[60];
+	char temp_str[10];
+	
+	strcpy(str,Object_ID);
+	strcat(str,".val=");
+	my_itoa(varible,temp_str);
+	strcat(str,temp_str);
+	HMI_Print(str);
+
+	return HMI_OK;
+}
+
 /**
  * HMI发送
  * @param  str [description]
@@ -110,7 +136,7 @@ HMI_Error HMI_Page_ACK(u8 Page_ID)
 	u8 Type;
 	char str[10];
 	HMI_Print("sendme");
-	if(!USART_Solution(&Type,str)) return HMI_NoResponse;
+	if(!USART_Solution(Type,str)) return HMI_NoResponse;
 	if(Type!=HMI_Page_Type) return HMI_Parse_Error;
 	if(str[0]!=Page_ID) return HMI_Page_Error;
 	
@@ -128,3 +154,194 @@ HMI_Error HMI_Page_ACK(u8 Page_ID)
 //		
 //	}
 //}
+
+HMI_Error HMI_StandardPage_Show(void)
+{
+	char Num_str[10];
+	char temp;
+	char temp_str[10];
+	
+	TestStandard_Arrary[0].Cout_Max=244;
+	TestStandard_Arrary[0].Vout_Max=50;
+	TestStandard_Arrary[0].Ripple_Voltage=100;
+	TestStandard_Arrary[0].Poweron_Time=10;
+	TestStandard_Arrary[0].Efficiency=89;
+	TestStandard_Arrary[0].Over_Voltage_Protection=1;
+	TestStandard_Arrary[0].Short_Current=0;
+	TestStandard_Arrary[0].Over_Current_Protection=1;
+	TestStandard_Arrary[0].Quick_Charge=2;
+	
+	my_itoa(TestStandard_Arrary[0].Vout_Max/10,Num_str);
+	strcat(Num_str,".");
+	temp=TestStandard_Arrary[0].Vout_Max%10+'0';
+	strcat(Num_str,&temp);
+	HMI_Print_Str("t0",Num_str);
+	
+	my_itoa(TestStandard_Arrary[0].Cout_Max/100,Num_str);
+	strcat(Num_str,".");
+	my_itoa(TestStandard_Arrary[0].Cout_Max%100,temp_str);
+	strcat(Num_str,temp_str);
+	HMI_Print_Str("t1",Num_str);
+	
+	my_itoa(TestStandard_Arrary[0].Ripple_Voltage,Num_str);
+	HMI_Print_Str("t2",Num_str);
+	
+	my_itoa(TestStandard_Arrary[0].Poweron_Time,Num_str);
+	HMI_Print_Str("t3",Num_str);
+	
+	my_itoa(TestStandard_Arrary[0].Efficiency,Num_str);
+	HMI_Print_Str("t4",Num_str);
+	
+	HMI_Print_Val("bt0",TestStandard_Arrary[0].Over_Voltage_Protection);
+	HMI_Print_Val("bt2",TestStandard_Arrary[0].Short_Current);
+	HMI_Print_Val("bt1",TestStandard_Arrary[0].Over_Current_Protection);
+	
+	HMI_Print_Val("FastCharg_STA",TestStandard_Arrary[0].Quick_Charge);
+
+	return HMI_OK;
+}
+
+/**
+* 获取HMI控件的值  获取的值都为字符类型，如获取为数值需atoi函数
+ * @param  Page_ID [页面ID]
+ * @return     [description]
+ */
+HMI_Error HMI_Get(u8 Object_Type,char* Object_ID,char* fmt)
+{
+	char str[20];
+	char str2[10];
+	u16 temp;
+	u8 i=0,n=0;
+	u8 res=HMI_OK;
+	
+	//要获取的内容为字符串类型
+	if(Object_Type==HMI_String_Type)
+	{
+		strcpy(str,"get ");
+		strcat(str,Object_ID);
+		strcat(str,".txt");
+		HMI_Print(str);
+		//等待HMI响应
+		res=USART_Solution(HMI_String_Type,fmt);
+	}
+	//要获取的内容为数值类型
+	if(Object_Type==HMI_Vaule_Type)
+	{
+		strcpy(str,"get ");
+		strcat(str,Object_ID);
+		strcat(str,".val");
+		HMI_Print(str);
+		//等待HMI响应
+		res=USART_Solution(HMI_Vaule_Type,str2);
+		while(str2[i]!='\0')
+		{
+			if(str2[i]>=0&&str2[i]<=9) n=10*n+str2[i];
+			i++;
+		}
+		my_itoa(n,fmt);			
+	}
+	
+	return res;
+}
+/**
+* 将标准设置界面的参数文本写进全局标准结构体
+ * @param   []
+ * @return     [description]
+ */
+HMI_Error HMI_Standard_Atoi(void)
+{
+	char str[20];
+	u8 res=HMI_OK;
+	res=HMI_Get(HMI_String_Type,"t0",str);
+	TestStandard_Arrary[Current_event].Vout_Max=my_atoi(str);
+	res=HMI_Get(HMI_String_Type,"t1",str);
+	TestStandard_Arrary[Current_event].Cout_Max=my_atoi(str);
+	res=HMI_Get(HMI_String_Type,"t2",str);
+	TestStandard_Arrary[Current_event].Ripple_Voltage=my_atoi(str);
+	res=HMI_Get(HMI_String_Type,"t3",str);
+	TestStandard_Arrary[Current_event].Poweron_Time=my_atoi(str);
+	res=HMI_Get(HMI_String_Type,"t4",str);
+	TestStandard_Arrary[Current_event].Efficiency=my_atoi(str);
+	res=HMI_Get(HMI_Vaule_Type,"bt0",str);
+	TestStandard_Arrary[Current_event].Over_Voltage_Protection=my_atoi(str);
+	res=HMI_Get(HMI_Vaule_Type,"bt1",str);
+	TestStandard_Arrary[Current_event].Over_Current_Protection=my_atoi(str);
+	res=HMI_Get(HMI_Vaule_Type,"bt2",str);
+	TestStandard_Arrary[Current_event].Short_Current=my_atoi(str);
+	res=HMI_Get(HMI_Vaule_Type,"FastCharg_STA",str);
+	TestStandard_Arrary[Current_event].Quick_Charge=my_atoi(str);
+	
+	return res;
+}
+
+/**
+ * 将测试门限设置呈现给测试门限设置界面
+ * @param   []
+ * @return     [description]
+ */
+HMI_Error HMI_TestLimit_Itoa(void)
+{
+	u8 temp=0;
+	u8 res=HMI_OK;
+	
+	if(HMI_TestLimit&0x01) temp=1; else temp=0;
+	HMI_Print_Val("bt0",temp);
+	if(HMI_TestLimit&0x02) temp=1; else temp=0;
+	HMI_Print_Val("bt1",temp);
+	if(HMI_TestLimit&0x04) temp=1; else temp=0;
+	HMI_Print_Val("bt2",temp);
+	if(HMI_TestLimit&0x08) temp=1; else temp=0;
+	HMI_Print_Val("bt3",temp);
+	if(HMI_TestLimit&0x10) temp=1; else temp=0;
+	HMI_Print_Val("bt4",temp);
+	if(HMI_TestLimit&0x20) temp=1; else temp=0;
+	HMI_Print_Val("bt5",temp);
+	if(HMI_TestLimit&0x40) temp=1; else temp=0;
+	HMI_Print_Val("bt6",temp);
+	if(HMI_TestLimit&0x80) temp=1; else temp=0;
+	HMI_Print_Val("bt7",temp);
+	
+	return res;
+}
+
+/**
+ * 测试门限设置界面数值赋予全局测试门限变量
+ * @param   []
+ * @return     [description]
+ */
+HMI_Error HMI_TestLimit_Atoi(void)
+{
+	char str[5];
+	u8 temp=0;
+	u8 temp2=0;
+	u8 res=HMI_OK;
+	
+	res=HMI_Get(HMI_Vaule_Type,"bt0",str);
+	temp=my_atoi(str);
+	HMI_TestLimit=temp;
+	res=HMI_Get(HMI_Vaule_Type,"bt1",str);
+	temp=my_atoi(str);
+	HMI_TestLimit=HMI_TestLimit|temp<<1;
+	res=HMI_Get(HMI_Vaule_Type,"bt2",str);
+	temp=my_atoi(str);
+	HMI_TestLimit=HMI_TestLimit|temp<<2;
+	res=HMI_Get(HMI_Vaule_Type,"bt3",str);
+	temp=my_atoi(str);
+	HMI_TestLimit=HMI_TestLimit|temp<<3;
+	res=HMI_Get(HMI_Vaule_Type,"bt4",str);
+	temp=my_atoi(str);
+	HMI_TestLimit=HMI_TestLimit|temp<<4;
+	res=HMI_Get(HMI_Vaule_Type,"bt5",str);
+	temp=my_atoi(str);
+	HMI_TestLimit=HMI_TestLimit|temp<<5;
+	res=HMI_Get(HMI_Vaule_Type,"bt6",str);
+	temp=my_atoi(str);
+	HMI_TestLimit=HMI_TestLimit|temp<<6;
+	res=HMI_Get(HMI_Vaule_Type,"bt7",str);
+	temp=my_atoi(str);
+	HMI_TestLimit=HMI_TestLimit|temp<<7;
+	
+	
+	return res;
+}
+
