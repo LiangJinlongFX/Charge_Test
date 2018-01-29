@@ -19,22 +19,19 @@
 //邮箱控制块
 static struct rt_mailbox mb;
 //互斥锁控制块
-static struct rt_mutex mutex;
+static rt_mutex_t mutex = RT_NULL;
 //信号量控制块
 static struct rt_semaphore sem;
+/* 事件控制块 */
+static struct rt_event event;
 
 
-static struct rt_thread led0_thread;//线程控制块
-static struct rt_thread led1_thread;//线程控制块
-static struct rt_thread usb_thread;	//线程控制块
-static struct rt_thread HMIMonitor_thread;	//线程控制块
-static struct rt_thread Master_thread;	//线程控制块
-ALIGN(RT_ALIGN_SIZE)
-static rt_uint8_t rt_led0_thread_stack[256];//线程栈
-static rt_uint8_t rt_led1_thread_stack[256];//线程栈
-static rt_uint8_t rt_usb_thread_stack[512];//线程栈
-static rt_uint8_t rt_HMIMonitor_thread_stack[512];//线程栈
-static rt_uint8_t rt_Master_thread_stack[512];//线程栈
+static rt_thread_t led0_thread=RT_NULL;
+static rt_thread_t led1_thread=RT_NULL;
+static rt_thread_t usb_thread=RT_NULL;
+static rt_thread_t HMIMonitor_thread=RT_NULL;
+static rt_thread_t Master_thread=RT_NULL;
+
 
 extern void led0_thread_entry(void* parameter);
 extern void usb_thread_entry(void* parameter);

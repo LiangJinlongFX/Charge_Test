@@ -63,11 +63,12 @@ HMI_Error USART_Solution(u8 HMI_Type,char* HMI_Rx_String)
 HMI_Error HMI_File_Page(u8 Page_ID)
 {
 	char str[30];
+	char str2[10];
 	u8 res=HMI_OK;
 	
-	Page_ID=Page_ID+'0';
+	my_itoa(Page_ID,str2);
 	strcpy(str,"page ");
-	strcat(str,&Page_ID);
+	strcat(str,str2);
 	HMI_Print(str);
 	
 	//HMI_Page_ACK(Page_ID);
@@ -161,42 +162,42 @@ HMI_Error HMI_StandardPage_Show(void)
 	char temp;
 	char temp_str[10];
 	
-	TestStandard_Arrary[0].Cout_Max=244;
-	TestStandard_Arrary[0].Vout_Max=50;
-	TestStandard_Arrary[0].Ripple_Voltage=100;
-	TestStandard_Arrary[0].Poweron_Time=10;
-	TestStandard_Arrary[0].Efficiency=89;
-	TestStandard_Arrary[0].Over_Voltage_Protection=1;
-	TestStandard_Arrary[0].Short_Current=0;
-	TestStandard_Arrary[0].Over_Current_Protection=1;
-	TestStandard_Arrary[0].Quick_Charge=2;
+//	TestStandard_Arrary[0].Cout_Max=244;
+//	TestStandard_Arrary[0].Vout_Max=50;
+//	TestStandard_Arrary[0].Ripple_Voltage=100;
+//	TestStandard_Arrary[0].Poweron_Time=10;
+//	TestStandard_Arrary[0].Efficiency=89;
+//	TestStandard_Arrary[0].Over_Voltage_Protection=1;
+//	TestStandard_Arrary[0].Short_Current=0;
+//	TestStandard_Arrary[0].Over_Current_Protection=1;
+//	TestStandard_Arrary[0].Quick_Charge=2;
 	
-	my_itoa(TestStandard_Arrary[0].Vout_Max/10,Num_str);
+	my_itoa(TestStandard_Arrary[Current_event].Vout_Max/10,Num_str);
 	strcat(Num_str,".");
-	temp=TestStandard_Arrary[0].Vout_Max%10+'0';
+	temp=TestStandard_Arrary[Current_event].Vout_Max%10+'0';
 	strcat(Num_str,&temp);
 	HMI_Print_Str("t0",Num_str);
 	
-	my_itoa(TestStandard_Arrary[0].Cout_Max/100,Num_str);
+	my_itoa(TestStandard_Arrary[Current_event].Cout_Max/100,Num_str);
 	strcat(Num_str,".");
-	my_itoa(TestStandard_Arrary[0].Cout_Max%100,temp_str);
+	my_itoa(TestStandard_Arrary[Current_event].Cout_Max%100,temp_str);
 	strcat(Num_str,temp_str);
 	HMI_Print_Str("t1",Num_str);
 	
-	my_itoa(TestStandard_Arrary[0].Ripple_Voltage,Num_str);
+	my_itoa(TestStandard_Arrary[Current_event].Ripple_Voltage,Num_str);
 	HMI_Print_Str("t2",Num_str);
 	
-	my_itoa(TestStandard_Arrary[0].Poweron_Time,Num_str);
+	my_itoa(TestStandard_Arrary[Current_event].Poweron_Time,Num_str);
 	HMI_Print_Str("t3",Num_str);
 	
-	my_itoa(TestStandard_Arrary[0].Efficiency,Num_str);
+	my_itoa(TestStandard_Arrary[Current_event].Efficiency,Num_str);
 	HMI_Print_Str("t4",Num_str);
 	
-	HMI_Print_Val("bt0",TestStandard_Arrary[0].Over_Voltage_Protection);
-	HMI_Print_Val("bt2",TestStandard_Arrary[0].Short_Current);
-	HMI_Print_Val("bt1",TestStandard_Arrary[0].Over_Current_Protection);
+	HMI_Print_Val("bt0",TestStandard_Arrary[Current_event].Over_Voltage_Protection);
+	HMI_Print_Val("bt2",TestStandard_Arrary[Current_event].Short_Current);
+	HMI_Print_Val("bt1",TestStandard_Arrary[Current_event].Over_Current_Protection);
 	
-	HMI_Print_Val("FastCharg_STA",TestStandard_Arrary[0].Quick_Charge);
+	HMI_Print_Val("FastCharg_STA",TestStandard_Arrary[Current_event].Quick_Charge);
 
 	return HMI_OK;
 }
@@ -225,7 +226,7 @@ HMI_Error HMI_Get(u8 Object_Type,char* Object_ID,char* fmt)
 		res=USART_Solution(HMI_String_Type,fmt);
 	}
 	//要获取的内容为数值类型
-	if(Object_Type==HMI_Vaule_Type)
+	else if(Object_Type==HMI_Vaule_Type)
 	{
 		strcpy(str,"get ");
 		strcat(str,Object_ID);
@@ -309,39 +310,166 @@ HMI_Error HMI_TestLimit_Itoa(void)
  * @param   []
  * @return     [description]
  */
-HMI_Error HMI_TestLimit_Atoi(void)
+HMI_Error HMI_TestLimit_Atoi(u8* LimitVal)
 {
 	char str[5];
-	u8 temp=0;
+	u8 temp1=0;
 	u8 temp2=0;
 	u8 res=HMI_OK;
 	
 	res=HMI_Get(HMI_Vaule_Type,"bt0",str);
-	temp=my_atoi(str);
-	HMI_TestLimit=temp;
+	temp1=my_atoi(str);
+	rt_kprintf("res1=%d\r\n",temp2);
 	res=HMI_Get(HMI_Vaule_Type,"bt1",str);
-	temp=my_atoi(str);
-	HMI_TestLimit=HMI_TestLimit|temp<<1;
+	temp1=my_atoi(str);
+	temp2=temp2|temp1<<1;
+	rt_kprintf("res1=%d\r\n",temp2);
 	res=HMI_Get(HMI_Vaule_Type,"bt2",str);
-	temp=my_atoi(str);
-	HMI_TestLimit=HMI_TestLimit|temp<<2;
+	temp1=my_atoi(str);
+	temp2=temp2|temp1<<2;
+	rt_kprintf("res1=%d\r\n",temp2);
 	res=HMI_Get(HMI_Vaule_Type,"bt3",str);
-	temp=my_atoi(str);
-	HMI_TestLimit=HMI_TestLimit|temp<<3;
+	temp1=my_atoi(str);
+	temp2=temp2|temp1<<3;
+	rt_kprintf("res1=%d\r\n",temp2);
 	res=HMI_Get(HMI_Vaule_Type,"bt4",str);
-	temp=my_atoi(str);
-	HMI_TestLimit=HMI_TestLimit|temp<<4;
+	temp1=my_atoi(str);
+	temp2=temp2|temp1<<4;
+	rt_kprintf("res1=%d\r\n",temp2);
 	res=HMI_Get(HMI_Vaule_Type,"bt5",str);
-	temp=my_atoi(str);
-	HMI_TestLimit=HMI_TestLimit|temp<<5;
+	temp1=my_atoi(str);
+	temp2=temp2|temp1<<5;
+	rt_kprintf("res1=%d\r\n",temp2);
 	res=HMI_Get(HMI_Vaule_Type,"bt6",str);
-	temp=my_atoi(str);
-	HMI_TestLimit=HMI_TestLimit|temp<<6;
+	temp1=my_atoi(str);
+	temp2=temp2|temp1<<6;
+	rt_kprintf("res1=%d\r\n",temp2);
 	res=HMI_Get(HMI_Vaule_Type,"bt7",str);
-	temp=my_atoi(str);
-	HMI_TestLimit=HMI_TestLimit|temp<<7;
+	temp1=my_atoi(str);
+	temp2=temp2|temp1<<7;
+	
+	rt_kprintf("res1=%d\r\n",temp2);
 	
 	
 	return res;
 }
 
+HMI_Error HMI_RTC_Show(void)
+{
+	char str1[20];
+	char str2[10];
+	RTC_TimeTypeDef RTC_TimeStruct;
+	RTC_DateTypeDef RTC_DateStruct;
+	
+	RTC_GetDate(RTC_Format_BIN, &RTC_DateStruct); //获取当前日期
+	RTC_GetTime(RTC_Format_BIN,&RTC_TimeStruct);  //获取当前时间
+	
+	my_itoa(RTC_DateStruct.RTC_Year,str2);
+	strcpy(str1,str2);
+	strcat(str1,".");
+	my_itoa(RTC_DateStruct.RTC_Month,str2);
+	strcat(str1,str2);
+	strcat(str1,".");
+	my_itoa(RTC_DateStruct.RTC_Date,str2);
+	strcat(str1,str2);
+	strcat(str1," ");
+	my_itoa(RTC_TimeStruct.RTC_Hours,str2);
+	strcat(str1,str2);
+	strcat(str1,":");
+	my_itoa(RTC_TimeStruct.RTC_Minutes,str2);
+	strcat(str1,str2);
+	
+	HMI_Print_Str("t1",str1);
+	
+	return HMI_OK;
+}
+
+HMI_Error HMI_RTC_Atoi(void)
+{
+	char str1[20];
+	char str2[10];
+	char str_temp;
+	u8 year,month,day,hour,min;
+	u8 res1,res2;
+	HMI_Get(HMI_String_Type,"t3",str1);
+	str2[0]=str1[0];str2[1]=str1[1];str2[2]='\0';
+	year=my_atoi(str2);
+	str2[0]=str1[2];str2[1]=str1[3];str2[2]='\0';
+	month=my_atoi(str2);
+	str2[0]=str1[4];str2[1]=str1[5];str2[2]='\0';
+	day=my_atoi(str2);
+	str2[0]=str1[6];str2[1]=str1[7];str2[2]='\0';
+	hour=my_atoi(str2);
+	str2[0]=str1[8];str2[1]=str1[9];str2[2]='\0';
+	min=my_atoi(str2);
+	rt_kprintf("str=%s\r\n",str1);
+	rt_kprintf("%d %d %d %d %d\r\n",year,month,day,hour,min);
+	if(month>12||month<1||day>31||day<1||day>31||hour>24||hour<1||min>60)
+		HMI_File_Page(16);
+	else HMI_File_Page(1);
+	return res1;
+}
+
+HMI_Error HMI_ShowBatch(void)
+{
+	char str[5][10];
+	char Event_Info[3];
+	u8 Page_Flag;
+	u8 Exit_Flag=0;
+	while(1)
+	{
+		HMI_Print_Str("t0",str[0]);
+		HMI_Print_Str("t1",str[1]);
+		HMI_Print_Str("t2",str[2]);
+		HMI_Print_Str("t3",str[3]);
+		HMI_Print_Str("t4",str[4]);
+		while(USART_Solution(HMI_Vaule_Type,Event_Info));
+		switch(Event_Info[0])
+		{
+			case 0x01: break;//进入第一条目
+			case 0x02: break;//进入第二条目
+			case 0x03: break;//进入第三条目
+			case 0x04: break;//进入第四条目
+			case 0x05: break;//进入第五条目
+			case 0x06: break;//上翻
+			case 0x07: break;//下翻
+			case 0x08: Exit_Flag=1;break;//退出
+		}
+		if(Exit_Flag) break;
+	}
+	HMI_File_Page(1);
+	
+	return HMI_OK;
+}
+
+HMI_Error HMI_ShowBatchList(void)
+{
+	char str[5][10];
+	char Event_Info[3];
+	u8 Page_Flag;
+	u8 Exit_Flag=0;
+	while(1)
+	{
+		HMI_Print_Str("t0",str[0]);
+		HMI_Print_Str("t1",str[1]);
+		HMI_Print_Str("t2",str[2]);
+		HMI_Print_Str("t3",str[3]);
+		HMI_Print_Str("t4",str[4]);
+		while(USART_Solution(HMI_Vaule_Type,Event_Info));
+		switch(Event_Info[0])
+		{
+			case 0x01: break;//进入第一条目
+			case 0x02: break;//进入第二条目
+			case 0x03: break;//进入第三条目
+			case 0x04: break;//进入第四条目
+			case 0x05: break;//进入第五条目
+			case 0x06: break;//上翻
+			case 0x07: break;//下翻
+			case 0x08: Exit_Flag=1;break;//退出
+		}
+		if(Exit_Flag) break;
+	}
+	HMI_File_Page(1);
+	
+	return HMI_OK;
+}

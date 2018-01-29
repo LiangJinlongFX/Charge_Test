@@ -62,6 +62,7 @@
 #define	HMI_Update_Type			0x89	//sd卡升级
 #define	HMI_SendData_Type		0xfd	//透传模式完成
 #define HMI_ENDData_Type		0xfe	//透传模式就绪
+#define HMI_System_Type		0x88	//系统事件  自定义
 
 /**
  * 指令执行情况枚举
@@ -90,7 +91,12 @@ HMI_Error HMI_Print_Val(char* Object_ID,u16 varible);
 HMI_Error HMI_Get(u8 Object_Type,char* Object_ID,char* fmt);
 HMI_Error HMI_Standard_Atoi(void);
 HMI_Error HMI_TestLimit_Itoa(void);
-HMI_Error HMI_TestLimit_Atoi(void);
+HMI_Error HMI_TestLimit_Atoi(u8* LimitVal);
+HMI_Error HMI_SetStandard_Interface(void);
+HMI_Error HMI_RTC_Show(void);
+HMI_Error HMI_ShowBatch(void);
+HMI_Error HMI_ShowBatchList(void);
+HMI_Error HMI_RTC_Atoi(void);
 
 
 

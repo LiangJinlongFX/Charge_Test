@@ -44,9 +44,6 @@ extern vu8 USB_STATUS_REG;		//USB状态
 extern vu8 bDeviceState;		//USB连接 情况
 
 /* Private function prototypes -----------------------------------------------*/
-
-
-
 /**
   * @brief  Main program
   * @param  None
@@ -56,72 +53,61 @@ int main()
 {
 	
 	/* set idle thread hook */
-    rt_thread_idle_sethook(cpu_usage_idle_hook);
-		/* 初始化互斥锁 */
-	rt_mutex_init(&mutex,"mutex", RT_IPC_FLAG_FIFO);
-	rt_sem_init(&sem, "sem", 0, RT_IPC_FLAG_FIFO);
+    //rt_thread_idle_sethook(cpu_usage_idle_hook);
+		/* 初始化事件对象 */
+	rt_event_init(&event, "event", RT_IPC_FLAG_FIFO);
 		
-	// 创建静态线程
-	rt_thread_init(&led0_thread,               	  //线程控制块
-								 "led0",                     	  //线程名字，在shell里面可以看到
-								 led0_thread_entry,          	  //线程入口函数
-								 RT_NULL,                    	  //线程入口函数参数
-								 &rt_led0_thread_stack[0],      //线程栈起始地址
-								 sizeof(rt_led0_thread_stack),  //线程栈大小
-								 3,                          	  //线程的优先级
-								 20);                           //线程时间片
-														 
-	rt_thread_startup(&led0_thread);           	  //启动线程led0_thread，开启调度
+	//创建线程1 
+    led0_thread = rt_thread_create("led0", //线程1的名称是t1 
+							led0_thread_entry, RT_NULL, //入口是thread1_entry，参数是RT_NULL 
+							512, //线程堆栈大小
+							2, //线程优先级
+							20);//时间片tick
+
+//	if (led0_thread != RT_NULL) //如果获得线程控制块，启动这个线程
+//			rt_thread_startup(led0_thread);
 				   
-    // 创建静态线程                          
-	rt_thread_init(&led1_thread,                  //线程控制块
-				   "led1",                        //线程名字，在shell里面可以看到
-				   led1_thread_entry,             //线程入口函数
-				   RT_NULL,                       //线程入口函数参数
-				   &rt_led1_thread_stack[0],      //线程栈起始地址
-				   sizeof(rt_led1_thread_stack),  //线程栈大小
-				   3,                             //线程的优先级
-				   20);                           //线程时间片     
+	//创建线程1 
+    led1_thread = rt_thread_create("led1", //线程1的名称是t1 
+							led1_thread_entry, RT_NULL, //入口是thread1_entry，参数是RT_NULL 
+							512, //线程堆栈大小
+							2, //线程优先级
+							20);//时间片tick
 
-	//rt_thread_startup(&led1_thread);              //启动线程led1_thread，开启调度  	
+//	if (led1_thread != RT_NULL) //如果获得线程控制块，启动这个线程
+//			rt_thread_startup(led1_thread); 
 
-    // 创建静态线程                          
-	rt_thread_init(&usb_thread,                  //线程控制块
-				   "usb",                        //线程名字，在shell里面可以看到
-				   usb_thread_entry,             //线程入口函数
-				   RT_NULL,                       //线程入口函数参数
-				   &rt_usb_thread_stack[0],      //线程栈起始地址
-				   sizeof(rt_usb_thread_stack),  //线程栈大小
-				   3,                             //线程的优先级
-				   5);                           //线程时间片     
+	//创建线程1 
+    usb_thread = rt_thread_create("usb", //线程1的名称是t1 
+							usb_thread_entry, RT_NULL, //入口是thread1_entry，参数是RT_NULL 
+							512, //线程堆栈大小
+							2, //线程优先级
+							20);//时间片tick
 
-	rt_thread_startup(&usb_thread);              //启动线程led1_thread，开启调度  	
+	if (usb_thread != RT_NULL) //如果获得线程控制块，启动这个线程
+			rt_thread_startup(usb_thread);
 
-    // 创建静态线程                          
-	rt_thread_init(&HMIMonitor_thread,                  //线程控制块
-				   "HMIMonitor",                        //线程名字，在shell里面可以看到
-				   HMIMonitor_thread_entry,             //线程入口函数
-				   RT_NULL,                        //线程入口函数参数
-				   &rt_HMIMonitor_thread_stack[0],      //线程栈起始地址
-				   sizeof(rt_HMIMonitor_thread_stack),  //线程栈大小
-				   3,                              //线程的优先级
-				   5);                             //线程时间片     
+	//创建线程1 
+    HMIMonitor_thread = rt_thread_create("HMIMonitor", //线程1的名称是t1 
+							HMIMonitor_thread_entry, RT_NULL, //入口是thread1_entry，参数是RT_NULL 
+							512, //线程堆栈大小
+							3, //线程优先级
+							20);//时间片tick
 
-	rt_thread_startup(&HMIMonitor_thread);              //启动线程led1_thread，开启调度  
+	if (HMIMonitor_thread != RT_NULL) //如果获得线程控制块，启动这个线程
+			rt_thread_startup(HMIMonitor_thread); 
 	
-    // 创建静态线程                          
-	rt_thread_init(&Master_thread,                  //线程控制块
-				   "Master",                        //线程名字，在shell里面可以看到
-				   Master_thread_entry,             //线程入口函数
-				   RT_NULL,                        //线程入口函数参数
-				   &rt_Master_thread_stack[0],      //线程栈起始地址
-				   sizeof(rt_Master_thread_stack),  //线程栈大小
-				   2,                              //线程的优先级
-				   5);                             //线程时间片     
+	//创建线程1 
+    Master_thread = rt_thread_create("Master", //线程1的名称是t1 
+							Master_thread_entry, RT_NULL, //入口是thread1_entry，参数是RT_NULL 
+							512, //线程堆栈大小
+							3, //线程优先级
+							20);//时间片tick
 
-	rt_thread_startup(&Master_thread);              //启动线程led1_thread，开启调度 
-					 
-					 return 0;
+	if (Master_thread != RT_NULL) //如果获得线程控制块，启动这个线程
+			rt_thread_startup(Master_thread); 
+	
+	return 0;
 }
 
 

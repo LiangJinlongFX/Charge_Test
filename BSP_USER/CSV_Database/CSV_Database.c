@@ -19,7 +19,7 @@ const char CommaStr=',';
 const char EnterStr[2]={0x0d,0x0a};
 
 TestStandard_Type TestStandard_Arrary[4];
-u8 Current_event=0;	//定义全局用到的当前标准结构体
+u8 Current_event;	//定义全局用到的当前标准结构体
 
 /**
  * 测试数据信息存储到文件系统

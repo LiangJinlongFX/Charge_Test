@@ -32,19 +32,36 @@ rt_uint32_t total_count = 0;
 u8 Device_STA=0;
 u8 HMI_Event;
 char HMI_Info[100];
-u8 HMI_STA;
+u8 HMI_STA=0;
+extern u8 Current_event;
 
 
 void Master_thread_entry(void* parameter)
 {
+	rt_uint32_t e;
 	while(1)
 	{
+		if(HMI_STA)
+		{
+			switch(HMI_Info[0])
+			{
+//				case 0x01 : HMI_StandardPage_Show(); break;
+//				case 0x02 : {HMI_Standard_Atoi();HMI_File_Page(10);} break;
+				case 0x03 : Current_event=0; break;
+				case 0x04 : Current_event=1; break;
+				case 0x05 : Current_event=2; break;
+				case 0x06 : Current_event=3; break;
+				case 0x07 : HMI_TestLimit_Itoa(); break;
+				case 0x08 : {HMI_TestLimit_Atoi(&HMI_TestLimit);HMI_File_Page(10);rt_kprintf("res=%d\r\n",HMI_TestLimit);} break;
+				case 0x09 : HMI_RTC_Show();break;
+				case 0x0a : HMI_ShowBatch();break;
+				case 0x0b : HMI_ShowBatchList(); break;
+				case 0x0c : HMI_RTC_Atoi();break;
+			}
+			HMI_STA=0;
+			HMI_Info[0]=0;
+		}
 		rt_thread_delay(100);
-		rt_sem_take(&sem,RT_WAITING_FOREVER);//死等
-		rt_kprintf("high task has take mutex!\r\n");
-		rt_kprintf("high task running!\r\n");
-		rt_sem_release(&sem);
-		rt_thread_delay(400); 
 	}
 }
 
@@ -54,18 +71,11 @@ void Master_thread_entry(void* parameter)
  */
 void HMIMonitor_thread_entry(void* parameter)
 {
-	u8 res;
 	while(1)
 	{
-		//串口监听抢先占有信号量
-//		rt_sem_take(&sem,1000);
-//		rt_kprintf("res=%d\r\n",sem.value);
-		//有页面跳转消息,释放信号量
-		if(!USART_Solution(HMI_Page_Type,HMI_Info)) 
+		if(!USART_Solution(HMI_System_Type,HMI_Info)) 
 		{
-			rt_kprintf("master will running\r\n");
-			res=rt_sem_release(&sem);
-			rt_kprintf("res=%d\r\n",sem.value);
+			HMI_STA=1;	//事件触发标志位置位
 		}
 		rt_thread_delay(100);
 		LED1=~LED1;
