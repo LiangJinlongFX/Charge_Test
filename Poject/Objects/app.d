@@ -51,3 +51,5 @@
 .\objects\app.o: ..\Common\usart1.h
 .\objects\app.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\app.o: ..\BSP_USER\CSV_Database\CSV_Database.h
+.\objects\app.o: ..\BSP_USER\ADC\adc.h
+.\objects\app.o: ..\BSP_USER\MCP3421\mcp3421.h

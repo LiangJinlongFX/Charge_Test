@@ -396,7 +396,8 @@ u8 Get_DataNum(u8 *path)
 //支持含小数点的数值字符,但一律转换为无符号整型数值
 unsigned int my_atoi(char s[])
 {
-	u8 i,n=0;
+	u8 i;
+	u16 n=0;
 	i=0;
 	while(s[i]!='\0')
 	{

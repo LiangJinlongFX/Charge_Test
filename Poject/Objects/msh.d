@@ -49,3 +49,7 @@
 .\objects\msh.o: ..\STM32f4_LIB\inc\stm32f4xx_dac.h
 .\objects\msh.o: ..\STM32f4_LIB\inc\stm32f4xx_dcmi.h
 .\objects\msh.o: ..\STM32f4_LIB\inc\stm32f4xx_fsmc.h
+.\objects\msh.o: ..\BSP_USER\CSV_Database\CSV_Database.h
+.\objects\msh.o: ..\BSP_USER\DAC\dac.h
+.\objects\msh.o: ..\BSP_USER\ADC\adc.h
+.\objects\msh.o: ..\BSP_USER\Switch\switch.h

@@ -21,6 +21,8 @@
 #include "HMI.h"
 #include "usart1.h"
 #include "CSV_Database.h"
+#include "adc.h"
+#include "mcp3421.h"
 
 
 #define CPU_USAGE_CALC_TICK	10
@@ -99,7 +101,7 @@ void led0_thread_entry(void* parameter)
 //Ïß³ÌUSB
 void usb_thread_entry(void* parameter)
 {
-	u8 res;
+	u32 res;
 	char str[10];
 	//HMI_StandardPage_Show();
 //	res=HMI_Get(HMI_Vaule_Type,"bt1",str);
@@ -118,7 +120,12 @@ void usb_thread_entry(void* parameter)
 //	rt_kprintf("res=%x\r\n",HMI_TestLimit);
 	while(1)
 	{
-		//HMI_Print_Str("t0","123");
+//		res=Get_Adc_Average(1,ADC_Channel_5,20);
+////		rt_kprintf("ADC1=%d\r\n",res);
+//		res=Get_Adc_Average(2,ADC_Channel_0,20);
+////		rt_kprintf("ADC2=%d\r\n",res);
+		res=Get_Mcp3421_18BAdc();
+		printf("MCP3421=%d\r\n",res);
 		rt_thread_delay(1000);
 	}
 }

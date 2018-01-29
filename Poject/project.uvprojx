@@ -334,7 +334,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F40_41xxx,USE_STDPERIPH_DRIVER,USE_USB_OTG_FS</Define>
               <Undefine></Undefine>
-              <IncludePath>..\BSP_USER\LED;..\CORE;..\Common;..\STM32f4_LIB\inc;..\SYSTEM;..\BSP_USER\SDIO_SD;..\FATFS\exfuns;..\FATFS\src;..\BSP_USER\MCP3421;..\BSP_USER\IIC;..\BSP_USER\DAC;..\BSP_USER\CSV_Database;..\USB\STM32_USB_Device_Library\Class\msc\inc;..\USB\STM32_USB_Device_Library\Core\inc;..\USB\STM32_USB_OTG_Driver\inc;..\USB\USB_APP;.\RTE\RTOS;.\RTE;..\BSP_USER\RTC;..\APP;..\BSP_USER\HMI</IncludePath>
+              <IncludePath>..\BSP_USER\LED;..\CORE;..\Common;..\STM32f4_LIB\inc;..\SYSTEM;..\BSP_USER\SDIO_SD;..\FATFS\exfuns;..\FATFS\src;..\BSP_USER\MCP3421;..\BSP_USER\IIC;..\BSP_USER\DAC;..\BSP_USER\CSV_Database;..\USB\STM32_USB_Device_Library\Class\msc\inc;..\USB\STM32_USB_Device_Library\Core\inc;..\USB\STM32_USB_OTG_Driver\inc;..\USB\USB_APP;.\RTE\RTOS;.\RTE;..\BSP_USER\RTC;..\APP;..\BSP_USER\HMI;..\BSP_USER\Switch;..\BSP_USER\ADC</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -467,6 +467,16 @@
               <FileType>1</FileType>
               <FilePath>..\BSP_USER\HMI\HMI.c</FilePath>
             </File>
+            <File>
+              <FileName>switch.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP_USER\Switch\switch.c</FilePath>
+            </File>
+            <File>
+              <FileName>adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP_USER\ADC\adc.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -554,6 +564,11 @@
               <FileName>stm32f4xx_pwr.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\STM32f4_LIB\src\stm32f4xx_pwr.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\STM32f4_LIB\src\stm32f4xx_adc.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -62,6 +62,8 @@ extern int __bss_end;
 #include "CSV_Database.h"
 #include "rtc.h"
 #include "usb_app.h"
+#include "switch.h"
+#include "adc.h"
  
 void rt_hw_board_init()
 {    
@@ -74,6 +76,10 @@ void rt_hw_board_init()
 	uart1_init(9600);	//初始化串口1 HMI用
 	uart2_init(115200);	//提前初始化串口2以输出初始化状态
 	LED_Init();					//初始化指示灯
+	Switch_Init();
+	Adc_Init();
+	Dac1_Init();
+	IIC_Init();
 	USART2_printf("================================\r\n");
 	if(SD_Init())  USART2_printf("SD_Init_Error!\r\n");
 	else USART2_printf("SD_Init_OK!\r\n");
@@ -84,8 +90,6 @@ void rt_hw_board_init()
 	USART2_printf("DAC1_Init_OK!\r\n");
 	USART2_printf("================================\r\n");
 	
-//	usbapp_init();
-//	usbapp_mode_set(USBD_MSC_MODE);
 		
     /* Call components board initial (use INIT_BOARD_EXPORT()) */
 #ifdef RT_USING_COMPONENTS_INIT
