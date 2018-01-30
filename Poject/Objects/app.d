@@ -53,3 +53,18 @@
 .\objects\app.o: ..\BSP_USER\CSV_Database\CSV_Database.h
 .\objects\app.o: ..\BSP_USER\ADC\adc.h
 .\objects\app.o: ..\BSP_USER\MCP3421\mcp3421.h
+.\objects\app.o: ..\USB\STM32_USB_Device_Library\Class\msc\inc\usbd_msc_core.h
+.\objects\app.o: ..\USB\STM32_USB_Device_Library\Core\inc\usbd_ioreq.h
+.\objects\app.o: ..\USB\STM32_USB_Device_Library\Core\inc\usbd_def.h
+.\objects\app.o: ..\USB\USB_APP\usbd_conf.h
+.\objects\app.o: ..\USB\USB_APP\usb_conf.h
+.\objects\app.o: ..\USB\STM32_USB_Device_Library\Core\inc\usbd_core.h
+.\objects\app.o: ..\USB\STM32_USB_OTG_Driver\inc\usb_dcd.h
+.\objects\app.o: ..\USB\STM32_USB_OTG_Driver\inc\usb_core.h
+.\objects\app.o: ..\USB\STM32_USB_OTG_Driver\inc\usb_regs.h
+.\objects\app.o: ..\USB\STM32_USB_OTG_Driver\inc\usb_defines.h
+.\objects\app.o: ..\USB\STM32_USB_Device_Library\Core\inc\usbd_usr.h
+.\objects\app.o: ..\USB\USB_APP\usbd_desc.h
+.\objects\app.o: ..\USB\USB_APP\usb_app.h
+.\objects\app.o: ..\USB\STM32_USB_OTG_Driver\inc\usb_dcd_int.h
+.\objects\app.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\string.h

@@ -45,10 +45,11 @@ MSH_CMD_EXPORT(dac,my command test);
 int showadc(void)
 {
 	u16 res;
+	float res2;
 	
 	res=Get_Adc_Average(1,ADC_Channel_5,20);
 	rt_kprintf("ADC1=%d\r\n",res);
-	res=Get_Adc_Average(2,ADC_Channel_0,20);
+	res=Get_Adc_Average(2,ADC_Channel_0,1);
 	rt_kprintf("ADC2=%d\r\n",res);
 	return 0;
 }

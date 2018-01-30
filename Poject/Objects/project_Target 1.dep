@@ -76,7 +76,7 @@ I (D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtm.h)(0x58C1
 I (..\BSP_USER\CSV_Database\CSV_Database.h)(0x5A6D8701)
 I (..\BSP_USER\RTC\rtc.h)(0x5441E8B0)
 I (..\APP\app.h)(0x5A6ECF07)
-I (..\USB\USB_APP\usb_app.h)(0x5A6742D9)
+I (..\USB\USB_APP\usb_app.h)(0x5A7028F6)
 I (..\USB\STM32_USB_OTG_Driver\inc\usb_dcd_int.h)(0x4F6AD858)
 I (D:\Program Files\keil\ARM\ARMCC\include\string.h)(0x56FE42DE)
 I (..\BSP_USER\HMI\HMI.h)(0x5A6F0CB6)
@@ -1807,7 +1807,7 @@ I (..\STM32f4_LIB\inc\stm32f4xx_dcmi.h)(0x53DBAFAD)
 I (..\STM32f4_LIB\inc\stm32f4xx_fsmc.h)(0x53DBAFAD)
 I (..\BSP_USER\SDIO_SD\sdio_sdcard.h)(0x5900933D)
 I (..\Common\sys.h)(0x5A65F472)
-I (..\USB\USB_APP\usb_app.h)(0x5A6742D9)
+I (..\USB\USB_APP\usb_app.h)(0x5A7028F6)
 I (..\USB\STM32_USB_Device_Library\Class\msc\inc\usbd_msc_core.h)(0x4F6AD856)
 I (..\USB\STM32_USB_Device_Library\Core\inc\usbd_ioreq.h)(0x4F6AD856)
 I (..\USB\STM32_USB_Device_Library\Core\inc\usbd_core.h)(0x4F6AD856)
@@ -1875,8 +1875,8 @@ I (D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdef.h)(0x59
 I (D:\Program Files\keil\ARM\ARMCC\include\stdarg.h)(0x56FE42E0)
 I (D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtservice.h)(0x590A9138)
 I (D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtm.h)(0x58C17676)
-F (..\USB\USB_APP\usb_app.c)(0x5A6AD23C)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ..\BSP_USER\LED -I ..\CORE -I ..\Common -I ..\STM32f4_LIB\inc -I ..\SYSTEM -I ..\BSP_USER\SDIO_SD -I ..\FATFS\exfuns -I ..\FATFS\src -I ..\BSP_USER\MCP3421 -I ..\BSP_USER\IIC -I ..\BSP_USER\DAC -I ..\BSP_USER\CSV_Database -I ..\USB\STM32_USB_Device_Library\Class\msc\inc -I ..\USB\STM32_USB_Device_Library\Core\inc -I ..\USB\STM32_USB_OTG_Driver\inc -I ..\USB\USB_APP -I .\RTE\RTOS -I .\RTE -I ..\BSP_USER\RTC -I ..\APP -I ..\BSP_USER\HMI -I ..\BSP_USER\Switch -I ..\BSP_USER\ADC-I E:\嵌入式文件与资料\Keil\Charge_Test\Charge_Test\Poject\RTE-I E:\嵌入式文件与资料\Keil\Charge_Test\Charge_Test\Poject\RTE\RTOS-I "D:\Program Files\keil\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include"-I "D:\Program Files\keil\ARM\PACK\Keil\STM32F4xx_DFP\2.10.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include"-I "D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\components\drivers\include"-I "D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\components\finsh"-I "D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include"-D__UVISION_VERSION="520" -D_RTE_ -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DUSE_USB_OTG_FS --C99-o .\objects\usb_app.o --omf_browse .\objects\usb_app.crf --depend .\objects\usb_app.d)
-I (..\USB\USB_APP\usb_app.h)(0x5A6742D9)
+F (..\USB\USB_APP\usb_app.c)(0x5A7028BF)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ..\BSP_USER\LED -I ..\CORE -I ..\Common -I ..\STM32f4_LIB\inc -I ..\SYSTEM -I ..\BSP_USER\SDIO_SD -I ..\FATFS\exfuns -I ..\FATFS\src -I ..\BSP_USER\MCP3421 -I ..\BSP_USER\IIC -I ..\BSP_USER\DAC -I ..\BSP_USER\CSV_Database -I ..\USB\STM32_USB_Device_Library\Class\msc\inc -I ..\USB\STM32_USB_Device_Library\Core\inc -I ..\USB\STM32_USB_OTG_Driver\inc -I ..\USB\USB_APP -I .\RTE\RTOS -I .\RTE -I ..\BSP_USER\RTC -I ..\APP -I ..\BSP_USER\HMI -I ..\BSP_USER\Switch -I ..\BSP_USER\ADC-I E:\嵌入式文件与资料\Keil\Charge_Test\Charge_Test\Poject\RTE-I E:\嵌入式文件与资料\Keil\Charge_Test\Charge_Test\Poject\RTE\RTOS-I "D:\Program Files\keil\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include"-I "D:\Program Files\keil\ARM\PACK\Keil\STM32F4xx_DFP\2.10.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include"-I "D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\components\drivers\include"-I "D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\components\finsh"-I "D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include"-D__UVISION_VERSION="520" -D_RTE_ -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DUSE_USB_OTG_FS --C99-o .\objects\usb_app.o --omf_browse .\objects\usb_app.crf --depend .\objects\usb_app.d)
+I (..\USB\USB_APP\usb_app.h)(0x5A7028F6)
 I (..\Common\sys.h)(0x5A65F472)
 I (..\SYSTEM\stm32f4xx.h)(0x544E44C2)
 I (..\CORE\core_cm4.h)(0x581CC64D)
@@ -1939,7 +1939,7 @@ I (..\FATFS\exfuns\exfuns.h)(0x5A64A115)
 I (..\FATFS\src\ff.h)(0x5842D2E9)
 I (..\FATFS\src\integer.h)(0x58313979)
 I (..\FATFS\src\ffconf.h)(0x58BA7992)
-F (..\APP\msh.c)(0x5A6F2DED)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ..\BSP_USER\LED -I ..\CORE -I ..\Common -I ..\STM32f4_LIB\inc -I ..\SYSTEM -I ..\BSP_USER\SDIO_SD -I ..\FATFS\exfuns -I ..\FATFS\src -I ..\BSP_USER\MCP3421 -I ..\BSP_USER\IIC -I ..\BSP_USER\DAC -I ..\BSP_USER\CSV_Database -I ..\USB\STM32_USB_Device_Library\Class\msc\inc -I ..\USB\STM32_USB_Device_Library\Core\inc -I ..\USB\STM32_USB_OTG_Driver\inc -I ..\USB\USB_APP -I .\RTE\RTOS -I .\RTE -I ..\BSP_USER\RTC -I ..\APP -I ..\BSP_USER\HMI -I ..\BSP_USER\Switch -I ..\BSP_USER\ADC-I E:\嵌入式文件与资料\Keil\Charge_Test\Charge_Test\Poject\RTE-I E:\嵌入式文件与资料\Keil\Charge_Test\Charge_Test\Poject\RTE\RTOS-I "D:\Program Files\keil\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include"-I "D:\Program Files\keil\ARM\PACK\Keil\STM32F4xx_DFP\2.10.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include"-I "D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\components\drivers\include"-I "D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\components\finsh"-I "D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include"-D__UVISION_VERSION="520" -D_RTE_ -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DUSE_USB_OTG_FS --C99-o .\objects\msh.o --omf_browse .\objects\msh.crf --depend .\objects\msh.d)
+F (..\APP\msh.c)(0x5A7011CC)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ..\BSP_USER\LED -I ..\CORE -I ..\Common -I ..\STM32f4_LIB\inc -I ..\SYSTEM -I ..\BSP_USER\SDIO_SD -I ..\FATFS\exfuns -I ..\FATFS\src -I ..\BSP_USER\MCP3421 -I ..\BSP_USER\IIC -I ..\BSP_USER\DAC -I ..\BSP_USER\CSV_Database -I ..\USB\STM32_USB_Device_Library\Class\msc\inc -I ..\USB\STM32_USB_Device_Library\Core\inc -I ..\USB\STM32_USB_OTG_Driver\inc -I ..\USB\USB_APP -I .\RTE\RTOS -I .\RTE -I ..\BSP_USER\RTC -I ..\APP -I ..\BSP_USER\HMI -I ..\BSP_USER\Switch -I ..\BSP_USER\ADC-I E:\嵌入式文件与资料\Keil\Charge_Test\Charge_Test\Poject\RTE-I E:\嵌入式文件与资料\Keil\Charge_Test\Charge_Test\Poject\RTE\RTOS-I "D:\Program Files\keil\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include"-I "D:\Program Files\keil\ARM\PACK\Keil\STM32F4xx_DFP\2.10.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include"-I "D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\components\drivers\include"-I "D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\components\finsh"-I "D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include"-D__UVISION_VERSION="520" -D_RTE_ -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DUSE_USB_OTG_FS --C99-o .\objects\msh.o --omf_browse .\objects\msh.crf --depend .\objects\msh.d)
 I (D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\components\finsh\finsh.h)(0x58C1766C)
 I (D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h)(0x59575910)
 I (.\RTE\RTOS\rtconfig.h)(0x5A6ED0A8)
@@ -1991,8 +1991,8 @@ I (..\STM32f4_LIB\inc\stm32f4xx_fsmc.h)(0x53DBAFAD)
 I (..\BSP_USER\CSV_Database\CSV_Database.h)(0x5A6D8701)
 I (..\BSP_USER\DAC\dac.h)(0x53688A9B)
 I (..\BSP_USER\ADC\adc.h)(0x5A6F1C35)
-I (..\BSP_USER\Switch\switch.h)(0x5A6F179F)
-F (..\APP\app.c)(0x5A6F273E)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ..\BSP_USER\LED -I ..\CORE -I ..\Common -I ..\STM32f4_LIB\inc -I ..\SYSTEM -I ..\BSP_USER\SDIO_SD -I ..\FATFS\exfuns -I ..\FATFS\src -I ..\BSP_USER\MCP3421 -I ..\BSP_USER\IIC -I ..\BSP_USER\DAC -I ..\BSP_USER\CSV_Database -I ..\USB\STM32_USB_Device_Library\Class\msc\inc -I ..\USB\STM32_USB_Device_Library\Core\inc -I ..\USB\STM32_USB_OTG_Driver\inc -I ..\USB\USB_APP -I .\RTE\RTOS -I .\RTE -I ..\BSP_USER\RTC -I ..\APP -I ..\BSP_USER\HMI -I ..\BSP_USER\Switch -I ..\BSP_USER\ADC-I E:\嵌入式文件与资料\Keil\Charge_Test\Charge_Test\Poject\RTE-I E:\嵌入式文件与资料\Keil\Charge_Test\Charge_Test\Poject\RTE\RTOS-I "D:\Program Files\keil\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include"-I "D:\Program Files\keil\ARM\PACK\Keil\STM32F4xx_DFP\2.10.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include"-I "D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\components\drivers\include"-I "D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\components\finsh"-I "D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include"-D__UVISION_VERSION="520" -D_RTE_ -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DUSE_USB_OTG_FS --C99-o .\objects\app.o --omf_browse .\objects\app.crf --depend .\objects\app.d)
+I (..\BSP_USER\Switch\switch.h)(0x5A702372)
+F (..\APP\app.c)(0x5A702791)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ..\BSP_USER\LED -I ..\CORE -I ..\Common -I ..\STM32f4_LIB\inc -I ..\SYSTEM -I ..\BSP_USER\SDIO_SD -I ..\FATFS\exfuns -I ..\FATFS\src -I ..\BSP_USER\MCP3421 -I ..\BSP_USER\IIC -I ..\BSP_USER\DAC -I ..\BSP_USER\CSV_Database -I ..\USB\STM32_USB_Device_Library\Class\msc\inc -I ..\USB\STM32_USB_Device_Library\Core\inc -I ..\USB\STM32_USB_OTG_Driver\inc -I ..\USB\USB_APP -I .\RTE\RTOS -I .\RTE -I ..\BSP_USER\RTC -I ..\APP -I ..\BSP_USER\HMI -I ..\BSP_USER\Switch -I ..\BSP_USER\ADC-I E:\嵌入式文件与资料\Keil\Charge_Test\Charge_Test\Poject\RTE-I E:\嵌入式文件与资料\Keil\Charge_Test\Charge_Test\Poject\RTE\RTOS-I "D:\Program Files\keil\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include"-I "D:\Program Files\keil\ARM\PACK\Keil\STM32F4xx_DFP\2.10.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include"-I "D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\components\drivers\include"-I "D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\components\finsh"-I "D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include"-D__UVISION_VERSION="520" -D_RTE_ -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DUSE_USB_OTG_FS --C99-o .\objects\app.o --omf_browse .\objects\app.crf --depend .\objects\app.d)
 I (D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h)(0x59575910)
 I (.\RTE\RTOS\rtconfig.h)(0x5A6ED0A8)
 I (.\RTE\RTE_Components.h)(0x5A65AC04)
@@ -2045,6 +2045,21 @@ I (D:\Program Files\keil\ARM\ARMCC\include\stdio.h)(0x56FE42DE)
 I (..\BSP_USER\CSV_Database\CSV_Database.h)(0x5A6D8701)
 I (..\BSP_USER\ADC\adc.h)(0x5A6F1C35)
 I (..\BSP_USER\MCP3421\mcp3421.h)(0x5A6491C2)
+I (..\USB\STM32_USB_Device_Library\Class\msc\inc\usbd_msc_core.h)(0x4F6AD856)
+I (..\USB\STM32_USB_Device_Library\Core\inc\usbd_ioreq.h)(0x4F6AD856)
+I (..\USB\STM32_USB_Device_Library\Core\inc\usbd_def.h)(0x4F6AD856)
+I (..\USB\USB_APP\usbd_conf.h)(0x5A66F3FA)
+I (..\USB\USB_APP\usb_conf.h)(0x5A66F3BC)
+I (..\USB\STM32_USB_Device_Library\Core\inc\usbd_core.h)(0x4F6AD856)
+I (..\USB\STM32_USB_OTG_Driver\inc\usb_dcd.h)(0x4F6AD858)
+I (..\USB\STM32_USB_OTG_Driver\inc\usb_core.h)(0x4F6AD858)
+I (..\USB\STM32_USB_OTG_Driver\inc\usb_regs.h)(0x4F6AD858)
+I (..\USB\STM32_USB_OTG_Driver\inc\usb_defines.h)(0x4F6AD858)
+I (..\USB\STM32_USB_Device_Library\Core\inc\usbd_usr.h)(0x4F6AD856)
+I (..\USB\USB_APP\usbd_desc.h)(0x4F6B3AD9)
+I (..\USB\USB_APP\usb_app.h)(0x5A7028F6)
+I (..\USB\STM32_USB_OTG_Driver\inc\usb_dcd_int.h)(0x4F6AD858)
+I (D:\Program Files\keil\ARM\ARMCC\include\string.h)(0x56FE42DE)
 F (D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\components\drivers\src\completion.c)(0x58C1765A)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ..\BSP_USER\LED -I ..\CORE -I ..\Common -I ..\STM32f4_LIB\inc -I ..\SYSTEM -I ..\BSP_USER\SDIO_SD -I ..\FATFS\exfuns -I ..\FATFS\src -I ..\BSP_USER\MCP3421 -I ..\BSP_USER\IIC -I ..\BSP_USER\DAC -I ..\BSP_USER\CSV_Database -I ..\USB\STM32_USB_Device_Library\Class\msc\inc -I ..\USB\STM32_USB_Device_Library\Core\inc -I ..\USB\STM32_USB_OTG_Driver\inc -I ..\USB\USB_APP -I .\RTE\RTOS -I .\RTE -I ..\BSP_USER\RTC -I ..\APP -I ..\BSP_USER\HMI -I ..\BSP_USER\Switch -I ..\BSP_USER\ADC-I E:\嵌入式文件与资料\Keil\Charge_Test\Charge_Test\Poject\RTE-I E:\嵌入式文件与资料\Keil\Charge_Test\Charge_Test\Poject\RTE\RTOS-I "D:\Program Files\keil\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include"-I "D:\Program Files\keil\ARM\PACK\Keil\STM32F4xx_DFP\2.10.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include"-I "D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\components\drivers\include"-I "D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\components\finsh"-I "D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include"-D__UVISION_VERSION="520" -D_RTE_ -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DUSE_USB_OTG_FS --C99-o .\objects\completion.o --omf_browse .\objects\completion.crf --depend .\objects\completion.d)
 I (D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rthw.h)(0x58C17676)
 I (D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h)(0x59575910)
@@ -2389,9 +2404,9 @@ I (..\USB\USB_APP\usbd_desc.h)(0x4F6B3AD9)
 I (..\Common\usart2.h)(0x5A673301)
 I (..\BSP_USER\CSV_Database\CSV_Database.h)(0x5A6D8701)
 I (..\BSP_USER\RTC\rtc.h)(0x5441E8B0)
-I (..\USB\USB_APP\usb_app.h)(0x5A6742D9)
+I (..\USB\USB_APP\usb_app.h)(0x5A7028F6)
 I (..\USB\STM32_USB_OTG_Driver\inc\usb_dcd_int.h)(0x4F6AD858)
 I (D:\Program Files\keil\ARM\ARMCC\include\string.h)(0x56FE42DE)
-I (..\BSP_USER\Switch\switch.h)(0x5A6F179F)
+I (..\BSP_USER\Switch\switch.h)(0x5A702372)
 I (..\BSP_USER\ADC\adc.h)(0x5A6F1C35)
 F (RTE\RTOS\rtconfig.h)(0x5A6ED0A8)()

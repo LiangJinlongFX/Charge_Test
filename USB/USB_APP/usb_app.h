@@ -8,23 +8,13 @@
 #include "usb_dcd_int.h"
 #include "string.h" 
 //////////////////////////////////////////////////////////////////////////////////	 
-//本程序只供学习使用，未经作者许可，不得用于其它任何用途
-//ALIENTEK STM32F407开发板
-//USB-APP 代码	   
-//正点原子@ALIENTEK
-//技术论坛:www.openedv.com
-//创建日期:2014/7/20
-//版本：V1.0
-//版权所有，盗版必究。
-//Copyright(C) 广州市星翼电子科技有限公司 2009-2019
-//All rights reserved									  
-//*******************************************************************************
-//修改信息
-//无
+
+
 ////////////////////////////////////////////////////////////////////////////////// 	   
 
 
 #define USBD_MSC_MODE	2		//USB DEVICE MSC模式
+extern USB_OTG_CORE_HANDLE  USB_OTG_Core_dev; 
 
 //USB APP控制结构体
 /*
@@ -51,12 +41,13 @@ typedef struct
 						//			  2,USB Device MSC模式(USB读卡器)
 }_usb_app;
 
+
 extern _usb_app usbx;			//定义了一个USB应用结构体
 extern USB_OTG_CORE_HANDLE  USB_OTG_Core_dev;	//定义一个USB OTG 句柄
 
-extern uint8_t *MSC_BOT_Data;	
+extern uint8_t *MSC_BOT_Data;	 //
 	
-void usbapp_init(void);			//初始化USB
+void usbapp_init(void);			//USB初始化函数
 void usbapp_pulling(void);
 void usbapp_mode_stop(void);
 void usbapp_mode_set(u8 mode);

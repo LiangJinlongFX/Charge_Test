@@ -23,12 +23,19 @@
 #include "CSV_Database.h"
 #include "adc.h"
 #include "mcp3421.h"
+#include "usbd_msc_core.h"
+#include "usbd_usr.h"
+#include "usbd_desc.h"
+#include "usb_conf.h"
+#include "usb_app.h" 
 
 
 #define CPU_USAGE_CALC_TICK	10
 #define CPU_USAGE_LOOP		  100
 rt_uint8_t  cpu_usage_major = 0, cpu_usage_minor= 0;
 rt_uint32_t total_count = 0;
+
+extern USB_OTG_CORE_HANDLE  USB_OTG_dev;
 /* Private functions ---------------------------------------------------------*/
 
 u8 Device_STA=0;
@@ -98,11 +105,14 @@ void led0_thread_entry(void* parameter)
 	}
 }
 
-//线程USB
+/*
+ * USB进程  启动USBD MSC 让电脑能读取设备数据
+ */
 void usb_thread_entry(void* parameter)
 {
 	u32 res;
 	char str[10];
+	USBD_Init(&USB_OTG_dev,USB_OTG_FS_CORE_ID,&USR_desc,&USBD_MSC_cb,&USR_cb);
 	//HMI_StandardPage_Show();
 //	res=HMI_Get(HMI_Vaule_Type,"bt1",str);
 //	if(res) rt_kprintf("res=%d\r\n",res);
@@ -120,12 +130,30 @@ void usb_thread_entry(void* parameter)
 //	rt_kprintf("res=%x\r\n",HMI_TestLimit);
 	while(1)
 	{
-//		res=Get_Adc_Average(1,ADC_Channel_5,20);
-////		rt_kprintf("ADC1=%d\r\n",res);
-//		res=Get_Adc_Average(2,ADC_Channel_0,20);
-////		rt_kprintf("ADC2=%d\r\n",res);
-		res=Get_Mcp3421_18BAdc();
-		printf("MCP3421=%d\r\n",res);
+		if(usbx.bDeviceState&0x01)//正在写
+		{
+			rt_kprintf("USB Writing...\r\n");
+		}
+		else if(usbx.bDeviceState&0x02)//正在读
+		{
+			rt_kprintf("USB Reading...\r\n");
+		}
+		else if(usbx.bDeviceState&0x04)
+		{
+			rt_kprintf("USB Write Err \r\n");
+		}
+		else if(usbx.bDeviceState&0x08)
+		{
+			rt_kprintf("USB Read  Err \r\n");
+		}
+		else if(usbx.bDeviceState&0x80)
+		{
+			rt_kprintf("USB Connecting...\r\n");
+		}
+		else if(!usbx.bDeviceState&0x80)
+		{
+			rt_kprintf("USB No Connect\r\n");
+		}
 		rt_thread_delay(1000);
 	}
 }
