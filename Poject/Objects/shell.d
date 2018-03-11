@@ -2,7 +2,7 @@
 .\objects\shell.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rthw.h
 .\objects\shell.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
 .\objects\shell.o: .\RTE\RTOS\rtconfig.h
-.\objects\shell.o: .\RTE\RTE_Components.h
+.\objects\shell.o: .\RTE\_Target_1\RTE_Components.h
 .\objects\shell.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdebug.h
 .\objects\shell.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdef.h
 .\objects\shell.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdarg.h

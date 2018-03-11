@@ -339,17 +339,16 @@ ARM Macro Assembler    Page 6
               E000ED20 
               E000ED08 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
-erwork --depend=.\objects\context_rvds.d -o.\objects\context_rvds.o -IE:\嵌入式
-文件与资料\Keil\Charge_Test\Charge_Test\Poject\RTE -IE:\嵌入式文件与资料\Keil\C
-harge_Test\Charge_Test\Poject\RTE\RTOS -I"D:\Program Files\keil\ARM\PACK\ARM\CM
-SIS\4.5.0\CMSIS\Include" -I"D:\Program Files\keil\ARM\PACK\Keil\STM32F4xx_DFP\2
-.10.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include" -I"D:\Program Files\keil\ARM\P
-ACK\rt-thread\rtthread\2.1.1\components\drivers\include" -I"D:\Program Files\ke
-il\ARM\PACK\rt-thread\rtthread\2.1.1\components\finsh" -I"D:\Program Files\keil
-\ARM\PACK\rt-thread\rtthread\2.1.1\include" --predefine="__MICROLIB SETA 1" --p
-redefine="__UVISION_VERSION SETA 520" --predefine="_RTE_ SETA 1" --predefine="S
-TM32F407xx SETA 1" --list=.\listings\context_rvds.lst "D:\Program Files\keil\AR
-M\PACK\rt-thread\rtthread\2.1.1\libcpu\arm\cortex-m4\context_rvds.S"
+erwork --depend=.\objects\context_rvds.d -o.\objects\context_rvds.o -I.\RTE\RTO
+S -I.\RTE\_Target_1 -I"D:\Program Files\keil\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Inc
+lude" -I"D:\Program Files\keil\ARM\PACK\Keil\STM32F4xx_DFP\2.10.0\Drivers\CMSIS
+\Device\ST\STM32F4xx\Include" -I"D:\Program Files\keil\ARM\PACK\rt-thread\rtthr
+ead\2.1.1\components\drivers\include" -I"D:\Program Files\keil\ARM\PACK\rt-thre
+ad\rtthread\2.1.1\components\finsh" -I"D:\Program Files\keil\ARM\PACK\rt-thread
+\rtthread\2.1.1\include" --predefine="__MICROLIB SETA 1" --predefine="__UVISION
+_VERSION SETA 525" --predefine="_RTE_ SETA 1" --predefine="STM32F407xx SETA 1" 
+--list=.\listings\context_rvds.lst "D:\Program Files\keil\ARM\PACK\rt-thread\rt
+thread\2.1.1\libcpu\arm\cortex-m4\context_rvds.S"
 
 
 

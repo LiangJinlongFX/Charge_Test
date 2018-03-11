@@ -1,7 +1,7 @@
 .\objects\app.o: ..\APP\app.c
 .\objects\app.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
 .\objects\app.o: .\RTE\RTOS\rtconfig.h
-.\objects\app.o: .\RTE\RTE_Components.h
+.\objects\app.o: .\RTE\_Target_1\RTE_Components.h
 .\objects\app.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdebug.h
 .\objects\app.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdef.h
 .\objects\app.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdarg.h

@@ -53,7 +53,7 @@
 .\objects\usb_app.o: ..\Common\delay.h
 .\objects\usb_app.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
 .\objects\usb_app.o: .\RTE\RTOS\rtconfig.h
-.\objects\usb_app.o: .\RTE\RTE_Components.h
+.\objects\usb_app.o: .\RTE\_Target_1\RTE_Components.h
 .\objects\usb_app.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdebug.h
 .\objects\usb_app.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdef.h
 .\objects\usb_app.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdarg.h

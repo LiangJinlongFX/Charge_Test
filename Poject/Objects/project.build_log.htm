@@ -3,65 +3,65 @@
 <pre>
 <h1>礦ision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: μVision V5.20.0.0
-Copyright (C) 2016 ARM Ltd and ARM Germany GmbH. All rights reserved.
+IDE-Version: μVision V5.25.0.0
+Copyright (C) 2017 ARM Ltd and ARM Germany GmbH. All rights reserved.
 License Information: liang 梁锦龙, dgut, LIC=WHY12-94X6F-8R6XR-KUJ4E-DFA8B-VAIEM
  
 Tool Versions:
-Toolchain:       MDK-ARM Plus  Version: 5.20
+Toolchain:       MDK-ARM Plus  Version: 5.25.0.0
 Toolchain Path:  D:\Program Files\keil\ARM\ARMCC\Bin
-C Compiler:      Armcc.exe V5.06 update 2 (build 183)
-Assembler:       Armasm.exe V5.06 update 2 (build 183)
-Linker/Locator:  ArmLink.exe V5.06 update 2 (build 183)
-Library Manager: ArmAr.exe V5.06 update 2 (build 183)
-Hex Converter:   FromElf.exe V5.06 update 2 (build 183)
-CPU DLL:         SARMCM3.DLL V5.20
-Dialog DLL:      DCM.DLL V1.13.7.0
-Target DLL:      Segger\JL2CM3.dll V2.99.20.0
-Dialog DLL:      TCM.DLL V1.14.9.0
+C Compiler:      Armcc.exe V5.06 update 6 (build 750)
+Assembler:       Armasm.exe V5.06 update 6 (build 750)
+Linker/Locator:  ArmLink.exe V5.06 update 6 (build 750)
+Library Manager: ArmAr.exe V5.06 update 6 (build 750)
+Hex Converter:   FromElf.exe V5.06 update 6 (build 750)
+CPU DLL:         SARMCM3.DLL V5.25.0.0
+Dialog DLL:      DCM.DLL V1.17.0.0
+Target DLL:      Segger\JL2CM3.dll V2.99.28.0
+Dialog DLL:      TCM.DLL V1.34.0.0
  
 <h2>Project:</h2>
 E:\嵌入式文件与资料\Keil\Charge_Test\Charge_Test\Poject\project.uvprojx
-Project File Date:  01/29/2018
+Project File Date:  01/30/2018
 
 <h2>Output:</h2>
-*** Using Compiler 'V5.06 update 2 (build 183)', folder: 'D:\Program Files\keil\ARM\ARMCC\Bin'
+*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Program Files\keil\ARM\ARMCC\Bin'
 Rebuild target 'Target 1'
 assembling startup_stm32f40_41xxx.s...
-compiling stm32f4xx_it.c...
 compiling system_stm32f4xx.c...
+compiling stm32f4xx_it.c...
 compiling main.c...
+compiling mcp3421.c...
 compiling led.c...
 ..\BSP_USER\LED\led.c(19): warning:  #1-D: last line of file ends without a newline
   }
 ..\BSP_USER\LED\led.c: 1 warning, 0 errors
-compiling mcp3421.c...
 compiling sdio_sdcard.c...
 compiling myiic.c...
 compiling dac.c...
 compiling CSV_Database.c...
-..\BSP_USER\CSV_Database\CSV_Database.c(36): warning:  #177-D: variable "count_CRC" was declared but never referenced
+..\BSP_USER\CSV_Database\CSV_Database.c(36): warning:  #177-D: variable "count_CRC"  was declared but never referenced
   	u16		count_CRC=0;																		
-..\BSP_USER\CSV_Database\CSV_Database.c(380): warning:  #940-D: missing return statement at end of non-void function "Creat_FileHeader"
+..\BSP_USER\CSV_Database\CSV_Database.c(380): warning:  #940-D: missing return statement at end of non-void function "Creat_FileHeader" 
   }
-..\BSP_USER\CSV_Database\CSV_Database.c(385): warning:  #177-D: variable "rval" was declared but never referenced
+..\BSP_USER\CSV_Database\CSV_Database.c(385): warning:  #177-D: variable "rval"  was declared but never referenced
   	u16 rval;
-..\BSP_USER\CSV_Database\CSV_Database.c(388): warning:  #177-D: variable "fn" was declared but never referenced
+..\BSP_USER\CSV_Database\CSV_Database.c(388): warning:  #177-D: variable "fn"  was declared but never referenced
   	u8 *fn;
 ..\BSP_USER\CSV_Database\CSV_Database.c: 4 warnings, 0 errors
 compiling rtc.c...
 compiling HMI.c...
-..\BSP_USER\HMI\HMI.c(19): warning:  #550-D: parameter "HMI_Type" was set but never used
+..\BSP_USER\HMI\HMI.c(19): warning:  #550-D: parameter "HMI_Type"  was set but never used
   HMI_Error USART_Solution(u8 HMI_Type,char* HMI_Rx_String)
-..\BSP_USER\HMI\HMI.c(67): warning:  #177-D: variable "res" was declared but never referenced
+..\BSP_USER\HMI\HMI.c(67): warning:  #177-D: variable "res"  was declared but never referenced
   	u8 res=HMI_OK;
-..\BSP_USER\HMI\HMI.c(136): warning:  #177-D: variable "i" was declared but never referenced
+..\BSP_USER\HMI\HMI.c(136): warning:  #177-D: variable "i"  was declared but never referenced
   	u16 i;
 ..\BSP_USER\HMI\HMI.c(239): warning:  #186-D: pointless comparison of unsigned integer with zero
   			if(str2[i]>=0&&str2[i]<=9) n=10*n+str2[i];
 ..\BSP_USER\HMI\HMI.c(245): warning:  #188-D: enumerated type mixed with another type
   	return res;
-..\BSP_USER\HMI\HMI.c(214): warning:  #177-D: variable "temp" was declared but never referenced
+..\BSP_USER\HMI\HMI.c(214): warning:  #177-D: variable "temp"  was declared but never referenced
   	u16 temp;
 ..\BSP_USER\HMI\HMI.c(275): warning:  #188-D: enumerated type mixed with another type
   	return res;
@@ -71,15 +71,15 @@ compiling HMI.c...
   	return res;
 ..\BSP_USER\HMI\HMI.c(410): warning:  #188-D: enumerated type mixed with another type
   	return res1;
-..\BSP_USER\HMI\HMI.c(391): warning:  #177-D: variable "str_temp" was declared but never referenced
+..\BSP_USER\HMI\HMI.c(391): warning:  #177-D: variable "str_temp"  was declared but never referenced
   	char str_temp;
-..\BSP_USER\HMI\HMI.c(393): warning:  #177-D: variable "res2" was declared but never referenced
+..\BSP_USER\HMI\HMI.c(393): warning:  #177-D: variable "res2"  was declared but never referenced
   	u8 res1,res2;
-..\BSP_USER\HMI\HMI.c(417): warning:  #177-D: variable "Page_Flag" was declared but never referenced
+..\BSP_USER\HMI\HMI.c(417): warning:  #177-D: variable "Page_Flag"  was declared but never referenced
   	u8 Page_Flag;
 ..\BSP_USER\HMI\HMI.c(475): warning:  #1-D: last line of file ends without a newline
   }
-..\BSP_USER\HMI\HMI.c(449): warning:  #177-D: variable "Page_Flag" was declared but never referenced
+..\BSP_USER\HMI\HMI.c(449): warning:  #177-D: variable "Page_Flag"  was declared but never referenced
   	u8 Page_Flag;
 ..\BSP_USER\HMI\HMI.c: 15 warnings, 0 errors
 compiling switch.c...
@@ -87,12 +87,12 @@ compiling switch.c...
   }
 ..\BSP_USER\Switch\switch.c: 1 warning, 0 errors
 compiling adc.c...
-compiling delay.c...
 compiling sys.c...
+compiling delay.c...
 compiling usart1.c...
 compiling misc.c...
 compiling usart2.c...
-..\Common\usart2.c(164): warning:  #550-D: variable "uart" was set but never used
+..\Common\usart2.c(164): warning:  #550-D: variable "uart"  was set but never used
       struct stm32_uart* uart;
 ..\Common\usart2.c(215): warning:  #223-D: function "rt_hw_interrupt_disable" declared implicitly
       level = rt_hw_interrupt_disable();
@@ -100,37 +100,37 @@ compiling usart2.c...
       rt_hw_interrupt_enable(level);
 ..\Common\usart2.c: 3 warnings, 0 errors
 compiling stm32f4xx_gpio.c...
-compiling stm32f4xx_usart.c...
 compiling stm32f4xx_rcc.c...
+compiling stm32f4xx_usart.c...
 compiling stm32f4xx_syscfg.c...
-compiling stm32f4xx_dac.c...
-compiling stm32f4xx_dma.c...
 compiling stm32f4xx_sdio.c...
+compiling stm32f4xx_dma.c...
+compiling stm32f4xx_dac.c...
 compiling stm32f4xx_exti.c...
-compiling stm32f4xx_pwr.c...
 compiling stm32f4xx_rtc.c...
+compiling stm32f4xx_pwr.c...
+compiling stm32f4xx_adc.c...
 compiling exfuns.c...
-..\FATFS\exfuns\exfuns.c(59): warning:  #940-D: missing return statement at end of non-void function "exfuns_init"
+..\FATFS\exfuns\exfuns.c(59): warning:  #940-D: missing return statement at end of non-void function "exfuns_init" 
   }
 ..\FATFS\exfuns\exfuns.c: 1 warning, 0 errors
-compiling stm32f4xx_adc.c...
 compiling diskio.c...
-..\FATFS\src\diskio.c(179): warning:  #940-D: missing return statement at end of non-void function "ff_memalloc"
+..\FATFS\src\diskio.c(179): warning:  #940-D: missing return statement at end of non-void function "ff_memalloc" 
   }
 ..\FATFS\src\diskio.c: 1 warning, 0 errors
 compiling ff.c...
 compiling usb_dcd.c...
 compiling usb_core.c...
 compiling usb_dcd_int.c...
-compiling usbd_core.c...
-compiling usbd_ioreq.c...
 compiling usbd_req.c...
-compiling usbd_msc_core.c...
+compiling usbd_ioreq.c...
+compiling usbd_core.c...
 compiling usbd_msc_data.c...
+compiling usbd_msc_core.c...
 compiling usbd_msc_bot.c...
-compiling usb_bsp.c...
-compiling usbd_desc.c...
 compiling usbd_msc_scsi.c...
+compiling usbd_desc.c...
+compiling usb_bsp.c...
 compiling usbd_storage_msd.c...
 compiling usbd_usr.c...
 compiling usb_app.c...
@@ -138,68 +138,73 @@ compiling completion.c...
 compiling pipe.c...
 compiling portal.c...
 compiling ringbuffer.c...
-compiling workqueue.c...
 compiling msh.c...
-..\APP\msh.c(48): warning:  #177-D: variable "res2" was declared but never referenced
+..\APP\msh.c(48): warning:  #177-D: variable "res2"  was declared but never referenced
   	float res2;
-..\APP\msh.c(61): warning:  #177-D: variable "res" was declared but never referenced
+..\APP\msh.c(61): warning:  #177-D: variable "res"  was declared but never referenced
   	u16 res;
-..\APP\msh.c(72): warning:  #177-D: variable "res" was declared but never referenced
+..\APP\msh.c(72): warning:  #177-D: variable "res"  was declared but never referenced
   	u16 res;
 ..\APP\msh.c: 3 warnings, 0 errors
 compiling app.c...
-..\APP\app.c(50): warning:  #177-D: variable "e" was declared but never referenced
+..\APP\app.c(50): warning:  #177-D: variable "e"  was declared but never referenced
   	rt_uint32_t e;
-..\APP\app.c(113): warning:  #177-D: variable "res" was declared but never referenced
+..\APP\app.c(113): warning:  #177-D: variable "res"  was declared but never referenced
   	u32 res;
-..\APP\app.c(114): warning:  #177-D: variable "str" was declared but never referenced
+..\APP\app.c(114): warning:  #177-D: variable "str"  was declared but never referenced
   	char str[10];
 ..\APP\app.c: 3 warnings, 0 errors
-compiling msh_cmd.c...
-compiling msh.c...
+compiling workqueue.c...
 compiling cmd.c...
+compiling msh.c...
+compiling msh_cmd.c...
 compiling msh_file.c...
-compiling symbol.c...
 compiling shell.c...
 assembling context_rvds.S...
-compiling cpuport.c...
+compiling symbol.c...
 compiling clock.c...
+compiling cpuport.c...
 compiling components.c...
 compiling idle.c...
 compiling device.c...
 compiling irq.c...
 compiling ipc.c...
 compiling kservice.c...
-compiling object.c...
 compiling mem.c...
+compiling object.c...
 compiling scheduler.c...
 compiling thread.c...
 compiling timer.c...
 compiling board.c...
 linking...
-Program Size: Code=39666 RO-data=1866 RW-data=632 ZI-data=17496  
+Program Size: Code=39710 RO-data=1866 RW-data=632 ZI-data=17496  
 ".\Objects\project.axf" - 0 Error(s), 32 Warning(s).
 
 <h2>Software Packages used:</h2>
 
 Package Vendor: ARM
-                http://www.keil.com/pack/ARM.CMSIS.4.5.0.pack
-                ARM::CMSIS:CORE:4.3.0
+                http://www.keil.com/pack/ARM.CMSIS.5.2.0.pack
+                ARM.CMSIS.5.2.0
                 CMSIS (Cortex Microcontroller Software Interface Standard)
-   * Component: CORE Version: 4.3.0
+   * Component: CORE Version: 5.0.2
 
 Package Vendor: rt-thread
                 http://www.rt-thread.org/download/mdk/rt-thread.rtthread.2.1.1.pack
-                rt-thread.RT-Thread::RTOS:device drivers:2.1.2
+                rt-thread.rtthread.2.1.1
                 RT-Thread Software Components
-   * Component: device drivers Version: 2.1.2
-   * Component: kernel Version: 2.1.2
    * Component: shell Version: 2.1.2
+   * Component: kernel Version: 2.1.2
+   * Component: device drivers Version: 2.1.2
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.STM32F4xx_DFP.2.10.0.pack
+                Keil.STM32F4xx_DFP.2.10.0
+                STMicroelectronics STM32F4 Series Device Support, Drivers and Examples
 
 <h2>Collection of Component include folders:</h2>
-  E:\嵌入式文件与资料\Keil\Charge_Test\Charge_Test\Poject\RTE
-  E:\嵌入式文件与资料\Keil\Charge_Test\Charge_Test\Poject\RTE\RTOS
-  D:\Program Files\keil\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include
+  .\RTE\RTOS
+  .\RTE\_Target_1
+  D:\Program Files\keil\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include
   D:\Program Files\keil\ARM\PACK\Keil\STM32F4xx_DFP\2.10.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
   D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\components\drivers\include
   D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\components\finsh
@@ -207,42 +212,42 @@ Package Vendor: rt-thread
 
 <h2>Collection of Component Files used:</h2>
 
-   * Component: ARM::CMSIS:CORE:4.3.0
-
-   * Component: rt-thread.RT-Thread::RTOS:device drivers:2.1.2
-      Source file:   components\drivers\src\pipe.c
-      Source file:   components\drivers\src\portal.c
-      Source file:   components\drivers\src\workqueue.c
-      Include file:  components\drivers\include\rtdevice.h
-      Source file:   components\drivers\src\ringbuffer.c
-      Source file:   components\drivers\src\completion.c
+   * Component: rt-thread.RT-Thread::RTOS:shell:2.1.2
+      Source file:   components\finsh\shell.c
+      Source file:   components\finsh\cmd.c
+      Source file:   components\finsh\msh_cmd.c
+      Source file:   components\finsh\symbol.c
+      Source file:   components\finsh\msh.c
+      Source file:   components\finsh\msh_file.c
 
    * Component: rt-thread.RT-Thread::RTOS:kernel:2.1.2
-      Source file:   src\kservice.c
-      Source file:   src\mem.c
-      Include file:  bsp\rtconfig.h
-      Source file:   src\ipc.c
-      Source file:   src\clock.c
-      Source file:   src\object.c
+      Source file:   bsp\board.c
+      Source file:   src\components.c
       Source file:   src\thread.c
+      Source file:   src\idle.c
+      Source file:   src\irq.c
       Source file:   src\timer.c
       Source file:   src\device.c
-      Source file:   src\idle.c
+      Source file:   src\ipc.c
+      Source file:   src\kservice.c
+      Include file:  bsp\rtconfig.h
+      Source file:   src\mem.c
+      Source file:   src\object.c
+      Source file:   src\clock.c
       Source file:   src\scheduler.c
-      Source file:   src\components.c
-      Source file:   bsp\board.c
-      Source file:   src\irq.c
       Source file:   libcpu\arm\cortex-m4\cpuport.c
       Source file:   libcpu\arm\cortex-m4\context_rvds.S
 
-   * Component: rt-thread.RT-Thread::RTOS:shell:2.1.2
-      Source file:   components\finsh\msh_file.c
-      Source file:   components\finsh\cmd.c
-      Source file:   components\finsh\msh.c
-      Source file:   components\finsh\shell.c
-      Source file:   components\finsh\msh_cmd.c
-      Source file:   components\finsh\symbol.c
-Build Time Elapsed:  00:00:27
+   * Component: rt-thread.RT-Thread::RTOS:device drivers:2.1.2
+      Source file:   components\drivers\src\ringbuffer.c
+      Include file:  components\drivers\include\rtdevice.h
+      Source file:   components\drivers\src\completion.c
+      Source file:   components\drivers\src\pipe.c
+      Source file:   components\drivers\src\portal.c
+      Source file:   components\drivers\src\workqueue.c
+
+   * Component: ARM::CMSIS:CORE:5.0.2
+Build Time Elapsed:  00:00:28
 </pre>
 </body>
 </html>

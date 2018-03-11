@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060183: Last Updated: Tue Jan 30 16:17:32 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Sun Mar 11 19:50:54 2018
 <BR><P>
 <H3>Maximum Stack Usage =        268 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -2325,7 +2325,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DCD_Init
 </UL>
 
-<P><STRONG><a name="[fd]"></a>USB_OTG_CoreInitDev</STRONG> (Thumb, 324 bytes, Stack size 56 bytes, usb_core.o(i.USB_OTG_CoreInitDev))
+<P><STRONG><a name="[fd]"></a>USB_OTG_CoreInitDev</STRONG> (Thumb, 328 bytes, Stack size 56 bytes, usb_core.o(i.USB_OTG_CoreInitDev))
 <BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = USB_OTG_CoreInitDev &rArr; USB_OTG_FlushTxFifo &rArr; USB_OTG_BSP_uDelay &rArr; delay_us &rArr; delay_osschedunlock &rArr; rt_exit_critical &rArr; rt_schedule
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USB_OTG_InitDevSpeed
@@ -2518,7 +2518,7 @@ Global Symbols
 
 <P><STRONG><a name="[246]"></a>printf</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printfa.o(i.__0printf), UNUSED)
 
-<P><STRONG><a name="[1a8]"></a>__0vsnprintf</STRONG> (Thumb, 32 bytes, Stack size 24 bytes, printfa.o(i.__0vsnprintf), UNUSED)
+<P><STRONG><a name="[1a8]"></a>__0vsnprintf</STRONG> (Thumb, 40 bytes, Stack size 24 bytes, printfa.o(i.__0vsnprintf), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[1a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_core
 </UL>
 
@@ -2666,7 +2666,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> shell.o(.rti_fn.3)
 </UL>
-<P><STRONG><a name="[89]"></a>finsh_thread_entry</STRONG> (Thumb, 842 bytes, Stack size 16 bytes, shell.o(i.finsh_thread_entry))
+<P><STRONG><a name="[89]"></a>finsh_thread_entry</STRONG> (Thumb, 844 bytes, Stack size 16 bytes, shell.o(i.finsh_thread_entry))
 <BR><BR>[Stack]<UL><LI>Max Depth = 220<LI>Call Chain = finsh_thread_entry &rArr; shell_auto_complete &rArr; msh_auto_complete &rArr; msh_help &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
 <BR>[Calls]<UL><LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
@@ -4512,7 +4512,7 @@ Local Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[222]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_timer_check
 </UL>
 
-<P><STRONG><a name="[1a9]"></a>_fp_digits</STRONG> (Thumb, 334 bytes, Stack size 56 bytes, printfa.o(i._fp_digits), UNUSED)
+<P><STRONG><a name="[1a9]"></a>_fp_digits</STRONG> (Thumb, 366 bytes, Stack size 64 bytes, printfa.o(i._fp_digits), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
 <LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
 <LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod

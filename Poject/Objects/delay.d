@@ -38,7 +38,7 @@
 .\objects\delay.o: ..\STM32f4_LIB\inc\stm32f4xx_fsmc.h
 .\objects\delay.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
 .\objects\delay.o: .\RTE\RTOS\rtconfig.h
-.\objects\delay.o: .\RTE\RTE_Components.h
+.\objects\delay.o: .\RTE\_Target_1\RTE_Components.h
 .\objects\delay.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdebug.h
 .\objects\delay.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdef.h
 .\objects\delay.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdarg.h
