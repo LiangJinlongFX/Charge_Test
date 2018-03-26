@@ -336,7 +336,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F40_41xxx,USE_STDPERIPH_DRIVER,USE_USB_OTG_FS</Define>
               <Undefine></Undefine>
-              <IncludePath>..\BSP_USER\LED;..\CORE;..\Common;..\STM32f4_LIB\inc;..\SYSTEM;..\BSP_USER\SDIO_SD;..\FATFS\exfuns;..\FATFS\src;..\BSP_USER\MCP3421;..\BSP_USER\IIC;..\BSP_USER\DAC;..\BSP_USER\CSV_Database;..\USB\STM32_USB_Device_Library\Class\msc\inc;..\USB\STM32_USB_Device_Library\Core\inc;..\USB\STM32_USB_OTG_Driver\inc;..\USB\USB_APP;.\RTE\RTOS;.\RTE;..\BSP_USER\RTC;..\APP;..\BSP_USER\HMI;..\BSP_USER\Switch;..\BSP_USER\ADC</IncludePath>
+              <IncludePath>..\BSP_USER\LED;..\CORE;..\Common;..\STM32f4_LIB\inc;..\SYSTEM;..\BSP_USER\SDIO_SD;..\FATFS\exfuns;..\FATFS\src;..\BSP_USER\MCP3421;..\BSP_USER\IIC;..\BSP_USER\DAC;..\BSP_USER\CSV_Database;..\USB\STM32_USB_Device_Library\Class\msc\inc;..\USB\STM32_USB_Device_Library\Core\inc;..\USB\STM32_USB_OTG_Driver\inc;..\USB\USB_APP;.\RTE\RTOS;.\RTE;..\BSP_USER\RTC;..\APP;..\BSP_USER\HMI;..\BSP_USER\Switch;..\BSP_USER\ADC;..\BSP_USER\SPI;..\HARDWARE\TLC5615;..\BSP_USER\WKUP</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -480,10 +480,27 @@
               <FileType>1</FileType>
               <FilePath>..\BSP_USER\ADC\adc.c</FilePath>
             </File>
+            <File>
+              <FileName>spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP_USER\SPI\spi.c</FilePath>
+            </File>
+            <File>
+              <FileName>wkup.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP_USER\WKUP\wkup.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>HARDWARE</GroupName>
+          <Files>
+            <File>
+              <FileName>tlc5615.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\TLC5615\tlc5615.c</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>Common</GroupName>
@@ -573,10 +590,12 @@
               <FileType>1</FileType>
               <FilePath>..\STM32f4_LIB\src\stm32f4xx_adc.c</FilePath>
             </File>
+            <File>
+              <FileName>stm32f4xx_spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\STM32f4_LIB\src\stm32f4xx_spi.c</FilePath>
+            </File>
           </Files>
-        </Group>
-        <Group>
-          <GroupName>Readme</GroupName>
         </Group>
         <Group>
           <GroupName>FATFS</GroupName>
@@ -702,6 +721,9 @@
               <FilePath>..\APP\app.c</FilePath>
             </File>
           </Files>
+        </Group>
+        <Group>
+          <GroupName>Readme</GroupName>
         </Group>
         <Group>
           <GroupName>::CMSIS</GroupName>
