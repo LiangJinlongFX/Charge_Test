@@ -120,8 +120,7 @@ USBD_Usr_cb_TypeDef USR_cb =
   * @{
   */ 
 
-#define USER_INFORMATION1  "INFO : Single Lun configuration" 
-#define USER_INFORMATION2  "INFO : microSD is used"
+
 /**
   * @}
   */
@@ -162,13 +161,13 @@ void USBD_USR_DeviceReset (uint8_t speed)
 	switch (speed)
 	{
 		case USB_OTG_SPEED_HIGH:
-			printf("USB Device Library v1.1.0  [HS]\r\n");
+			rt_kprintf("USB Device Library v1.1.0  [HS]\r\n");
 			break; 
 		case USB_OTG_SPEED_FULL: 
-			printf("USB Device Library v1.1.0  [FS]\r\n");
+			rt_kprintf("USB Device Library v1.1.0  [FS]\r\n");
 			break;
 		default:
-			printf("USB Device Library v1.1.0  [??]\r\n"); 
+			rt_kprintf("USB Device Library v1.1.0  [??]\r\n"); 
 			break;
 	}
 }

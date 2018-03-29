@@ -33,8 +33,6 @@
 #include "stm32f4xx.h"
 #include "delay.h"
 
-//USB主机电源控制口
-#define USB_HOST_PWRCTRL 	PAout(15)	//PA15
 
 /** @addtogroup STM32_USB_OTG_DEVICE_LIBRARY
 * @{
@@ -112,14 +110,6 @@ void USB_OTG_BSP_Init(USB_OTG_CORE_HANDLE *pdev)
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL; 
   GPIO_Init(GPIOA, &GPIO_InitStructure);//初始化
 	
-	
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;//PA15推挽输出		
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;//输出功能
-  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL; 
-  GPIO_Init(GPIOA, &GPIO_InitStructure);//初始化
-	
-  USB_HOST_PWRCTRL=1;			//开启USB HOST电源供电
-
 	GPIO_PinAFConfig(GPIOA,GPIO_PinSource11,GPIO_AF_OTG_FS);//PA11,AF10(USB)
 	GPIO_PinAFConfig(GPIOA,GPIO_PinSource12,GPIO_AF_OTG_FS);//PA12,AF10(USB)
 }
@@ -133,7 +123,7 @@ void USB_OTG_BSP_EnableInterrupt(USB_OTG_CORE_HANDLE *pdev)
 {
 	NVIC_InitTypeDef   NVIC_InitStructure;
 	NVIC_InitStructure.NVIC_IRQChannel = OTG_FS_IRQn; 
-  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x04;//抢占优先级0
+  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x00;//抢占优先级0
   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x03;//子优先级3
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;//使能通道
   NVIC_Init(&NVIC_InitStructure);//配置  

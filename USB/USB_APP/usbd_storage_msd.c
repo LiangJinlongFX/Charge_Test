@@ -174,7 +174,8 @@ int8_t STORAGE_GetCapacity (uint8_t lun, uint32_t *block_num, uint32_t *block_si
   */
 int8_t  STORAGE_IsReady (uint8_t lun)
 {
-  usbx.bDeviceState|=0X10;//标记轮询
+  
+	USB_DeviceState|=0X10;//标记轮询
   
 	return (0);
 }
@@ -200,11 +201,11 @@ int8_t  STORAGE_IsWriteProtected (uint8_t lun)
 int8_t STORAGE_Read (uint8_t lun, uint8_t *buf, uint32_t blk_addr, uint16_t blk_len)
 {
 	int8_t res=0;
-	usbx.bDeviceState|=0X02;//标记正在读数据
+	USB_DeviceState|=0X02;	//标记正在读数据
  	res=SD_ReadDisk(buf,blk_addr,blk_len);
 	if(res) 
 	{	
-		usbx.bDeviceState|=0X08;//SD卡读错误!
+		USB_DeviceState|=0X08;//SD卡读错误!
 		return (-1);
 	}
 	return 0;
@@ -220,11 +221,11 @@ int8_t STORAGE_Read (uint8_t lun, uint8_t *buf, uint32_t blk_addr, uint16_t blk_
 int8_t STORAGE_Write (uint8_t lun, uint8_t *buf, uint32_t blk_addr,uint16_t blk_len)
 {
   int8_t res=0;
-	usbx.bDeviceState|=0X01;//标记正在写数据
+	USB_DeviceState|=0X01;//标记正在写数据
 	res=SD_WriteDisk (buf,blk_addr,blk_len);
 	if(res)
 	{
-		usbx.bDeviceState|=0X04;//SD卡写错误!
+		USB_DeviceState|=0X04;//SD卡写错误!
 		return (-1);
 	}
   return (0);

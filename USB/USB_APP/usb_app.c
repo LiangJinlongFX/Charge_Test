@@ -2,52 +2,33 @@
 #include "delay.h"   
 #include "rtthread.h"    
 #include "exfuns.h"      
-#include "sys.h"      
+#include "sys.h"
+#include "usbd_msc_core.h"
+#include "usb_dcd_int.h"
+#include "string.h"
 //////////////////////////////////////////////////////////////////////////////////	 
 ////////////////////////////////////////////////////////////////////////////////// 	   
 
 //USB OTG 句柄
 USB_OTG_CORE_HANDLE  USB_OTG_Core_dev; 
-//USB APP控制体
-_usb_app usbx;
+
+u8 USB_DeviceState;		//USB设备状态标识
 
 
-//USB OTG 中断服务函数  位于 usbd_usr.c 
-//初始化USB
-void usbapp_init(void)
+
+void USB_running(void)
 {
-	usbx.bDeviceState=0;	//USB状态复位
-
-	usbx.mode=0XFF; 	//设置为一个非法的模式,必须先调用usbapp_mode_set设置模式,才能正常工作
-} 
-
-//USB轮询函数,必须周期性的被调用.
-void usbapp_pulling(void)
-{
+	MSC_BOT_Data=rt_malloc(MSC_MEDIA_PACKET);		//给USBMSC缓存分配空间
+	USBD_Init(&USB_OTG_Core_dev,USB_OTG_FS_CORE_ID,&USR_desc,&USBD_MSC_cb,&USR_cb);	//初始化MSC设备
 	
-}
-
-//USB结束当前工作模式
-void usbapp_mode_stop(void)
-{
-	
-}
-
-//设置USB工作模式
-//mode:0,USB HOST MSC模式(默认模式,接U盘)
-//	   1,USB HOST HID模式(驱动鼠标键盘等)
-//	   2,USB Device MSC模式(USB读卡器) 
-void usbapp_mode_set(u8 mode)
-{
-	usbapp_mode_stop();//先停止当前USB工作模式
-	usbx.mode=mode;
-	switch(usbx.mode)
-	{
-		case USBD_MSC_MODE:
-			//MSC_BOT_Data=rt_malloc(MSC_MEDIA_PACKET);	//给MSC缓冲区申请内存
-			USBD_Init(&USB_OTG_Core_dev,USB_OTG_FS_CORE_ID,&USR_desc,&USBD_MSC_cb,&USR_cb);	//初始化MSC
-			break;	  
-	}
+	while(1);
+	DCD_DevDisconnect(&USB_OTG_Core_dev);	//断开USB连接
+	USB_OTG_StopDevice(&USB_OTG_Core_dev);
+	rt_free(MSC_BOT_Data);	//释放内存
+	RCC->AHB2RSTR|=1<<7;	//USB OTG FS 复位
+	delay_ms(5);
+	RCC->AHB2RSTR&=~(1<<7);	//复位结束
+	memset(&USB_OTG_Core_dev,0,sizeof(USB_OTG_CORE_HANDLE));	
 }
 
 

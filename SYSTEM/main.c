@@ -56,6 +56,7 @@ int main()
     //rt_thread_idle_sethook(cpu_usage_idle_hook);
 		/* 初始化事件对象 */
 	rt_event_init(&event, "event", RT_IPC_FLAG_FIFO);
+	USB_running();
 		
 	//创建线程1 
     led0_thread = rt_thread_create("led0", //线程1的名称是t1 

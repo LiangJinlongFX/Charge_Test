@@ -48,6 +48,7 @@ extern u8 Current_event;
 void Master_thread_entry(void* parameter)
 {
 	rt_uint32_t e;
+	USB_running();
 	while(1)
 	{
 		if(HMI_STA)
@@ -112,7 +113,7 @@ void usb_thread_entry(void* parameter)
 {
 	u32 res;
 	char str[10];
-	USBD_Init(&USB_OTG_dev,USB_OTG_FS_CORE_ID,&USR_desc,&USBD_MSC_cb,&USR_cb);
+	//USBD_Init(&USB_OTG_dev,USB_OTG_FS_CORE_ID,&USR_desc,&USBD_MSC_cb,&USR_cb);
 	//HMI_StandardPage_Show();
 //	res=HMI_Get(HMI_Vaule_Type,"bt1",str);
 //	if(res) rt_kprintf("res=%d\r\n",res);
@@ -130,27 +131,27 @@ void usb_thread_entry(void* parameter)
 //	rt_kprintf("res=%x\r\n",HMI_TestLimit);
 	while(1)
 	{
-		if(usbx.bDeviceState&0x01)//正在写
+		if(USB_DeviceState&0x01)//正在写
 		{
 			rt_kprintf("USB Writing...\r\n");
 		}
-		else if(usbx.bDeviceState&0x02)//正在读
+		else if(USB_DeviceState&0x02)//正在读
 		{
 			rt_kprintf("USB Reading...\r\n");
 		}
-		else if(usbx.bDeviceState&0x04)
+		else if(USB_DeviceState&0x04)
 		{
 			rt_kprintf("USB Write Err \r\n");
 		}
-		else if(usbx.bDeviceState&0x08)
+		else if(USB_DeviceState&0x08)
 		{
 			rt_kprintf("USB Read  Err \r\n");
 		}
-		else if(usbx.bDeviceState&0x80)
+		else if(USB_DeviceState&0x80)
 		{
 			rt_kprintf("USB Connecting...\r\n");
 		}
-		else if(!usbx.bDeviceState&0x80)
+		else if(!USB_DeviceState&0x80)
 		{
 			rt_kprintf("USB No Connect\r\n");
 		}
