@@ -35,3 +35,4 @@
 .\objects\switch.o: ..\STM32f4_LIB\inc\stm32f4xx_dac.h
 .\objects\switch.o: ..\STM32f4_LIB\inc\stm32f4xx_dcmi.h
 .\objects\switch.o: ..\STM32f4_LIB\inc\stm32f4xx_fsmc.h
+.\objects\switch.o: ..\BSP_USER\Switch\switch.h

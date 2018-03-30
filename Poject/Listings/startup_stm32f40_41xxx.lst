@@ -864,7 +864,7 @@ PACK\rt-thread\rtthread\2.1.1\components\drivers\include" -I"D:\Program Files\k
 eil\ARM\PACK\rt-thread\rtthread\2.1.1\components\finsh" -I"D:\Program Files\kei
 l\ARM\PACK\rt-thread\rtthread\2.1.1\include" --predefine="__MICROLIB SETA 1" --
 predefine="__UVISION_VERSION SETA 525" --predefine="_RTE_ SETA 1" --predefine="
-STM32F407xx SETA 1" --list=.\listings\startup_stm32f40_41xxx.lst ..\CORE\startu
+STM32F405xx SETA 1" --list=.\listings\startup_stm32f40_41xxx.lst ..\CORE\startu
 p_stm32f40_41xxx.s
 
 

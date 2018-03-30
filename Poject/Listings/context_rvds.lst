@@ -346,7 +346,7 @@ lude" -I"D:\Program Files\keil\ARM\PACK\Keil\STM32F4xx_DFP\2.10.0\Drivers\CMSIS
 ead\2.1.1\components\drivers\include" -I"D:\Program Files\keil\ARM\PACK\rt-thre
 ad\rtthread\2.1.1\components\finsh" -I"D:\Program Files\keil\ARM\PACK\rt-thread
 \rtthread\2.1.1\include" --predefine="__MICROLIB SETA 1" --predefine="__UVISION
-_VERSION SETA 525" --predefine="_RTE_ SETA 1" --predefine="STM32F407xx SETA 1" 
+_VERSION SETA 525" --predefine="_RTE_ SETA 1" --predefine="STM32F405xx SETA 1" 
 --list=.\listings\context_rvds.lst "D:\Program Files\keil\ARM\PACK\rt-thread\rt
 thread\2.1.1\libcpu\arm\cortex-m4\context_rvds.S"
 

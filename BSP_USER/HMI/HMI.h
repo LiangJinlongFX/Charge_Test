@@ -64,6 +64,11 @@
 #define HMI_ENDData_Type		0xfe	//透传模式就绪
 #define HMI_System_Type		0x88	//系统事件  自定义
 
+/*
+ * 系统事件代码定义
+ * 01	进入快速检测触发
+ */
+
 /**
  * 指令执行情况枚举
  */
@@ -84,12 +89,12 @@ HMI_Error USART_Solution(u8 HMI_Type,char* HMI_Rx_String);
 
 HMI_Error HMI_File_Page(u8 Page_ID);	//页面跳转
 HMI_Error HMI_Print_Str(char* Str_ID,char* fmt);	//发送字符串至串口设备
-HMI_Error HMI_Print(char* str);
-HMI_Error HMI_Page_ACK(u8 Page_ID);
-HMI_Error HMI_StandardPage_Show(void);
-HMI_Error HMI_Print_Val(char* Object_ID,u16 varible);
-HMI_Error HMI_Get(u8 Object_Type,char* Object_ID,char* fmt);
-HMI_Error HMI_Standard_Atoi(void);
+HMI_Error HMI_Print(char* str);		//发送字符串给HMI设备
+HMI_Error HMI_Page_ACK(u8 Page_ID);		//HMI当前页面确认
+HMI_Error HMI_StandardPage_Show(void);	//HMI标准设置参数显示
+HMI_Error HMI_Print_Val(char* Object_ID,u16 varible);		//发送控件val值给HMI设备
+HMI_Error HMI_Get(u8 Object_Type,char* Object_ID,char* fmt);	//获取控件参数
+HMI_Error HMI_Standard_Atoi(void);		//
 HMI_Error HMI_TestLimit_Itoa(void);
 HMI_Error HMI_TestLimit_Atoi(u8* LimitVal);
 HMI_Error HMI_SetStandard_Interface(void);
@@ -97,7 +102,7 @@ HMI_Error HMI_RTC_Show(void);
 HMI_Error HMI_ShowBatch(void);
 HMI_Error HMI_ShowBatchList(void);
 HMI_Error HMI_RTC_Atoi(void);
-
+HMI_Error HMI_FastTest(void);
 
 
 

@@ -1,9 +1,8 @@
 #ifndef _SWITCH_H
 #define _SWITCH_H
+#include "sys.h"
 
-
-#define SW0 PEout(0)	 
-#define SW1 PEout(1)	
+#define SW PBout(15)	 
 
 void Switch_Init(void);
 

@@ -4,6 +4,8 @@
 #include "dac.h"
 #include "adc.h"
 #include "switch.h"
+#include "rtc.h"
+#include "HMI.h"
 
 int mycmd(void)
 {
@@ -45,7 +47,6 @@ MSH_CMD_EXPORT(dac,my command test);
 int showadc(void)
 {
 	u16 res;
-	float res2;
 	
 	res=Get_Adc_Average(1,ADC_Channel_5,20);
 	rt_kprintf("ADC1=%d\r\n",res);
@@ -60,7 +61,7 @@ int fan(void)
 {
 	u16 res;
 	
-	SW0=~SW0;
+	SW=~SW;
 	
 	return 0;
 }
@@ -71,9 +72,36 @@ int sw(void)
 {
 	u16 res;
 	
-	SW1=~SW1;
+	SW=~SW;
 	
 	return 0;
 }
 
 MSH_CMD_EXPORT(sw,my command test);
+
+int showtime(void)
+{
+	RTC_TimeTypeDef RTC_TimeStruct;
+	RTC_DateTypeDef RTC_DateStruct;
+	
+	RTC_GetDate(RTC_Format_BIN, &RTC_DateStruct);
+	RTC_GetTime(RTC_Format_BIN,&RTC_TimeStruct);
+	
+	rt_kprintf("Date:20%02d-%02d-%02d\r\n",RTC_DateStruct.RTC_Year,RTC_DateStruct.RTC_Month,RTC_DateStruct.RTC_Date);
+	rt_kprintf("Time:%02d:%02d:%02d\r\n",RTC_TimeStruct.RTC_Hours,RTC_TimeStruct.RTC_Minutes,RTC_TimeStruct.RTC_Seconds);
+	return 0;
+}
+
+MSH_CMD_EXPORT(showtime,my command test);
+
+int page(int argc,char** argv)
+{
+	
+	HMI_File_Page(*argv[1]); 
+	
+	return 0;
+}
+
+MSH_CMD_EXPORT(page,my command test);
+
+

@@ -48,8 +48,6 @@ extern int __bss_end;
 #include "delay.h"
 #include "usart1.h"
 #include "sdio_sdcard.h"
-#include "mcp3421.h"
-#include "myiic.h"
 #include "dac.h"
 #include "ff.h"  
 #include "exfuns.h"
@@ -64,9 +62,12 @@ extern int __bss_end;
 #include "usb_app.h"
 #include "switch.h"
 #include "adc.h"
+#include "ds18b20.h"
+
+
  
 void rt_hw_board_init()
-{    
+{  
 	// rtthread tick configuration
 	// 2. Configure rtos tick and interrupt
 	SysTick_Config(SystemCoreClock / RT_TICK_PER_SECOND);
@@ -78,17 +79,17 @@ void rt_hw_board_init()
 	LED_Init();					//初始化指示灯
 	Switch_Init();
 	Adc_Init();
-	Dac1_Init();
-	IIC_Init();
+	Dac_Init();
 	USART2_printf("================================\r\n");
 	if(SD_Init())  USART2_printf("SD_Init_Error!\r\n");
 	else USART2_printf("SD_Init_OK!\r\n");
-	//My_RTC_Init();
-	IIC_Init();
-	USART2_printf("IIC_Init_OK!\r\n");
-	Dac1_Init();
-	USART2_printf("DAC1_Init_OK!\r\n");
+//	if(DS18B20_Init()) USART2_printf("DS18B20_NotFind!\r\n");
+//	else USART2_printf("DS18B20_Get_Ready!\r\n");
+	My_RTC_Init();
+	//USBD_Init(&USB_OTG_Core_dev,USB_OTG_FS_CORE_ID,&USR_desc,&USBD_MSC_cb,&USR_cb);
 	USART2_printf("================================\r\n");
+	Dac1_Set_Vol(3299);
+	Dac2_Set_Vol(3299);
 	
 		
     /* Call components board initial (use INIT_BOARD_EXPORT()) */

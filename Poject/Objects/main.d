@@ -40,13 +40,7 @@
 .\objects\main.o: ..\Common\usart1.h
 .\objects\main.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\main.o: ..\BSP_USER\SDIO_SD\sdio_sdcard.h
-.\objects\main.o: ..\BSP_USER\MCP3421\mcp3421.h
-.\objects\main.o: ..\BSP_USER\IIC\myiic.h
 .\objects\main.o: ..\BSP_USER\DAC\dac.h
-.\objects\main.o: ..\FATFS\src\ff.h
-.\objects\main.o: ..\FATFS\src\integer.h
-.\objects\main.o: ..\FATFS\src\ffconf.h
-.\objects\main.o: ..\FATFS\exfuns\exfuns.h
 .\objects\main.o: ..\USB\STM32_USB_Device_Library\Class\msc\inc\usbd_msc_core.h
 .\objects\main.o: ..\USB\STM32_USB_Device_Library\Core\inc\usbd_ioreq.h
 .\objects\main.o: ..\USB\STM32_USB_Device_Library\Core\inc\usbd_def.h

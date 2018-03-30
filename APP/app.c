@@ -22,12 +22,14 @@
 #include "usart1.h"
 #include "CSV_Database.h"
 #include "adc.h"
-#include "mcp3421.h"
 #include "usbd_msc_core.h"
 #include "usbd_usr.h"
 #include "usbd_desc.h"
 #include "usb_conf.h"
-#include "usb_app.h" 
+#include "usb_app.h"
+#include "ds18b20.h"
+#include "ff.h"  
+#include "exfuns.h"
 
 
 #define CPU_USAGE_CALC_TICK	10
@@ -48,20 +50,19 @@ extern u8 Current_event;
 void Master_thread_entry(void* parameter)
 {
 	rt_uint32_t e;
-	USB_running();
 	while(1)
 	{
 		if(HMI_STA)
 		{
 			switch(HMI_Info[0])
 			{
-//				case 0x01 : HMI_StandardPage_Show(); break;
+				case 0x01 : HMI_StandardPage_Show(); break;
 //				case 0x02 : {HMI_Standard_Atoi();HMI_File_Page(10);} break;
 				case 0x03 : Current_event=0; break;
 				case 0x04 : Current_event=1; break;
 				case 0x05 : Current_event=2; break;
 				case 0x06 : Current_event=3; break;
-				case 0x07 : HMI_TestLimit_Itoa(); break;
+				case 0x07 : {rt_kprintf("res=%d\r\n",HMI_TestLimit);HMI_TestLimit_Itoa();} break;
 				case 0x08 : {HMI_TestLimit_Atoi(&HMI_TestLimit);HMI_File_Page(10);rt_kprintf("res=%d\r\n",HMI_TestLimit);} break;
 				case 0x09 : HMI_RTC_Show();break;
 				case 0x0a : HMI_ShowBatch();break;
@@ -97,10 +98,14 @@ void HMIMonitor_thread_entry(void* parameter)
 //线程LED0
 void led0_thread_entry(void* parameter)
 {
+	short temperature;
 	while(1)
 	{
+		temperature=DS18B20_Get_Temp();
+		//rt_kprintf("DS18B20=%d C\r\n",temperature);
 		LED0=~LED0;
 		delay_ms(300);	
+		DS18B20_DQ_OUT=0;
 		delay_us(100000);
 		rt_thread_delay(100);
 	}
@@ -131,27 +136,27 @@ void usb_thread_entry(void* parameter)
 //	rt_kprintf("res=%x\r\n",HMI_TestLimit);
 	while(1)
 	{
-		if(USB_DeviceState&0x01)//正在写
+		if(usbx.bDeviceState&0x01)//正在写
 		{
 			rt_kprintf("USB Writing...\r\n");
 		}
-		else if(USB_DeviceState&0x02)//正在读
+		else if(usbx.bDeviceState&0x02)//正在读
 		{
 			rt_kprintf("USB Reading...\r\n");
 		}
-		else if(USB_DeviceState&0x04)
+		else if(usbx.bDeviceState&0x04)
 		{
 			rt_kprintf("USB Write Err \r\n");
 		}
-		else if(USB_DeviceState&0x08)
+		else if(usbx.bDeviceState&0x08)
 		{
 			rt_kprintf("USB Read  Err \r\n");
 		}
-		else if(USB_DeviceState&0x80)
+		else if(usbx.bDeviceState&0x80)
 		{
 			rt_kprintf("USB Connecting...\r\n");
 		}
-		else if(!USB_DeviceState&0x80)
+		else if(!usbx.bDeviceState&0x80)
 		{
 			rt_kprintf("USB No Connect\r\n");
 		}

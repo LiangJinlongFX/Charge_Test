@@ -53,3 +53,4 @@
 .\objects\msh.o: ..\BSP_USER\DAC\dac.h
 .\objects\msh.o: ..\BSP_USER\ADC\adc.h
 .\objects\msh.o: ..\BSP_USER\Switch\switch.h
+.\objects\msh.o: ..\BSP_USER\RTC\rtc.h

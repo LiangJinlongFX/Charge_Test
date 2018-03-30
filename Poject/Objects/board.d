@@ -50,8 +50,6 @@
 .\objects\board.o: ..\Common\usart1.h
 .\objects\board.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\board.o: ..\BSP_USER\SDIO_SD\sdio_sdcard.h
-.\objects\board.o: ..\BSP_USER\MCP3421\mcp3421.h
-.\objects\board.o: ..\BSP_USER\IIC\myiic.h
 .\objects\board.o: ..\BSP_USER\DAC\dac.h
 .\objects\board.o: ..\FATFS\src\ff.h
 .\objects\board.o: ..\FATFS\src\integer.h
@@ -77,3 +75,4 @@
 .\objects\board.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\string.h
 .\objects\board.o: ..\BSP_USER\Switch\switch.h
 .\objects\board.o: ..\BSP_USER\ADC\adc.h
+.\objects\board.o: ..\HARDWARE\DS18B20\ds18b20.h

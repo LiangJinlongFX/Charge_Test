@@ -17,11 +17,7 @@
 #include "delay.h"
 #include "usart1.h"
 #include "sdio_sdcard.h"
-#include "mcp3421.h"
-#include "myiic.h"
 #include "dac.h"
-#include "ff.h"  
-#include "exfuns.h"
 #include "usbd_msc_core.h"
 #include "usbd_usr.h"
 #include "usbd_desc.h"
@@ -56,7 +52,6 @@ int main()
     //rt_thread_idle_sethook(cpu_usage_idle_hook);
 		/* 初始化事件对象 */
 	rt_event_init(&event, "event", RT_IPC_FLAG_FIFO);
-	USB_running();
 		
 	//创建线程1 
     led0_thread = rt_thread_create("led0", //线程1的名称是t1 

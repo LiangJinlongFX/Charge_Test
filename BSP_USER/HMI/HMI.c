@@ -7,7 +7,7 @@
 #include "rtthread.h"
 
 /*
-* 批量检测条目限制变量 bit7:转换效率 bit6:上电时间 bit5:电路保护 bit4:OCP bit3:OVP bit2:cmax bit1:vmax bit0:纹波  1：为有效
+ * 批量检测条目限制变量 bit7:转换效率 bit6:上电时间 bit5:电路保护 bit4:OCP bit3:OVP bit2:cmax bit1:vmax bit0:纹波  1：为有效
  */
 u8 HMI_TestLimit=0x88;
 
@@ -276,30 +276,33 @@ HMI_Error HMI_Standard_Atoi(void)
 }
 
 /**
- * 将测试门限设置呈现给测试门限设置界面
+ * 将测试门限设置呈现给测试门限设置界面  批量检测条目限制变量 bit7:转换效率 bit6:上电时间 bit5:电路保护 bit4:OCP bit3:OVP bit2:cmax bit1:vmax bit0:纹波  1：为有效
  * @param   []
  * @return     [description]
  */
 HMI_Error HMI_TestLimit_Itoa(void)
 {
 	u8 temp=0;
+	u8 temp2=0;
 	u8 res=HMI_OK;
 	
-	if(HMI_TestLimit&0x01) temp=1; else temp=0;
+	temp2=HMI_TestLimit;
+	
+	if(temp2&0x01) temp=1; else temp=0;
 	HMI_Print_Val("bt0",temp);
-	if(HMI_TestLimit&0x02) temp=1; else temp=0;
+	if(temp2&0x02) temp=1; else temp=0;
 	HMI_Print_Val("bt1",temp);
-	if(HMI_TestLimit&0x04) temp=1; else temp=0;
+	if(temp2&0x04) temp=1; else temp=0;
 	HMI_Print_Val("bt2",temp);
-	if(HMI_TestLimit&0x08) temp=1; else temp=0;
+	if(temp2&0x08) temp=1; else temp=0;
 	HMI_Print_Val("bt3",temp);
-	if(HMI_TestLimit&0x10) temp=1; else temp=0;
+	if(temp2&0x10) temp=1; else temp=0;
 	HMI_Print_Val("bt4",temp);
-	if(HMI_TestLimit&0x20) temp=1; else temp=0;
+	if(temp2&0x20) temp=1; else temp=0;
 	HMI_Print_Val("bt5",temp);
-	if(HMI_TestLimit&0x40) temp=1; else temp=0;
+	if(temp2&0x40) temp=1; else temp=0;
 	HMI_Print_Val("bt6",temp);
-	if(HMI_TestLimit&0x80) temp=1; else temp=0;
+	if(temp2&0x80) temp=1; else temp=0;
 	HMI_Print_Val("bt7",temp);
 	
 	return res;
@@ -310,7 +313,7 @@ HMI_Error HMI_TestLimit_Itoa(void)
  * @param   []
  * @return     [description]
  */
-HMI_Error HMI_TestLimit_Atoi(u8* LimitVal)
+HMI_Error HMI_TestLimit_Atoi(u8 * LimitVal)
 {
 	char str[5];
 	u8 temp1=0;
@@ -319,41 +322,50 @@ HMI_Error HMI_TestLimit_Atoi(u8* LimitVal)
 	
 	res=HMI_Get(HMI_Vaule_Type,"bt0",str);
 	temp1=my_atoi(str);
-	rt_kprintf("res1=%d\r\n",temp2);
+	temp2=temp1;
 	res=HMI_Get(HMI_Vaule_Type,"bt1",str);
 	temp1=my_atoi(str);
-	temp2=temp2|temp1<<1;
+	temp1=temp1<<1;
+	temp2=temp2|temp1;
 	rt_kprintf("res1=%d\r\n",temp2);
 	res=HMI_Get(HMI_Vaule_Type,"bt2",str);
 	temp1=my_atoi(str);
-	temp2=temp2|temp1<<2;
-	rt_kprintf("res1=%d\r\n",temp2);
+	temp1=temp1<<2;
+	temp2=temp2|temp1;
 	res=HMI_Get(HMI_Vaule_Type,"bt3",str);
 	temp1=my_atoi(str);
-	temp2=temp2|temp1<<3;
-	rt_kprintf("res1=%d\r\n",temp2);
+	temp1=temp1<<3;
+	temp2=temp2|temp1;
 	res=HMI_Get(HMI_Vaule_Type,"bt4",str);
 	temp1=my_atoi(str);
-	temp2=temp2|temp1<<4;
-	rt_kprintf("res1=%d\r\n",temp2);
+	temp1=temp1<<4;
+	temp2=temp2|temp1;
 	res=HMI_Get(HMI_Vaule_Type,"bt5",str);
 	temp1=my_atoi(str);
-	temp2=temp2|temp1<<5;
-	rt_kprintf("res1=%d\r\n",temp2);
+	temp1=temp1<<5;
+	temp2=temp2|temp1;
 	res=HMI_Get(HMI_Vaule_Type,"bt6",str);
 	temp1=my_atoi(str);
-	temp2=temp2|temp1<<6;
-	rt_kprintf("res1=%d\r\n",temp2);
+	temp1=temp1<<6;
+	temp2=temp2|temp1;
 	res=HMI_Get(HMI_Vaule_Type,"bt7",str);
 	temp1=my_atoi(str);
-	temp2=temp2|temp1<<7;
+	temp1=temp1<<7;
+	temp2=temp2|temp1;
 	
-	rt_kprintf("res1=%d\r\n",temp2);
+	rt_kprintf("res1=%d\r\n",temp1);
 	
+	
+	*LimitVal = temp2;   //将参数传给全局变量  
 	
 	return res;
 }
 
+/**
+ * 将时间参数呈现给HMI界面
+ * @param   []
+ * @return     [description]
+ */
 HMI_Error HMI_RTC_Show(void)
 {
 	char str1[20];
@@ -366,10 +378,10 @@ HMI_Error HMI_RTC_Show(void)
 	
 	my_itoa(RTC_DateStruct.RTC_Year,str2);
 	strcpy(str1,str2);
-	strcat(str1,".");
+	strcat(str1,"-");
 	my_itoa(RTC_DateStruct.RTC_Month,str2);
 	strcat(str1,str2);
-	strcat(str1,".");
+	strcat(str1,"-");
 	my_itoa(RTC_DateStruct.RTC_Date,str2);
 	strcat(str1,str2);
 	strcat(str1," ");

@@ -4,8 +4,10 @@
 ////////////////////////////////////////////////////////////////////////////////////	
 
 //LED端口定义
-#define LED0 PDout(12)	 
-#define LED1 PDout(13)	  
+#define LED0 PCout(2)	 
+#define LED1 PCout(3)
+#define LED2 PCout(4)
+#define LED3 PCout(5)	
 
 //函数声明
 void LED_Init(void);//初始化	

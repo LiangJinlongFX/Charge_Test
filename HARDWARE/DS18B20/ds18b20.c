@@ -104,15 +104,15 @@ u8 DS18B20_Init(void)
 {
 	GPIO_InitTypeDef  GPIO_InitStructure;
 
-  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOG, ENABLE);//使能GPIOG时钟
+  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);//使能GPIOB时钟
 
-  //GPIOG9
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
+  //GPIOB12
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;//普通输出模式
   GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;//推挽输出
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//50MHz
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//上拉
-  GPIO_Init(GPIOG, &GPIO_InitStructure);//初始化
+  GPIO_Init(GPIOB, &GPIO_InitStructure);//初始化
  
  	DS18B20_Rst();
 	return DS18B20_Check();
@@ -145,3 +145,4 @@ short DS18B20_Get_Temp(void)
 	if(temp)return tem; //返回温度值
 	else return -tem;    
 }
+

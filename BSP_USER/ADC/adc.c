@@ -21,21 +21,41 @@ void  Adc_Init(void)
 	ADC_CommonInitTypeDef ADC_CommonInitStructure;
 	ADC_InitTypeDef       ADC_InitStructure;
 	
-  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);//使能GPIOA时钟
+  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA|RCC_AHB1Periph_GPIOB, ENABLE);//使能GPIOA时钟
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE); //使能ADC1时钟
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC2, ENABLE); //使能ADC2时钟
 
-  //先初始化ADC1通道5 IO口
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;//PA5 通道5
+  //初始化ADC1通道1 IO口
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;//PA5 通道1
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;//模拟输入
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL ;//不带上下拉
   GPIO_Init(GPIOA, &GPIO_InitStructure);//初始化
 
-  //先初始化ADC2通道0 IO口
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;//PA0 通道5
+	//初始化ADC1通道8 IO口
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;//PA5 通道8
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;//模拟输入
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL ;//不带上下拉
-  GPIO_Init(GPIOA, &GPIO_InitStructure);//初始化    
+  GPIO_Init(GPIOB, &GPIO_InitStructure);//初始化
+
+  //初始化ADC2通道6 IO口
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;//PA6 通道6
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;//模拟输入
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL ;//不带上下拉
+  GPIO_Init(GPIOA, &GPIO_InitStructure);//初始化  
+
+  //初始化ADC2通道7 IO口
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;//PA7 通道7
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;//模拟输入
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL ;//不带上下拉
+  GPIO_Init(GPIOA, &GPIO_InitStructure);//初始化 
+
+  //初始化ADC2通道9 IO口
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;//PB1 通道9
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;//模拟输入
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL ;//不带上下拉
+  GPIO_Init(GPIOB, &GPIO_InitStructure);//初始化
+
+	ADC_TempSensorVrefintCmd(ENABLE);//使能内部温度传感器
  
 	RCC_APB2PeriphResetCmd(RCC_APB2Periph_ADC1,ENABLE);	  //ADC1复位
 	RCC_APB2PeriphResetCmd(RCC_APB2Periph_ADC1,DISABLE);	//复位结束	
@@ -58,6 +78,8 @@ void  Adc_Init(void)
   ADC_InitStructure.ADC_NbrOfConversion = 1;//1个转换在规则序列中 也就是只转换规则序列1 
   ADC_Init(ADC1, &ADC_InitStructure);//ADC初始化
 	ADC_Init(ADC2, &ADC_InitStructure);//ADC初始化
+	
+	ADC_RegularChannelConfig(ADC1, ADC_Channel_16, 1, ADC_SampleTime_480Cycles );	//ADC16,ADC通道,480个周期,提高采样时间可以提高精确度	
 	
  
 	ADC_Cmd(ADC1, ENABLE);//开启AD转换器	
@@ -109,7 +131,20 @@ u16 Get_Adc_Average(u8 ADC_ID,u8 ch,u8 times)
 	return temp_val/times;
 } 
 	 
-
+/*
+ * 返回值:温度值(扩大了100倍,单位:℃.)
+ */
+short Get_Temprate(void)
+{
+	u32 adcx;
+	short result;
+ 	double temperate;
+	adcx=Get_Adc_Average(1,ADC_Channel_16,10);	//读取通道16内部温度传感器通道,10次取平均
+	temperate=(float)adcx*(3.3/4096);		//电压值
+	temperate=(temperate-0.76)/0.0025 + 25; //转换为温度值 
+	result=temperate*=100;					//扩大100倍.
+	return result;
+}
 
 
 
