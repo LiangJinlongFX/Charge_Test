@@ -29,7 +29,7 @@
 // </c>
 // <o>the size of main thread<1-4086>
 //	<i>Default: 512
-#define RT_MAIN_THREAD_STACK_SIZE     256
+#define RT_MAIN_THREAD_STACK_SIZE     512
 
 // </h>
 
@@ -40,7 +40,7 @@
 // </c>
 // <o>enable components initialization debug configuration<0-1>
 //  <i>Default: 0
-#define RT_DEBUG_INIT 0
+#define RT_DEBUG_INIT 1
 // <c1>thread stack over flow detect
 //  <i> Diable Thread stack over flow detect
 //#define RT_USING_OVERFLOW_CHECK
@@ -50,11 +50,11 @@
 // <h>Hook Configuration
 // <c1>using hook
 //  <i>using hook
-//#define RT_USING_HOOK
+#define RT_USING_HOOK
 // </c>
 // <c1>using idle hook
 //  <i>using idle hook
-#define RT_USING_IDLE_HOOK
+//#define RT_USING_IDLE_HOOK
 // </c>
 // </h>
 

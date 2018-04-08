@@ -454,34 +454,3 @@ HMI_Error HMI_ShowBatch(void)
 	return HMI_OK;
 }
 
-HMI_Error HMI_ShowBatchList(void)
-{
-	char str[5][10];
-	char Event_Info[3];
-	u8 Page_Flag;
-	u8 Exit_Flag=0;
-	while(1)
-	{
-		HMI_Print_Str("t0",str[0]);
-		HMI_Print_Str("t1",str[1]);
-		HMI_Print_Str("t2",str[2]);
-		HMI_Print_Str("t3",str[3]);
-		HMI_Print_Str("t4",str[4]);
-		while(USART_Solution(HMI_Vaule_Type,Event_Info));
-		switch(Event_Info[0])
-		{
-			case 0x01: break;//进入第一条目
-			case 0x02: break;//进入第二条目
-			case 0x03: break;//进入第三条目
-			case 0x04: break;//进入第四条目
-			case 0x05: break;//进入第五条目
-			case 0x06: break;//上翻
-			case 0x07: break;//下翻
-			case 0x08: Exit_Flag=1;break;//退出
-		}
-		if(Exit_Flag) break;
-	}
-	HMI_File_Page(1);
-	
-	return HMI_OK;
-}

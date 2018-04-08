@@ -34,9 +34,9 @@ extern int __bss_end;
 #define HEAP_BEGIN    (&__bss_end)
 #endif
 
-#define SRAM_SIZE         8
-//#define SRAM_END          (0x20000000 + SRAM_SIZE * 1024)
-#define SRAM_END          (HEAP_BEGIN + SRAM_SIZE * 1024)
+#define SRAM_SIZE         64
+#define SRAM_END          (0x20000000 + SRAM_SIZE * 1024)
+//#define SRAM_END          (HEAP_BEGIN + SRAM_SIZE * 1024)
 
 
 /**

@@ -16,7 +16,7 @@
 #include <stm32f4xx.h>
 #include "ff.h"
 
-extern FATFS *fs[1];  
+extern FATFS fat;  
 extern FIL *file;	 
 extern FIL *ftemp;	 
 extern UINT br,bw;

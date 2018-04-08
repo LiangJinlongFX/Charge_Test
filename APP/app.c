@@ -30,6 +30,9 @@
 #include "ds18b20.h"
 #include "ff.h"  
 #include "exfuns.h"
+#include "Data_Math.h"
+
+static ReadTimeData_Type ReadTimeData_structure;
 
 
 #define CPU_USAGE_CALC_TICK	10
@@ -42,37 +45,91 @@ extern USB_OTG_CORE_HANDLE  USB_OTG_dev;
 
 u8 Device_STA=0;
 u8 HMI_Event;
-char HMI_Info[100];
-u8 HMI_STA=0;
-extern u8 Current_event;
 
+char HMI_Info[100];
+
+char Global_str[10][10];
 
 void Master_thread_entry(void* parameter)
 {
-	rt_uint32_t e;
 	while(1)
 	{
-		if(HMI_STA)
+		/* 等待HMI串口监控线程的邮件 */
+		if(rt_mb_recv(&HMI_Response_mb,(rt_uint32_t*)HMI_Info,RT_WAITING_FOREVER)==RT_EOK)
 		{
 			switch(HMI_Info[0])
 			{
-				case 0x01 : HMI_StandardPage_Show(); break;
-//				case 0x02 : {HMI_Standard_Atoi();HMI_File_Page(10);} break;
-				case 0x03 : Current_event=0; break;
-				case 0x04 : Current_event=1; break;
-				case 0x05 : Current_event=2; break;
+				case 0x01 : 
+				{
+						//创建线程1 
+					CollectData_thread = rt_thread_create("GetData",CollectData_thread_entry, RT_NULL,512, 2,20);
+					//创建线程1 
+					HMI_FastTest_thread = rt_thread_create("HMI_1",HMI_FastTest_thread_entry, RT_NULL,512,3,20);
+					
+					HMI_File_Page(20);	//跳转到快速测试界面
+					rt_thread_startup(CollectData_thread);	//启动数据采集线程
+					rt_thread_startup(HMI_FastTest_thread);	//启动快速界面检测线程 
+				}break;
+				case 0x02 : 
+				{
+					rt_thread_delete(CollectData_thread);	//删除数据采集线程
+					rt_thread_delete(HMI_FastTest_thread);	//删除快速界面检测线程
+					HMI_File_Page(1); 
+				}break;
+				case 0x03 : 
+				{						
+					//创建线程1 
+					HMI_SelectBatch_thread = rt_thread_create("HMI_Batch",HMI_SelectBatch_thread_entry, RT_NULL,512,3,20);
+					
+					rt_enter_critical();	//进入临界区
+					f_mount(&fat,"0",1);	//挂载工作区
+					rt_exit_critical();		//退出临界区
+					HMI_File_Page(8);	//跳转到列表显示界面
+					rt_thread_startup(HMI_SelectBatch_thread);	//启动线程
+				}break;
+				case 0x04 :
+				{
+					rt_thread_delete(HMI_SelectBatch_thread);	//删除批量选择线程
+					HMI_File_Page(25);	//跳转到测试标准选择界面
+					/* 获取测试标准序号 */
+					if(rt_mb_recv(Event_mb,(rt_uint32_t*)&Event_Flag,RT_WAITING_FOREVER)==RT_EOK)
+					{
+						switch(Event_Flag)
+						{
+							case 3: Standard_val=0;break;
+							case 4: Standard_val=1;break;
+							case 5: Standard_val=2;break;
+							default:break;
+						}
+						HMI_File_Page(1);
+					}
+					while(1);
+				}break;
+				case 0x05 :
+				{
+					rt_thread_delete(HMI_SelectBatch_thread);	//删除批量选择线程
+					HMI_File_Page(1);	//跳转到主界面					
+				}break;
 				case 0x06 : Current_event=3; break;
 				case 0x07 : {rt_kprintf("res=%d\r\n",HMI_TestLimit);HMI_TestLimit_Itoa();} break;
 				case 0x08 : {HMI_TestLimit_Atoi(&HMI_TestLimit);HMI_File_Page(10);rt_kprintf("res=%d\r\n",HMI_TestLimit);} break;
 				case 0x09 : HMI_RTC_Show();break;
 				case 0x0a : HMI_ShowBatch();break;
-				case 0x0b : HMI_ShowBatchList(); break;
+				//case 0x0b : HMI_ShowBatchList(); break;
 				case 0x0c : HMI_RTC_Atoi();break;
+				/* 界面按键动作触发(通用) */
+				case 0x51 :{Event_Flag=1;rt_mb_send(Event_mb,Event_Flag);}break;	//上翻
+				case 0x52 :{Event_Flag=2;rt_mb_send(Event_mb,Event_Flag);}break;	//下翻
+				case 0x53 :{Event_Flag=3;rt_mb_send(Event_mb,Event_Flag);}break;	//条目1
+				case 0x54 :{Event_Flag=4;rt_mb_send(Event_mb,Event_Flag);}break;	//条目2
+				case 0x55 :{Event_Flag=5;rt_mb_send(Event_mb,Event_Flag);}break;	//条目3
+				case 0x56 :{Event_Flag=5;rt_mb_send(Event_mb,Event_Flag);}break;	//条目4
+				case 0x57 :{Event_Flag=5;rt_mb_send(Event_mb,Event_Flag);}break;	//条目5
+				case 0x58 :{Event_Flag=5;rt_mb_send(Event_mb,Event_Flag);}break;	//条目6
+				default:break;
 			}
-			HMI_STA=0;
 			HMI_Info[0]=0;
 		}
-		rt_thread_delay(100);
 	}
 }
 
@@ -86,10 +143,9 @@ void HMIMonitor_thread_entry(void* parameter)
 	{
 		if(!USART_Solution(HMI_System_Type,HMI_Info)) 
 		{
-			HMI_STA=1;	//事件触发标志位置位
+			rt_mb_send(&HMI_Response_mb,HMI_Info[0]);
 		}
 		rt_thread_delay(100);
-		LED1=~LED1;
 	}
 }
 
@@ -98,42 +154,201 @@ void HMIMonitor_thread_entry(void* parameter)
 //线程LED0
 void led0_thread_entry(void* parameter)
 {
-	short temperature;
-	while(1)
+	while (1)
 	{
-		temperature=DS18B20_Get_Temp();
-		//rt_kprintf("DS18B20=%d C\r\n",temperature);
-		LED0=~LED0;
-		delay_ms(300);	
-		DS18B20_DQ_OUT=0;
-		delay_us(100000);
+		LED0 =~LED0;
+		rt_thread_delay(500);
+	}
+}
+
+/*
+ * 数据采集线程
+ */
+void CollectData_thread_entry(void* parameter)
+{
+	while (1)
+	{
+		rt_enter_critical();	//进入临界区
+		ReadTimeData_structure.V_OUT=Get_PowerVoltage();	//采集电压
+		ReadTimeData_structure.C_OUT=Get_PowerCurrent();	//采集电流
+		rt_exit_critical();		//退出临界区
+		rt_mb_send(GetData_mb,(rt_uint32_t)&ReadTimeData_structure);
 		rt_thread_delay(100);
 	}
 }
+
+/*
+ * 快速检测HMI界面线程
+ */
+void HMI_FastTest_thread_entry(void* parameter)
+{
+	char str[10];
+	while(1)
+	{
+		if(rt_mb_recv(GetData_mb, (rt_uint32_t*)&ReadTimeData_structure, RT_WAITING_FOREVER)== RT_EOK)
+		{
+			HMI_Print_Str("t6",str);
+			HMI_Print_Str("t7",str);
+			my_itoa_Dot(ReadTimeData_structure.V_OUT,str,3);
+			HMI_Print_Str("t9",str);
+			my_itoa_Dot(ReadTimeData_structure.C_OUT,str,2);
+			HMI_Print_Str("t10",str);
+			HMI_Print_Str("t11",str);
+			my_itoa_Dot(ReadTimeData_structure.V_Ripple,str,2);
+			HMI_Print_Str("t12",str);
+			HMI_Print_Str("t8",str);
+		}
+		rt_thread_delay(100);
+	}
+}
+
+/*
+ * 批量列表显示进程
+ */
+void HMI_ShowBatchList_thread_entry(void* parameter)
+{
+	int Page_Flag=0;
+	u8 count=0;
+	
+	count=Scan_BatchDir(Page_Flag,Page_Flag+4);
+	HMI_Print_Str("t0",Global_str[0]);
+	HMI_Print_Str("t1",Global_str[1]);
+	HMI_Print_Str("t2",Global_str[2]);
+	HMI_Print_Str("t3",Global_str[3]);
+	HMI_Print_Str("t4",Global_str[4]);
+	while(1)
+	{
+		if(rt_mb_recv(Event_mb,(rt_uint32_t*)&Event_Flag,RT_WAITING_FOREVER)==RT_EOK)
+		{
+			rt_enter_critical(); /* 进入临界区*/
+			/* 上翻 */
+			if(Event_Flag==1)
+			{
+				Page_Flag=Page_Flag-1;
+				if(Page_Flag<0) Page_Flag=0;
+			}
+			/* 下翻 */
+			if(Event_Flag==2)
+			{
+				if(count==5)
+					Page_Flag=Page_Flag+1;
+			}
+			/* 读取批量目录信息 */
+			count=Scan_BatchDir(Page_Flag,Page_Flag+4);
+			rt_exit_critical(); /* 退出临界区*/
+			HMI_Print_Str("t0",Global_str[0]);
+			HMI_Print_Str("t1",Global_str[1]);
+			HMI_Print_Str("t2",Global_str[2]);
+			HMI_Print_Str("t3",Global_str[3]);
+			HMI_Print_Str("t4",Global_str[4]);
+		}
+	}
+}
+
+/*
+ * 批量列表选择进程
+ */
+void HMI_SelectBatch_thread_entry(void* parameter)
+{
+	int Page_Flag=0;
+	u8 count=0;
+	
+	count=Scan_BatchDir(Page_Flag,Page_Flag+4);
+	HMI_Print_Str("t0",Global_str[0]);
+	HMI_Print_Str("t1",Global_str[1]);
+	HMI_Print_Str("t2",Global_str[2]);
+	HMI_Print_Str("t3",Global_str[3]);
+	HMI_Print_Str("t4",Global_str[4]);
+	while(1)
+	{
+		if(rt_mb_recv(Event_mb,(rt_uint32_t*)&Event_Flag,RT_WAITING_FOREVER)==RT_EOK)
+		{
+			switch(Event_Flag)
+			{
+				/* 上翻 */
+				case 1:
+				{
+					Page_Flag=Page_Flag-1;
+					if(Page_Flag<0) Page_Flag=0;
+				}break;
+				/* 下翻 */
+				case 2:
+				{
+					if(count==5)
+						Page_Flag=Page_Flag+1;
+				}break;
+				/* 选择条目1 */
+				case 3:
+				{
+					Batch_val=Page_Flag;
+					HMI_Info[0]=4;
+					rt_mb_send(&HMI_Response_mb,HMI_Info[0]);
+					rt_thread_delay(1000);
+				}break;
+				/* 选择条目2 */
+				case 4:
+				{
+					Batch_val=Page_Flag+1;
+					HMI_Info[0]=4;
+					rt_mb_send(&HMI_Response_mb,HMI_Info[0]);
+					rt_thread_delay(1000);
+				}break;
+				/* 选择条目3 */
+				case 5:
+				{
+					Batch_val=Page_Flag+2;
+					HMI_Info[0]=4;
+					rt_mb_send(&HMI_Response_mb,HMI_Info[0]);
+					rt_thread_delay(1000);
+				}break;
+				/* 选择条目4 */
+				case 6:
+				{
+					Batch_val=Page_Flag+3;
+					HMI_Info[0]=4;
+					rt_mb_send(&HMI_Response_mb,HMI_Info[0]);
+					rt_thread_delay(1000);
+				}break;
+				/* 选择条目5 */
+				case 7:
+				{
+					Batch_val=Page_Flag+4;
+					HMI_Info[0]=4;
+					rt_mb_send(&HMI_Response_mb,HMI_Info[0]);
+					rt_thread_delay(1000);
+				}break;
+				default:break;
+			}
+			rt_enter_critical(); /* 进入临界区*/
+			/* 读取批量目录信息 */
+			count=Scan_BatchDir(Page_Flag,Page_Flag+4);
+			rt_exit_critical(); /* 退出临界区*/
+			HMI_Print_Str("t0",Global_str[0]);
+			HMI_Print_Str("t1",Global_str[1]);
+			HMI_Print_Str("t2",Global_str[2]);
+			HMI_Print_Str("t3",Global_str[3]);
+			HMI_Print_Str("t4",Global_str[4]);
+		}
+	}
+}
+
+/*
+ * 测试标准选择界面
+ */
+void Test_Selstand_thread_entry(void* parameter)
+{
+	while(1)
+	{
+		
+	}
+}
+
 
 /*
  * USB进程  启动USBD MSC 让电脑能读取设备数据
  */
 void usb_thread_entry(void* parameter)
 {
-	u32 res;
-	char str[10];
-	//USBD_Init(&USB_OTG_dev,USB_OTG_FS_CORE_ID,&USR_desc,&USBD_MSC_cb,&USR_cb);
-	//HMI_StandardPage_Show();
-//	res=HMI_Get(HMI_Vaule_Type,"bt1",str);
-//	if(res) rt_kprintf("res=%d\r\n",res);
-//	else rt_kprintf("str=%s\r\n",str);
-//	HMI_Standard_Atoi();
-//	rt_kprintf("Vout_Max=%d\r\n",TestStandard_Arrary[Current_event].Vout_Max);
-//	rt_kprintf("Cout_Max=%d\r\n",TestStandard_Arrary[Current_event].Cout_Max);
-//	rt_kprintf("Ripple_Voltage=%d\r\n",TestStandard_Arrary[Current_event].Ripple_Voltage);
-//	rt_kprintf("Poweron_Time=%d\r\n",TestStandard_Arrary[Current_event].Poweron_Time);
-//	rt_kprintf("Efficiency=%d\r\n",TestStandard_Arrary[Current_event].Efficiency);
-//	rt_kprintf("Over_Voltage_Protection=%d\r\n",TestStandard_Arrary[Current_event].Over_Voltage_Protection);
-//	rt_kprintf("Over_Current_Protection=%d\r\n",TestStandard_Arrary[Current_event].Over_Current_Protection);
-//	rt_kprintf("Quick_Charge=%d\r\n",TestStandard_Arrary[Current_event].Quick_Charge);
-//	HMI_TestLimit_Atoi();
-//	rt_kprintf("res=%x\r\n",HMI_TestLimit);
 	while(1)
 	{
 		if(usbx.bDeviceState&0x01)//正在写
@@ -166,47 +381,11 @@ void usb_thread_entry(void* parameter)
   
 //线程LED1
 void led1_thread_entry(void* parameter)
-{
-//		u32 total,free;
-//		FIL fsrc;	  		//文件1
-//		u8 res;
-//		char str[20];
-//	
-//		TestData_Type Temp_struct;
-//	
-//		Temp_struct.Test_Time[0]=18;
-//		Temp_struct.Test_Time[1]=1;
-//		Temp_struct.Test_Time[2]=22;
-//		Temp_struct.Test_Time[3]=13;
-//		Temp_struct.Test_Time[4]=55;
-//		Temp_struct.Test_Time[5]=18;
-//		Temp_struct.Ripple_Voltage=200;
-//		Temp_struct.Vout_Max=200;
-//		Temp_struct.Cout_Max=150;
-//		Temp_struct.Over_Current_Protection=1;
-//		Temp_struct.Over_Voltage_Protection=1;
-//		Temp_struct.Poweron_Time=20;
-//		Temp_struct.Quick_Charge=3;
-//		Temp_struct.Short_Current=1;
-//		Temp_struct.Efficiency=67;
-//		Temp_struct.Test_Subsequence=9;
-		
-//		printf("OK");
-//		exfuns_init();
-//		if(f_mount(fs[0],"0:",1)) printf("挂载失败");
-//		printf("挂载成功\r\n");
-//		if(exf_getfree("0:",&total,&free)) printf("获取错误");
-//		printf("total=%dMB\r\nfree=%dMB\r\n",total>>10,free>>10);
-//		
-//		///my_itoa(10,str);
-//		rt_kprintf("\r\nOK");
-//		printf("rse=%d",res);
-	while(1)
+{	
+	while (1)
 	{
-		LED1=~LED1; 
-		delay_ms(10);
-		delay_us(50);
-		rt_thread_delay(30);
+		LED1 =~LED1;
+		rt_thread_delay(1000);
 	}
 }
 
@@ -270,6 +449,83 @@ void cpu_usage_get(rt_uint8_t *major, rt_uint8_t *minor)
 
     *major = cpu_usage_major;
     *minor = cpu_usage_minor;
+}
+
+
+void Main_entry(void)
+{
+	/* set idle thread hook */
+    rt_thread_idle_sethook(cpu_usage_idle_hook);
+	
+	/* 初始化mailbox */
+	rt_mb_init(&HMI_Response_mb,"HMI_mb", /* 名称是HMI_mb */
+			   &mb_pool[0],
+				 sizeof(mb_pool)/4, /* 每封邮件的大小是4字节 */
+			   RT_IPC_FLAG_FIFO); /* 采用FIFO方式进行线程等待 */
+
+	GetData_mb=rt_mb_create("Data_mb", /* 名称是HMI_mb */
+			   32, /* 每封邮件的大小是4字节 */
+			   RT_IPC_FLAG_FIFO); /* 采用FIFO方式进行线程等待 */
+	if(GetData_mb==RT_NULL)
+		rt_kprintf("create mb failed \r\n");
+	
+		Event_mb=rt_mb_create("Event_mb",32,RT_IPC_FLAG_FIFO);
+	if(Event_mb==RT_NULL) rt_kprintf("create mb failed \r\n");
+	
+  delay_ms(800);
+ 	HMI_File_Page(3);		 
+				 
+				 
+				 //创建线程1 
+   led0_thread = rt_thread_create("led0", //线程1的名称是t1 
+							led0_thread_entry, RT_NULL, //入口是thread1_entry，参数是RT_NULL 
+							512, //线程堆栈大小
+							2, //线程优先级
+							20);//时间片tick
+
+	if (led0_thread != RT_NULL) //如果获得线程控制块，启动这个线程
+			rt_thread_startup(led0_thread);
+				   
+	//创建线程1 
+    led1_thread = rt_thread_create("led1", //线程1的名称是t1 
+							led1_thread_entry, RT_NULL, //入口是thread1_entry，参数是RT_NULL 
+							512, //线程堆栈大小
+							3, //线程优先级
+							20);//时间片tick
+
+	if (led1_thread != RT_NULL) //如果获得线程控制块，启动这个线程
+			rt_thread_startup(led1_thread); 
+
+	//创建线程1 
+    usb_thread = rt_thread_create("usb", //线程1的名称是t1 
+							usb_thread_entry, RT_NULL, //入口是thread1_entry，参数是RT_NULL 
+							512, //线程堆栈大小
+							2, //线程优先级
+							20);//时间片tick
+
+	if (usb_thread != RT_NULL) //如果获得线程控制块，启动这个线程
+			rt_thread_startup(usb_thread);
+
+	//创建线程1 
+    HMIMonitor_thread = rt_thread_create("HMIMonitor", //线程1的名称是t1 
+							HMIMonitor_thread_entry, RT_NULL, //入口是thread1_entry，参数是RT_NULL 
+							512, //线程堆栈大小
+							1, //线程优先级
+							20);//时间片tick
+
+	if (HMIMonitor_thread != RT_NULL) //如果获得线程控制块，启动这个线程
+			rt_thread_startup(HMIMonitor_thread); 
+	
+	//创建线程1 
+    Master_thread = rt_thread_create("Master", //线程1的名称是t1 
+							Master_thread_entry, RT_NULL, //入口是thread1_entry，参数是RT_NULL 
+							512, //线程堆栈大小
+							3, //线程优先级
+							20);//时间片tick
+
+	if (Master_thread != RT_NULL) //如果获得线程控制块，启动这个线程
+			rt_thread_startup(Master_thread); 
+		
 }
 
 

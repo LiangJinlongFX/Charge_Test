@@ -39,8 +39,7 @@
 //1,已经连接;
 vu8 bDeviceState=0;		//默认没有连接  
 
-
-extern USB_OTG_CORE_HANDLE  USB_OTG_dev;
+USB_OTG_CORE_HANDLE USB_OTG_dev;
 
 //USB OTG 中断服务函数
 //处理所有USB中断

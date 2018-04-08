@@ -28,3 +28,4 @@ void Switch_Init(void)
 	
 	GPIO_SetBits(GPIOB, GPIO_Pin_15);   	
 }
+

@@ -16,29 +16,39 @@
 
 #include <rtthread.h>
 
-//邮箱控制块
-static struct rt_mailbox mb;
-//互斥锁控制块
-static rt_mutex_t mutex = RT_NULL;
-//信号量控制块
-static struct rt_semaphore sem;
-/* 事件控制块 */
-static struct rt_event event;
+/* 邮箱控制块 */
+static struct rt_mailbox HMI_Response_mb;		//HMI串口响应邮箱
+static rt_mailbox_t GetData_mb=RT_NULL;					//数据采集邮箱
+static rt_mailbox_t Event_mb=RT_NULL;						//按键动作邮箱
 
+/* 用于放邮件的内存池 */
+static char mb_pool[32];
+static rt_uint8_t Event_Flag;
+
+static rt_uint8_t Batch_val;	//批量序号
+static rt_uint8_t Standard_val; //测试标准序号
 
 static rt_thread_t led0_thread=RT_NULL;
 static rt_thread_t led1_thread=RT_NULL;
 static rt_thread_t usb_thread=RT_NULL;
 static rt_thread_t HMIMonitor_thread=RT_NULL;
 static rt_thread_t Master_thread=RT_NULL;
+static rt_thread_t CollectData_thread=RT_NULL;
+static rt_thread_t HMI_FastTest_thread=RT_NULL;
+static rt_thread_t HMI_ShowBatchList_thread=RT_NULL;
+static rt_thread_t HMI_SelectBatch_thread=RT_NULL;
 
-
-extern void led0_thread_entry(void* parameter);
-extern void usb_thread_entry(void* parameter);
-extern void led1_thread_entry(void* parameter);
-extern void HMIMonitor_thread_entry(void* parameter);
-extern void Master_thread_entry(void* parameter);
+void led0_thread_entry(void* parameter);
+void usb_thread_entry(void* parameter);
+void led1_thread_entry(void* parameter);
+void HMIMonitor_thread_entry(void* parameter);
+void Master_thread_entry(void* parameter);
+void CollectData_thread_entry(void* parameter);
+void HMI_FastTest_thread_entry(void* parameter);	//快速检测HMI界面线程
+void HMI_ShowBatchList_thread_entry(void* parameter); //批量列表显示界面线程
+void HMI_SelectBatch_thread_entry(void* parameter);	//批量选择线程
 void cpu_usage_idle_hook(void);
+void Main_entry(void);
 
 void cpu_usage_get(rt_uint8_t *major, rt_uint8_t *minor);
 

@@ -59,7 +59,6 @@ MSH_CMD_EXPORT(showadc,my command test);
 
 int fan(void)
 {
-	u16 res;
 	
 	SW=~SW;
 	
@@ -69,11 +68,8 @@ int fan(void)
 MSH_CMD_EXPORT(fan,my command test);
 
 int sw(void)
-{
-	u16 res;
-	
-	SW=~SW;
-	
+{	
+	SW=~SW;	
 	return 0;
 }
 

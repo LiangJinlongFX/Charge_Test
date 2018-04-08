@@ -35,6 +35,29 @@ typedef struct
 	u8 Efficiency;				//转换效率		  0 - 100 %
 }TestStandard_Type;
 
+/* 实时检测数据结构体 */
+typedef struct
+{
+	u16 V_OUT;
+	u16 C_OUT;
+	u16 V_D1;
+	u16 V_D2;
+	u16 V_Ripple;
+}ReadTimeData_Type;
+
+/* 测试指标存储结构体 */
+typedef struct
+{
+	u8 Vout_Max;	//最大输出电压
+	u8 Cout_Max;	//最大输出电流
+	u8 V_Ripple;	//纹波电压
+	u8 Poweron_Time;	//上电时间
+	u8 Efficiency; //转换效率
+	u8 Safety_Code;	//安全检测开关
+	u8 Quick_Charge;	//快充检测开关
+	u8 Test_Limit;	//检测项目开关
+}TestParameters_Type;
+
 typedef enum 
 {
 	Database_OK=0,
@@ -46,6 +69,8 @@ typedef enum
 extern TestStandard_Type TestStandard_Arrary[4];
 extern u8 Current_event;
 
+extern char Global_str[10][10];
+
 
 u8 Test_ReadData(TestData_Type TestData_Struct);
 
@@ -55,11 +80,19 @@ u8 Num_To_Str(u8 number);
 
 u8 Creat_FileHeader(char *File_Name);
 
+u8 Modify_TestParameters(TestParameters_Type* TestParameters_Structure,u8 Standard_code);
+
+u8 Read_TestParameters(TestParameters_Type* TestParameters_Structure,u8 Standard_code);
+
 u8 Get_DataNum(u8 *path);
+
+u8 Scan_BatchDir(u8 start_val,u8 end_val);
 
 unsigned int my_atoi(char s[]);
 
 void my_itoa(int n,char str[]);
+
+void my_itoa_Dot(int n,char str[],int dot_num);
 
 #endif
 

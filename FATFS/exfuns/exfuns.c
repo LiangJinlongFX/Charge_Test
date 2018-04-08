@@ -29,35 +29,34 @@ u8*const FILE_TYPE_TBL[FILE_MAX_TYPE_NUM][FILE_MAX_SUBT_NUM]=
 	{"BMP","JPG","JPEG","GIF"},//图片文件
 	{"AVI"},			//视频文件
 };
-
 ///////////////////////////////公共文件区,使用malloc的时候////////////////////////////////////////////
-FATFS *fs[1];//逻辑磁盘工作区.	 
+FATFS fat;				//逻辑磁盘工作区.	 
 FIL *file;	  		//文件1
 FIL *ftemp;	  		//文件2.
-UINT br,bw;			//读写变量
+UINT br,bw;				//读写变量
 FILINFO fileinfo;	//文件信息
-DIR dir;  			//目录
+DIR dir;  				//目录
 
 u8 *fatbuf;			//SD卡数据缓存区
 ///////////////////////////////////////////////////////////////////////////////////////
-//为exfuns申请内存
-//返回值:0,成功
-//1,失败
+
+/*
+ * 为FATFS工作区申请内存,并挂载工作区
+ */
 u8 exfuns_init(void)
 {
-//	u8 i;
-//	for(i=0;i<_VOLUMES;i++)
-//	{
-//		fs[i]=(FATFS*)rt_malloc(sizeof(FATFS));	//为磁盘i工作区申请内存	
-//		if(!fs[i])break;
-//	}
-//	file=(FIL*)rt_malloc(sizeof(FIL));		//为file申请内存
-//	ftemp=(FIL*)rt_malloc(sizeof(FIL));		//为ftemp申请内存
-//	fatbuf=(u8*)rt_malloc(512);				//为fatbuf申请内存
-//	if(i==_VOLUMES&&file&&ftemp&&fatbuf)return 0;  //申请有一个失败,即失败.
-//	else return 1;	
+//	fs[0]=(FATFS*)rt_malloc(sizeof(FATFS));	//为磁盘i工作区申请内存	
+//	file=(FIL*)rt_malloc(sizeof(FIL));			//为file申请内存
+//	ftemp=(FIL*)rt_malloc(sizeof(FIL));			//为ftemp申请内存
+//	fatbuf=(u8*)rt_malloc(512);							//为fatbuf申请内存
+//	
+//	if(fs[0]&&file&&ftemp&&fatbuf)	return 1;  //申请有一个失败,即失败.
+//	else return 0;	
 }
 
+/*
+ * 释放FATFS工作区内存，并注销工作区
+ */
 //将小写字母转为大写字母,如果是数字,则保持不变.
 u8 char_upper(u8 c)
 {

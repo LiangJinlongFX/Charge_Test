@@ -71,3 +71,6 @@
 .\objects\main.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\string.h
 .\objects\main.o: ..\BSP_USER\HMI\HMI.h
 .\objects\main.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rthw.h
+.\objects\main.o: ..\FATFS\src\ff.h
+.\objects\main.o: ..\FATFS\src\integer.h
+.\objects\main.o: ..\FATFS\src\ffconf.h

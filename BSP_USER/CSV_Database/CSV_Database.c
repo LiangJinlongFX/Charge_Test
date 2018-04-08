@@ -9,6 +9,8 @@
 #include "stm32f4xx.h"
 #include "rtc.h"
 #include "usart1.h"
+#include "rtthread.h"
+#include "app.h"
 
 
 
@@ -393,6 +395,113 @@ u8 Get_DataNum(u8 *path)
 		res=f_readdir(&tdir,&tfileinfo);
 	}
 }
+
+
+
+/*
+ * 参数指标存储函数
+ */
+u8 Modify_TestParameters(TestParameters_Type* TestParameters_Structure,u8 Standard_code)
+{
+	u8 res;
+	UINT check_count;
+	FIL* Fsrc;
+	
+	Fsrc=rt_malloc(sizeof(FIL));
+	if(Fsrc==NULL) return 1;
+	
+	res=f_open(Fsrc,"0:/setting.data",FA_READ|FA_WRITE);
+	if(res!=0)
+	{
+		res=f_open(Fsrc,"0:/setting.data",FA_READ|FA_WRITE|FA_CREATE_NEW);
+		/* 仍不能成功打开文件 */
+		return 1; //返回错误码
+		//空间预分配   偏移3000
+		res=f_lseek(Fsrc,3000);
+		if(res!=0) return 2;
+	}
+	//偏移(Standard_code*sizeof(TestParameters_Type)
+	res=f_lseek(Fsrc,Standard_code*sizeof(TestParameters_Type));
+	if(res!=0) return 2;
+	res=f_write(Fsrc,TestParameters_Structure,sizeof(TestParameters_Type),&check_count);
+	if(check_count!=sizeof(TestParameters_Type)||res!=0) return 1;	//写入出错,退出
+	
+	rt_free(Fsrc);
+	
+	return 0;
+}
+
+/*
+ * 读取测试指标信息
+ */
+u8 Read_TestParameters(TestParameters_Type* TestParameters_Structure,u8 Standard_code)
+{
+	u8 res;
+	UINT check_count;
+	FIL* Fsrc;
+	
+	Fsrc=rt_malloc(sizeof(FIL));
+	if(Fsrc==NULL) return 1;
+
+	
+	res=f_open(Fsrc,"0:/setting.data",FA_READ);
+	if(res != 0) return 1;
+	//偏移(Standard_code*sizeof(TestParameters_Type)
+	res=f_lseek(Fsrc,Standard_code*sizeof(TestParameters_Type));
+	if(res!=0) return 2;
+	res=f_read(Fsrc,&TestParameters_Structure,sizeof(TestParameters_Type),&check_count);
+	if(res!=0||check_count!=sizeof(TestParameters_Type)) return 3;
+
+	rt_free(Fsrc);
+	
+	return 0;	
+}
+
+/*
+ * 获取批量目录信息
+ * 使用全局字符串数组Global_str[10][10]存储目录信息
+ * 返回 获取到条目的数量
+ */
+u8 Scan_BatchDir(u8 start_val,u8 end_val)
+{
+	FRESULT res;	//FATFS执行返回值
+	u8 i=0;
+	u8 count=0;
+	DIR tdir;
+	FILINFO fileinfo;
+	
+	/* 防止参数错误 */
+	if(end_val<start_val) return 0;
+	
+	if(end_val-start_val>6) return 0;
+	
+	res = f_opendir(&tdir,"0:");  //打开一个目录
+	if(res != FR_OK) return 0;
+	
+	while(1)
+	{
+		res=f_readdir(&tdir,&fileinfo);	//读取目录下的一个文件
+		if (res != FR_OK || fileinfo.fname[0] == 0) break;  //错误了/到末尾了,退出
+		if(fileinfo.fname[0]>='0'&&fileinfo.fname[0]<='9')
+		{
+			/* 文件名在提取窗口内，提取文件名 */
+			if(i>=start_val&&i<=end_val)
+			{
+				strcpy(Global_str[count++],fileinfo.fname);
+			}
+			i++;
+		}
+	}
+	if(count<5)
+	for(i=count;i<=4;i++)
+		strcpy(Global_str[i]," ");
+	
+	return count;
+}
+
+
+
+
 //支持含小数点的数值字符,但一律转换为无符号整型数值
 unsigned int my_atoi(char s[])
 {
@@ -428,6 +537,53 @@ void my_itoa(int n,char str[])
 		k++;
 	}
 	str[k]='\0';
+}
+
+//输出加入小数点的字符串
+void my_itoa_Dot(int n,char str[],int dot_num)
+{
+	int i,j,sign,k;
+	char s[10],s2[10];
+	if((sign=n)<0)//记录符号
+	n=-n;//使n成为正数
+	i=0;
+	k=0;
+	do{
+				 s[i++]=n%10+'0';//取下一个数字
+	}
+	while ((n/=10)>0);//删除该数字
+	if(sign<0)
+	s[i++]='-';
+	s[i]='\0';
+	for(j=i-1;j>=0;j--)//生成的数字是逆序的，所以要逆序输出
+	{
+		s2[k]=s[j];
+		k++;
+	}
+	s2[k]='\0';
+	i=0;
+	if(k-dot_num<=0)
+	{
+		str[i++]='0';
+		str[i++]='.';
+		if(k-2<0) str[i++]='0';
+		else str[i++]=s2[k-2];
+		if(k-1<0) str[i++]='0';
+		else str[i++]=s2[k-1];
+		str[i]=s[k];
+	}
+	else
+	{
+		for(i=0;i<k-dot_num;i++)
+			str[i]=s2[i];
+	str[i]='.';
+	j=dot_num;
+	do{
+	i++;
+	str[i]=s2[k-j];
+	j--;
+	}while(j>=0);
+	}
 }
 
 

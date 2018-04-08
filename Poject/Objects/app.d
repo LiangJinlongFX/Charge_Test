@@ -72,3 +72,4 @@
 .\objects\app.o: ..\FATFS\src\integer.h
 .\objects\app.o: ..\FATFS\src\ffconf.h
 .\objects\app.o: ..\FATFS\exfuns\exfuns.h
+.\objects\app.o: ..\BSP_USER\Data_Math\Data_Math.h
