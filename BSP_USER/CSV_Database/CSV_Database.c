@@ -381,19 +381,17 @@ u8 Creat_FileHeader(char *File_Name)
 	if(res!=0)  return 1;
 }
 
-u8 Get_DataNum(u8 *path)
+
+/*
+ * 创建新的批量目录
+ */
+u8 Creat_NewBatchDir(char* path)
 {
-	u8 res;
-	u16 rval;
-	DIR tdir;
-	FILINFO tfileinfo;
-	u8 *fn;
-	res=f_opendir(&tdir,(const TCHAR *)path);
-	if(res!=0) return 1;
-	while(1)
-	{
-		res=f_readdir(&tdir,&tfileinfo);
-	}
+	u8 res=0;
+	
+	res=f_mkdir(path);
+	
+	return res;
 }
 
 

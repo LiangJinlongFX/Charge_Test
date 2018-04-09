@@ -84,7 +84,7 @@ u8 Modify_TestParameters(TestParameters_Type* TestParameters_Structure,u8 Standa
 
 u8 Read_TestParameters(TestParameters_Type* TestParameters_Structure,u8 Standard_code);
 
-u8 Get_DataNum(u8 *path);
+u8 Creat_NewBatchDir(char* path);
 
 u8 Scan_BatchDir(u8 start_val,u8 end_val);
 

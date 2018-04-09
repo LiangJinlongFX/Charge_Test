@@ -57,12 +57,12 @@ extern int __bss_end;
 #include "usb_conf.h"
 #include "usart2.h"
 #include <rtthread.h>
-#include "CSV_Database.h"
 #include "rtc.h"
 #include "usb_app.h"
 #include "switch.h"
 #include "adc.h"
 #include "ds18b20.h"
+#include "HMI.h"
 
 
  
@@ -74,15 +74,15 @@ void rt_hw_board_init()
 	
 	delay_init(168);		//初始化延时函数
 	//NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
-	uart1_init(9600);	//初始化串口1 HMI用
+	uart1_init(9600);		//初始化串口1 HMI用
 	uart2_init(115200);	//提前初始化串口2以输出初始化状态
 	LED_Init();					//初始化指示灯
 	Switch_Init();
 	Adc_Init();
 	Dac_Init();
 	USART2_printf("================================\r\n");
-	if(SD_Init())  USART2_printf("SD_Init_Error!\r\n");
-	else USART2_printf("SD_Init_OK!\r\n");
+	//if(SD_Init())  HMI_ShowError(0x0101);
+	SD_Init();
 //	if(DS18B20_Init()) USART2_printf("DS18B20_NotFind!\r\n");
 //	else USART2_printf("DS18B20_Get_Ready!\r\n");
 	My_RTC_Init();

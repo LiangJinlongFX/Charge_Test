@@ -454,3 +454,19 @@ HMI_Error HMI_ShowBatch(void)
 	return HMI_OK;
 }
 
+
+/*
+ * 系统运行错误执行(使程序停止运行)
+ */
+void HMI_ShowError(u16 Running_Code)
+{
+	char str[10];
+	
+	
+	HMI_File_Page(6);	//跳转到错误显示界面
+	my_itoa(Running_Code,str);
+	HMI_Print_Str("t1",str);
+	
+	while(1);
+}
+
