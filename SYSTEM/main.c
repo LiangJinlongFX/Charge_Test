@@ -31,6 +31,7 @@
 #include "HMI.h"
 #include <rthw.h>
 #include "ff.h"
+#include "exfuns.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/

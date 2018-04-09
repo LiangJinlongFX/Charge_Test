@@ -17,6 +17,7 @@ SET CPU_CLOCK=0x007A1200
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\adc.__i"
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\spi.__i"
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\wkup.__i"
+"D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\data_math.__i"
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\tlc5615.__i"
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\ds18b20.__i"
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\delay.__i"

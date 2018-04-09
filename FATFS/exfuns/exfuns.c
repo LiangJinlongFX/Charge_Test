@@ -30,7 +30,7 @@ u8*const FILE_TYPE_TBL[FILE_MAX_TYPE_NUM][FILE_MAX_SUBT_NUM]=
 	{"AVI"},			//视频文件
 };
 ///////////////////////////////公共文件区,使用malloc的时候////////////////////////////////////////////
-FATFS fat;				//逻辑磁盘工作区.	 
+FATFS *fs[1];				//逻辑磁盘工作区.	 
 FIL *file;	  		//文件1
 FIL *ftemp;	  		//文件2.
 UINT br,bw;				//读写变量
@@ -45,13 +45,13 @@ u8 *fatbuf;			//SD卡数据缓存区
  */
 u8 exfuns_init(void)
 {
-//	fs[0]=(FATFS*)rt_malloc(sizeof(FATFS));	//为磁盘i工作区申请内存	
-//	file=(FIL*)rt_malloc(sizeof(FIL));			//为file申请内存
-//	ftemp=(FIL*)rt_malloc(sizeof(FIL));			//为ftemp申请内存
-//	fatbuf=(u8*)rt_malloc(512);							//为fatbuf申请内存
-//	
-//	if(fs[0]&&file&&ftemp&&fatbuf)	return 1;  //申请有一个失败,即失败.
-//	else return 0;	
+	fs[0]=(FATFS*)rt_malloc(sizeof(FATFS));	//为磁盘i工作区申请内存	
+	file=(FIL*)rt_malloc(sizeof(FIL));			//为file申请内存
+	ftemp=(FIL*)rt_malloc(sizeof(FIL));			//为ftemp申请内存
+	fatbuf=(u8*)rt_malloc(512);							//为fatbuf申请内存
+	
+	if(fs[0]&&file&&ftemp&&fatbuf)	return 1;  //申请有一个失败,即失败.
+	else return 0;	
 }
 
 /*

@@ -8,7 +8,6 @@
 
 u16 Get_PowerVoltage(void)
 {
-	u8 res;
 	u16 Adc_Val;
 	u16 PowerVoltage=0;
 	

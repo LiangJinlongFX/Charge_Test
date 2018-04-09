@@ -74,7 +74,8 @@ void Master_thread_entry(void* parameter)
 					HMI_SelectBatch_thread = rt_thread_create("HMI_Batch",HMI_SelectBatch_thread_entry, RT_NULL,512,3,20);
 					
 					rt_enter_critical();	//进入临界区
-					f_mount(&fat,"0",1);	//挂载工作区
+					exfuns_init();
+					f_mount(fs[0],"0:",1);	//挂载工作区
 					rt_exit_critical();		//退出临界区
 					HMI_File_Page(8);	//跳转到列表显示界面
 					rt_thread_startup(HMI_SelectBatch_thread);	//启动线程
@@ -118,9 +119,25 @@ void Master_thread_entry(void* parameter)
 				{
 					rt_thread_delete(HMI_SelectStandard_thread);
 					HMI_File_Page(10);	//跳转到测试标准设置界面
+					HMI_StandardPage_Show();	//显示当前模式测试标准
 					while(1);
 				}break;
-				case 0x0c : HMI_RTC_Atoi();break;
+				case 0x0c : 
+				{
+					HMI_Standard_Atoi();
+					HMI_File_Page(1);	//跳转到主界面
+				}break;
+				case 0x0d	:
+				{
+					HMI_File_Page(12);	//跳转到开关界面
+					HMI_TestLimit_Itoa();
+				}break;
+				case 0x0e	:
+				{
+					HMI_TestLimit_Atoi(&HMI_TestLimit);
+					rt_kprintf("HMI_TestLimit=%d\r\n",HMI_TestLimit);
+					HMI_File_Page(1);	//跳转到主界面
+				}break;
 				/* 界面按键动作触发(通用) */
 				case 0x51 :{Event_Flag=1;rt_mb_send(Event_mb,Event_Flag);}break;	//上翻
 				case 0x52 :{Event_Flag=2;rt_mb_send(Event_mb,Event_Flag);}break;	//下翻

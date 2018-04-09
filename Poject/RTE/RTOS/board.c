@@ -81,8 +81,7 @@ void rt_hw_board_init()
 	Adc_Init();
 	Dac_Init();
 	USART2_printf("================================\r\n");
-	//if(SD_Init())  HMI_ShowError(0x0101);
-	SD_Init();
+	if(SD_Init())  rt_kprintf("SD_ERROR!\r\n");
 //	if(DS18B20_Init()) USART2_printf("DS18B20_NotFind!\r\n");
 //	else USART2_printf("DS18B20_Get_Ready!\r\n");
 	My_RTC_Init();

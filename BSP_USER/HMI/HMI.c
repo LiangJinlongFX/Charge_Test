@@ -144,18 +144,9 @@ HMI_Error HMI_Page_ACK(u8 Page_ID)
 	return HMI_OK;
 }
 
-//HMI_Error HMI_Set_Standard()
-//{
-//	//创建一测试标准结构体对象
-//	TestStandard_Type TestStandard_Struct;
-//	//判断页面是否真的在标准设置页面
-//	if(HMI_Page_ACK(Page_standard));
-//	while(1)
-//	{
-//		
-//	}
-//}
-
+/*
+ * 在界面显示当前测试标准参数
+ */
 HMI_Error HMI_StandardPage_Show(void)
 {
 	char Num_str[10];

@@ -48,8 +48,8 @@ typedef struct
 /* 测试指标存储结构体 */
 typedef struct
 {
-	u8 Vout_Max;	//最大输出电压
-	u8 Cout_Max;	//最大输出电流
+	u16 Vout_Max;	//最大输出电压
+	u16 Cout_Max;	//最大输出电流
 	u8 V_Ripple;	//纹波电压
 	u8 Poweron_Time;	//上电时间
 	u8 Efficiency; //转换效率
@@ -80,9 +80,11 @@ u8 Num_To_Str(u8 number);
 
 u8 Creat_FileHeader(char *File_Name);
 
-u8 Modify_TestParameters(TestParameters_Type* TestParameters_Structure,u8 Standard_code);
+u8 Modify_TestParameters(TestParameters_Type* TestParameters_Structure,u8 Standard_code);	//写入测试配置数据
 
-u8 Read_TestParameters(TestParameters_Type* TestParameters_Structure,u8 Standard_code);
+u8 First_writeTestParameters(void);
+
+u8 Read_TestParameters(TestParameters_Type* TestParameters_Structure,u8 Standard_code);	//读取测试配置数据
 
 u8 Creat_NewBatchDir(char* path);
 

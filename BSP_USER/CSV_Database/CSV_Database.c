@@ -403,28 +403,24 @@ u8 Modify_TestParameters(TestParameters_Type* TestParameters_Structure,u8 Standa
 {
 	u8 res;
 	UINT check_count;
-	FIL* Fsrc;
+	FIL Fsrc;
 	
-	Fsrc=rt_malloc(sizeof(FIL));
-	if(Fsrc==NULL) return 1;
-	
-	res=f_open(Fsrc,"0:/setting.data",FA_READ|FA_WRITE);
+	res=f_open(&Fsrc,"0:/set.data",FA_READ|FA_WRITE|FA_CREATE_NEW);
 	if(res!=0)
 	{
-		res=f_open(Fsrc,"0:/setting.data",FA_READ|FA_WRITE|FA_CREATE_NEW);
+		res=f_open(&Fsrc,"0:/set.data",FA_READ|FA_WRITE|FA_CREATE_NEW);
 		/* 仍不能成功打开文件 */
-		return 1; //返回错误码
+		return res; //返回错误码
 		//空间预分配   偏移3000
-		res=f_lseek(Fsrc,3000);
+		res=f_lseek(&Fsrc,3000);
 		if(res!=0) return 2;
 	}
 	//偏移(Standard_code*sizeof(TestParameters_Type)
-	res=f_lseek(Fsrc,Standard_code*sizeof(TestParameters_Type));
+	res=f_lseek(&Fsrc,Standard_code*sizeof(TestParameters_Type));
 	if(res!=0) return 2;
-	res=f_write(Fsrc,TestParameters_Structure,sizeof(TestParameters_Type),&check_count);
+	res=f_write(&Fsrc,TestParameters_Structure,sizeof(TestParameters_Type),&check_count);
 	if(check_count!=sizeof(TestParameters_Type)||res!=0) return 1;	//写入出错,退出
-	
-	rt_free(Fsrc);
+	res=f_close(&Fsrc);
 	
 	return 0;
 }
@@ -497,7 +493,23 @@ u8 Scan_BatchDir(u8 start_val,u8 end_val)
 	return count;
 }
 
-
+u8 First_writeTestParameters(void)
+{
+	u8 res;
+	TestParameters_Type TestParameters_temp;
+	
+	TestParameters_temp.Vout_Max=5100;
+	TestParameters_temp.Cout_Max=3000;
+	TestParameters_temp.V_Ripple=200;
+	TestParameters_temp.Poweron_Time=2;
+	TestParameters_temp.Efficiency=89;
+	TestParameters_temp.Quick_Charge=0;
+	TestParameters_temp.Safety_Code=0;
+	
+	res=Modify_TestParameters(&TestParameters_temp,0);
+	
+	return res;
+}
 
 
 //支持含小数点的数值字符,但一律转换为无符号整型数值
