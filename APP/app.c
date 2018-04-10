@@ -45,9 +45,10 @@ TestParameters_Type TestParameters_Structure;	//²âÊÔÖ¸±ê´æ·Å½á¹¹Ìå,Ó¦ÓÃÓÚĞŞ¸ÄÖ¸±
 
 void Master_thread_entry(void* parameter)
 {
+	u8 res;
 	while(1)
 	{
-		/* µÈ´ıHMI´®¿Ú¼à¿ØÏß³ÌµÄÓÊ¼ş */
+		/* µÈ´ıHMI´®¿Ú¼à¿ØÏß³ÌµÄ´¥·¢ÓÊ¼ş */
 		if(rt_mb_recv(&HMI_Response_mb,(rt_uint32_t*)HMI_Info,RT_WAITING_FOREVER)==RT_EOK)
 		{
 			switch(HMI_Info[0])
@@ -106,8 +107,18 @@ void Master_thread_entry(void* parameter)
 					HMI_File_Page(25);	//Ìø×ªµ½²âÊÔ±ê×¼Ñ¡Ôñ½çÃæ
 					rt_thread_startup(HMI_SelectStandard_thread);	//Æô¶¯Ïß³Ì
 				}break;
-				case 0x08 : {HMI_TestLimit_Atoi(&HMI_TestLimit);HMI_File_Page(10);rt_kprintf("res=%d\r\n",HMI_TestLimit);} break;
-				case 0x09 : HMI_RTC_Show();break;
+				case 0x08 : 
+				{
+					//´´½¨ÁĞ±í²é¿´Ïß³Ì
+					HMI_ShowBatchList_thread = rt_thread_create("Standard",HMI_ShowBatchList_thread_entry, RT_NULL,512,3,20);
+					HMI_File_Page(8);	//Ìø×ªµ½ÁĞ±íÏÔÊ¾½çÃæ
+					rt_thread_startup(HMI_ShowBatchList_thread);	//Æô¶¯Ïß³Ì
+				}break;
+				case 0x09 : 
+				{
+					rt_thread_delete(HMI_ShowBatchList_thread);	//É¾³ıÅúÁ¿ÁĞ±íÏß³Ì
+					HMI_File_Page(1);	//Ìø×ªµ½ÁĞ±íÏÔÊ¾½çÃæ
+				}break;
 				case 0x0a : 
 				{
 					Entry_Code_Old=0x0a;
@@ -119,14 +130,15 @@ void Master_thread_entry(void* parameter)
 				case 0x0b : 
 				{
 					rt_thread_delete(HMI_SelectStandard_thread);
-					HMI_File_Page(10);	//Ìø×ªµ½²âÊÔ±ê×¼ÉèÖÃ½çÃæ
+					HMI_File_Page(10);				//Ìø×ªµ½²âÊÔ±ê×¼ÉèÖÃ½çÃæ
 					HMI_StandardPage_Show();	//ÏÔÊ¾µ±Ç°Ä£Ê½²âÊÔ±ê×¼
-					while(1);
 				}break;
 				case 0x0c : 
 				{
-					rt_kprintf("OK\r\n");
-					HMI_Standard_Atoi();	//»ñÈ¡½çÃæ±ê×¼²ÎÊı²¢×°ÔØ½ø½á¹¹Ìå
+					rt_thread_suspend(HMIMonitor_thread);
+					res=HMI_Standard_Atoi();	//»ñÈ¡½çÃæ±ê×¼²ÎÊı²¢×°ÔØ½ø½á¹¹Ìå
+					rt_thread_resume(HMIMonitor_thread);
+					rt_kprintf("res=%d\r\n",TestParameters_Structure.Vout_Max);
 					HMI_File_Page(1);	//Ìø×ªµ½Ö÷½çÃæ
 				}break;
 				case 0x0d	:
@@ -139,6 +151,15 @@ void Master_thread_entry(void* parameter)
 					HMI_TestLimit_Atoi(&HMI_TestLimit);
 					rt_kprintf("HMI_TestLimit=%d\r\n",HMI_TestLimit);
 					HMI_File_Page(1);	//Ìø×ªµ½Ö÷½çÃæ
+				}break;
+				case 0x0f	:
+				{
+					HMI_File_Page(17);	//Ìø×ªµ½Ê±¼ä½çÃæ
+					HMI_RTC_Show();
+				}break;
+				case 0x10	:
+				{
+					
 				}break;
 				/* ½çÃæ°´¼ü¶¯×÷´¥·¢(Í¨ÓÃ) */
 				case 0x51 :{Event_Flag=1;rt_mb_send(Event_mb,Event_Flag);}break;	//ÉÏ·­
@@ -183,6 +204,7 @@ void CollectData_thread_entry(void* parameter)
 		rt_enter_critical();	//½øÈëÁÙ½çÇø
 		ReadTimeData_structure.V_OUT=Get_PowerVoltage();	//²É¼¯µçÑ¹
 		ReadTimeData_structure.C_OUT=Get_PowerCurrent();	//²É¼¯µçÁ÷
+		ReadTimeData_structure.V_Ripple=Get_PowerRipple();	//²É¼¯ÎÆ²¨µçÑ¹
 		rt_exit_critical();		//ÍË³öÁÙ½çÇø
 		rt_mb_send(GetData_mb,(rt_uint32_t)&ReadTimeData_structure);
 		rt_thread_delay(100);
@@ -206,8 +228,11 @@ void HMI_FastTest_thread_entry(void* parameter)
 			HMI_Print_Str("t9",str);
 			my_itoa((*Showdata_Structure).C_OUT,str);
 			HMI_Print_Str("t10",str);
+			str[0]='\0';
 			HMI_Print_Str("t11",str);
+			my_itoa((*Showdata_Structure).V_Ripple,str);
 			HMI_Print_Str("t12",str);
+			str[0]='\0';
 			HMI_Print_Str("t8",str);
 		}
 		rt_thread_delay(100);
@@ -360,7 +385,6 @@ void HMI_SelectStandard_thread_entry(void* parameter)
 {
 	while(1)
 	{
-		rt_kprintf("Entry_Code_Old=%d\r\n",Entry_Code_Old);
 		/* »ñÈ¡²âÊÔ±ê×¼ĞòºÅ */
 		if(rt_mb_recv(Event_mb,(rt_uint32_t*)&Event_Flag,RT_WAITING_FOREVER)==RT_EOK)
 		{
@@ -372,11 +396,13 @@ void HMI_SelectStandard_thread_entry(void* parameter)
 				default:break;
 			}
 		}
+		/*ÅúÁ¿¼ì²â½çÃæ²¿·Ö*/
 		if(Entry_Code_Old==0x04||Entry_Code_Old==0x07)
 		{
 			rt_thread_delay(100);
 			HMI_File_Page(19);
 		}
+		/*²âÊÔ±ê×¼ÉèÖÃ²¿·Ö*/
 		else
 		{
 			HMI_Info[0]=0x0b;

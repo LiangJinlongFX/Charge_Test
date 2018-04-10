@@ -6,6 +6,7 @@
 #include "CSV_Database.h"
 #include "rtthread.h"
 #include "app.h"
+#include "delay.h"
 
 /*
  * 批量检测条目限制变量 bit7:转换效率 bit6:上电时间 bit5:电路保护 bit4:OCP bit3:OVP bit2:cmax bit1:vmax bit0:纹波  1：为有效
@@ -25,7 +26,8 @@ HMI_Error USART_Solution(u8 HMI_Type,char* HMI_Rx_String)
 	do{
 		if(HMI_RX_FLAG) break;
 		i++;
-	}while(i<5000);
+	}while(i<60000);
+	//while(!HMI_RX_FLAG);
 	//仍不能接收到标志位，返回无响应错误
 	if(!HMI_RX_FLAG) return HMI_NoResponse;
 	
@@ -154,6 +156,8 @@ HMI_Error HMI_StandardPage_Show(void)
 	char temp;
 	char temp_str[10];
 	
+	TestParameters_Structure.Vout_Max=5000;
+	
 	/* 显示最大输出电压 */
 	my_itoa(TestParameters_Structure.Vout_Max,Num_str);
 	HMI_Print_Str("t0",Num_str);
@@ -201,8 +205,11 @@ HMI_Error HMI_Get(u8 Object_Type,char* Object_ID,char* fmt)
 		strcat(str,Object_ID);
 		strcat(str,".txt");
 		HMI_Print(str);
+		delay_ms(100); 	//延时一段时间待串口接收完毕
+		rt_kprintf("2354\r\n");
 		//等待HMI响应
 		res=USART_Solution(HMI_String_Type,fmt);
+		rt_kprintf("res111=%d\r\n",res);
 	}
 	//要获取的内容为数值类型
 	else if(Object_Type==HMI_Vaule_Type)
@@ -259,7 +266,6 @@ HMI_Error HMI_Standard_Atoi(void)
 	TestParameters_Structure.Safety_Code=bit_temp<<1|TestParameters_Structure.Safety_Code;
 	/* 获取过流保护开关 */
 	res=HMI_Get(HMI_Vaule_Type,"bt2",str);
-	res=HMI_Get(HMI_Vaule_Type,"bt1",str);
 	bit_temp=my_atoi(str);
 	TestParameters_Structure.Safety_Code=bit_temp<<2|TestParameters_Structure.Safety_Code;
 	/* 获取快充诱导开关 */

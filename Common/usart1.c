@@ -23,6 +23,7 @@
 /* include-------------------------------------------------- */
 #include "sys.h"
 #include "usart1.h"	
+#include "rtthread.h"
 
 //加入以下代码,支持printf函数,而不需要选择use MicroLIB	  
 #if 1
@@ -127,7 +128,7 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 	if(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET)  //接收中断(接收到的数据必须是0xff 0xff 0xff结尾)
 	{
 		Res =USART_ReceiveData(USART1);//(USART1->DR);	//读取接收到的数据
-		//printf("%x",Res);
+		//rt_kprintf("%x\r\n",Res);
 			if(Res==0xff)
 			{
 				//成功接收到3个0XFF,该语句接收完毕
@@ -135,6 +136,7 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 				{
 
 					HMI_RX_FLAG=1;	//语句接收结束标志置位
+					//rt_kprintf("OK\r\n");
 				}
 				//非终止情况下接收到0xff
 				USART_RX_BUF[UASRT1_RX_BUFFER_LEN]=Res;	//放入缓存数组

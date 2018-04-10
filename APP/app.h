@@ -18,11 +18,11 @@
 #include "CSV_Database.h"
 
 /* 任务使用到的全局变量定义 */
-static ReadTimeData_Type ReadTimeData_structure;	//实时数据存储结构体
 extern char Global_str[10][10];	//字符串二维缓存数组
 extern rt_uint8_t Standard_val; //测试标准序号
-static char HMI_Info[100];	//HMI消息缓存数组
 extern TestParameters_Type TestParameters_Structure;	//测试指标存放结构体,应用于修改指标和测试时加载指标
+static ReadTimeData_Type ReadTimeData_structure;	//实时数据存储结构体
+static char HMI_Info[100];	//HMI消息缓存数组
 static rt_int16_t SysError_Code;	//系统运行情况代码
 static char Batch_str[10];	//测试批量缓存
 static rt_uint8_t Entry_Code_Old;	//缓存上一个执行的进程代码以实现线程复用
@@ -38,6 +38,7 @@ static char mb_pool[32];
 static rt_uint8_t Event_Flag;
 
 
+/* 线程控制块 */
 static rt_thread_t led1_thread=RT_NULL;
 static rt_thread_t usb_thread=RT_NULL;
 static rt_thread_t HMIMonitor_thread=RT_NULL;
@@ -48,6 +49,7 @@ static rt_thread_t HMI_ShowBatchList_thread=RT_NULL;
 static rt_thread_t HMI_SelectBatch_thread=RT_NULL;
 static rt_thread_t HMI_SelectStandard_thread=RT_NULL;	
 
+/* 线程函数 */
 void usb_thread_entry(void* parameter);						//USB线程
 void led1_thread_entry(void* parameter);					//LED闪烁线程
 void HMIMonitor_thread_entry(void* parameter);		//HMI系统信息监控进程

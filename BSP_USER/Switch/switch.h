@@ -2,7 +2,7 @@
 #define _SWITCH_H
 #include "sys.h"
 
-#define SW PBout(15)	 
+#define SW PCout(0)	 
 
 void Switch_Init(void);
 

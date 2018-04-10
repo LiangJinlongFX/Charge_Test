@@ -37,3 +37,12 @@
 .\objects\usart1.o: ..\STM32f4_LIB\inc\stm32f4xx_fsmc.h
 .\objects\usart1.o: ..\Common\usart1.h
 .\objects\usart1.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\usart1.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
+.\objects\usart1.o: .\RTE\RTOS\rtconfig.h
+.\objects\usart1.o: .\RTE\_Target_1\RTE_Components.h
+.\objects\usart1.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdebug.h
+.\objects\usart1.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdef.h
+.\objects\usart1.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\usart1.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtservice.h
+.\objects\usart1.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtm.h
+.\objects\usart1.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
