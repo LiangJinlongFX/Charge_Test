@@ -47,6 +47,11 @@
   */
 int main()
 {
+//	u8 res;
+//	f_mount(&fat,"0:",1);	//¹ÒÔØ¹¤×÷Çø
+//	res=First_writeTestParameters();
+//	rt_kprintf("res=%d\r\n",res);
+//	while(1);
 	Main_entry();
 	return 0;
 }

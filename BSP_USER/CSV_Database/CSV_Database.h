@@ -46,6 +46,10 @@ typedef struct
 }ReadTimeData_Type;
 
 /* 测试指标存储结构体 */
+/*
+ * 安全检测位标志  bit0:过压保护		bit1:短路保护		bit2:过流保护
+ * 快充诱导标志位	 bit0:MTK		bit1:QC2.0		bit2:QC3.0
+ */
 typedef struct
 {
 	u16 Vout_Max;	//最大输出电压

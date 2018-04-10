@@ -32,7 +32,9 @@ u8*const FILE_TYPE_TBL[FILE_MAX_TYPE_NUM][FILE_MAX_SUBT_NUM]=
 ///////////////////////////////公共文件区,使用malloc的时候////////////////////////////////////////////
 FATFS *fs[1];				//逻辑磁盘工作区.
 FATFS fat;
+FIL Fsrc1;
 FIL *file;	  		//文件1
+FIL Fsrc;
 FIL *ftemp;	  		//文件2.
 UINT br,bw;				//读写变量
 FILINFO fileinfo;	//文件信息

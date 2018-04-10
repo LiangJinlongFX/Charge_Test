@@ -11,6 +11,7 @@
 #include "usart1.h"
 #include "rtthread.h"
 #include "app.h"
+#include "exfuns.h"
 
 
 
@@ -403,26 +404,25 @@ u8 Modify_TestParameters(TestParameters_Type* TestParameters_Structure,u8 Standa
 {
 	u8 res;
 	UINT check_count;
-	FIL Fsrc;
 	
-	res=f_open(&Fsrc,"0:/set.data",FA_READ|FA_WRITE|FA_CREATE_NEW);
+	res=f_open(&Fsrc1,"0:/set.dat",FA_READ|FA_WRITE);
 	if(res!=0)
 	{
-		res=f_open(&Fsrc,"0:/set.data",FA_READ|FA_WRITE|FA_CREATE_NEW);
+		res=f_open(&Fsrc1,"0:/set.dat",FA_READ|FA_WRITE|FA_CREATE_NEW);
 		/* 仍不能成功打开文件 */
 		return res; //返回错误码
 		//空间预分配   偏移3000
-		res=f_lseek(&Fsrc,3000);
+		res=f_lseek(&Fsrc1,3000);
 		if(res!=0) return 2;
 	}
 	//偏移(Standard_code*sizeof(TestParameters_Type)
-	res=f_lseek(&Fsrc,Standard_code*sizeof(TestParameters_Type));
+	res=f_lseek(&Fsrc1,Standard_code*sizeof(TestParameters_Type));
 	if(res!=0) return 2;
-	res=f_write(&Fsrc,TestParameters_Structure,sizeof(TestParameters_Type),&check_count);
+	res=f_write(&Fsrc1,TestParameters_Structure,sizeof(TestParameters_Type),&check_count);
 	if(check_count!=sizeof(TestParameters_Type)||res!=0) return 1;	//写入出错,退出
-	res=f_close(&Fsrc);
+	res=f_close(&Fsrc1);
 	
-	return 0;
+	return res;
 }
 
 /*
@@ -507,6 +507,9 @@ u8 First_writeTestParameters(void)
 	TestParameters_temp.Safety_Code=0;
 	
 	res=Modify_TestParameters(&TestParameters_temp,0);
+	res=Modify_TestParameters(&TestParameters_temp,1);
+	res=Modify_TestParameters(&TestParameters_temp,2);
+	res=Modify_TestParameters(&TestParameters_temp,3);
 	
 	return res;
 }

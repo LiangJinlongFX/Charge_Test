@@ -5,6 +5,7 @@
 #include "usart1.h"
 #include "CSV_Database.h"
 #include "rtthread.h"
+#include "app.h"
 
 /*
  * 批量检测条目限制变量 bit7:转换效率 bit6:上电时间 bit5:电路保护 bit4:OCP bit3:OVP bit2:cmax bit1:vmax bit0:纹波  1：为有效
@@ -153,42 +154,29 @@ HMI_Error HMI_StandardPage_Show(void)
 	char temp;
 	char temp_str[10];
 	
-//	TestStandard_Arrary[0].Cout_Max=244;
-//	TestStandard_Arrary[0].Vout_Max=50;
-//	TestStandard_Arrary[0].Ripple_Voltage=100;
-//	TestStandard_Arrary[0].Poweron_Time=10;
-//	TestStandard_Arrary[0].Efficiency=89;
-//	TestStandard_Arrary[0].Over_Voltage_Protection=1;
-//	TestStandard_Arrary[0].Short_Current=0;
-//	TestStandard_Arrary[0].Over_Current_Protection=1;
-//	TestStandard_Arrary[0].Quick_Charge=2;
-	
-	my_itoa(TestStandard_Arrary[Current_event].Vout_Max/10,Num_str);
-	strcat(Num_str,".");
-	temp=TestStandard_Arrary[Current_event].Vout_Max%10+'0';
-	strcat(Num_str,&temp);
+	/* 显示最大输出电压 */
+	my_itoa(TestParameters_Structure.Vout_Max,Num_str);
 	HMI_Print_Str("t0",Num_str);
-	
-	my_itoa(TestStandard_Arrary[Current_event].Cout_Max/100,Num_str);
-	strcat(Num_str,".");
-	my_itoa(TestStandard_Arrary[Current_event].Cout_Max%100,temp_str);
-	strcat(Num_str,temp_str);
+	/* 显示最大输出电流 */
+	my_itoa(TestParameters_Structure.Cout_Max,Num_str);
 	HMI_Print_Str("t1",Num_str);
-	
-	my_itoa(TestStandard_Arrary[Current_event].Ripple_Voltage,Num_str);
+	/* 显示纹波峰值电压 */
+	my_itoa(TestParameters_Structure.V_Ripple,Num_str);
 	HMI_Print_Str("t2",Num_str);
-	
-	my_itoa(TestStandard_Arrary[Current_event].Poweron_Time,Num_str);
+	/* 显示上电时间 */
+	my_itoa(TestParameters_Structure.Poweron_Time,Num_str);
 	HMI_Print_Str("t3",Num_str);
-	
-	my_itoa(TestStandard_Arrary[Current_event].Efficiency,Num_str);
+	/* 显示转换效率 */
+	my_itoa(TestParameters_Structure.Efficiency,Num_str);
 	HMI_Print_Str("t4",Num_str);
-	
-	HMI_Print_Val("bt0",TestStandard_Arrary[Current_event].Over_Voltage_Protection);
-	HMI_Print_Val("bt2",TestStandard_Arrary[Current_event].Short_Current);
-	HMI_Print_Val("bt1",TestStandard_Arrary[Current_event].Over_Current_Protection);
-	
-	HMI_Print_Val("FastCharg_STA",TestStandard_Arrary[Current_event].Quick_Charge);
+	/* 显示过压保护开关 */
+	HMI_Print_Val("bt0",TestParameters_Structure.Safety_Code&0x01);
+	/* 显示短路保护开关 */
+	HMI_Print_Val("bt2",TestParameters_Structure.Safety_Code&0x02);
+	/* 显示过流保护开关 */
+	HMI_Print_Val("bt1",TestParameters_Structure.Safety_Code&0x04);
+	/* 显示快充诱导开关 */
+	HMI_Print_Val("FastCharg_STA",TestParameters_Structure.Quick_Charge);
 
 	return HMI_OK;
 }
@@ -236,32 +224,47 @@ HMI_Error HMI_Get(u8 Object_Type,char* Object_ID,char* fmt)
 	return res;
 }
 /**
-* 将标准设置界面的参数文本写进全局标准结构体
- * @param   []
+ * 将标准设置界面的参数文本写进全局标准结构体
+ * @param   TestParameters_Structure[全局变量,在app.c定义]
  * @return     [description]
  */
 HMI_Error HMI_Standard_Atoi(void)
 {
 	char str[20];
+	u8 bit_temp;	//位缓存
 	u8 res=HMI_OK;
+	
+	/* 获取最大输出电压 */
 	res=HMI_Get(HMI_String_Type,"t0",str);
-	TestStandard_Arrary[Current_event].Vout_Max=my_atoi(str);
+	TestParameters_Structure.Vout_Max=my_atoi(str);
+	/* 获取最大输出电流 */
 	res=HMI_Get(HMI_String_Type,"t1",str);
-	TestStandard_Arrary[Current_event].Cout_Max=my_atoi(str);
+	TestParameters_Structure.Cout_Max=my_atoi(str);
+	/* 获取纹波峰值电压 */
 	res=HMI_Get(HMI_String_Type,"t2",str);
-	TestStandard_Arrary[Current_event].Ripple_Voltage=my_atoi(str);
+	TestParameters_Structure.V_Ripple=my_atoi(str);
+	/* 获取上电时间 */
 	res=HMI_Get(HMI_String_Type,"t3",str);
-	TestStandard_Arrary[Current_event].Poweron_Time=my_atoi(str);
+	TestParameters_Structure.Poweron_Time=my_atoi(str);
+	/* 获取转换效率 */
 	res=HMI_Get(HMI_String_Type,"t4",str);
-	TestStandard_Arrary[Current_event].Efficiency=my_atoi(str);
+	TestParameters_Structure.Efficiency=my_atoi(str);
+	/* 获取过压保护开关 */
 	res=HMI_Get(HMI_Vaule_Type,"bt0",str);
-	TestStandard_Arrary[Current_event].Over_Voltage_Protection=my_atoi(str);
+	bit_temp=my_atoi(str);
+	TestParameters_Structure.Safety_Code=bit_temp;
+	/* 获取短路保护开关 */
 	res=HMI_Get(HMI_Vaule_Type,"bt1",str);
-	TestStandard_Arrary[Current_event].Over_Current_Protection=my_atoi(str);
+	bit_temp=my_atoi(str);
+	TestParameters_Structure.Safety_Code=bit_temp<<1|TestParameters_Structure.Safety_Code;
+	/* 获取过流保护开关 */
 	res=HMI_Get(HMI_Vaule_Type,"bt2",str);
-	TestStandard_Arrary[Current_event].Short_Current=my_atoi(str);
+	res=HMI_Get(HMI_Vaule_Type,"bt1",str);
+	bit_temp=my_atoi(str);
+	TestParameters_Structure.Safety_Code=bit_temp<<2|TestParameters_Structure.Safety_Code;
+	/* 获取快充诱导开关 */
 	res=HMI_Get(HMI_Vaule_Type,"FastCharg_STA",str);
-	TestStandard_Arrary[Current_event].Quick_Charge=my_atoi(str);
+	TestStandard_Arrary[Standard_val].Quick_Charge=my_atoi(str);
 	
 	return res;
 }

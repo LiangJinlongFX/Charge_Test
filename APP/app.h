@@ -20,11 +20,13 @@
 /* 任务使用到的全局变量定义 */
 static ReadTimeData_Type ReadTimeData_structure;	//实时数据存储结构体
 extern char Global_str[10][10];	//字符串二维缓存数组
+extern rt_uint8_t Standard_val; //测试标准序号
 static char HMI_Info[100];	//HMI消息缓存数组
-static TestParameters_Type TestParameters_Structure;	//测试指标存放结构体,应用于修改指标和测试时加载指标
+extern TestParameters_Type TestParameters_Structure;	//测试指标存放结构体,应用于修改指标和测试时加载指标
 static rt_int16_t SysError_Code;	//系统运行情况代码
 static char Batch_str[10];	//测试批量缓存
 static rt_uint8_t Entry_Code_Old;	//缓存上一个执行的进程代码以实现线程复用
+static rt_uint8_t Batch_val;	//批量序号
 
 /* 邮箱控制块 */
 static struct rt_mailbox HMI_Response_mb;		//HMI串口响应邮箱
@@ -35,8 +37,6 @@ static rt_mailbox_t Event_mb=RT_NULL;						//按键动作邮箱
 static char mb_pool[32];
 static rt_uint8_t Event_Flag;
 
-static rt_uint8_t Batch_val;	//批量序号
-static rt_uint8_t Standard_val; //测试标准序号
 
 static rt_thread_t led1_thread=RT_NULL;
 static rt_thread_t usb_thread=RT_NULL;

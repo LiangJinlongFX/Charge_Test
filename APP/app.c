@@ -39,6 +39,8 @@ extern USB_OTG_CORE_HANDLE  USB_OTG_dev;
 u8 Device_STA=0;
 u8 HMI_Event;
 char Global_str[10][10];
+rt_uint8_t Standard_val; //测试标准序号
+TestParameters_Type TestParameters_Structure;	//测试指标存放结构体,应用于修改指标和测试时加载指标
 
 
 void Master_thread_entry(void* parameter)
@@ -74,6 +76,7 @@ void Master_thread_entry(void* parameter)
 					HMI_SelectBatch_thread = rt_thread_create("HMI_Batch",HMI_SelectBatch_thread_entry, RT_NULL,512,3,20);					
 					rt_enter_critical();	//进入临界区
 					f_mount(&fat,"0:",1);	//挂载工作区
+					First_writeTestParameters();
 					rt_exit_critical();		//退出临界区
 					HMI_File_Page(8);	//跳转到列表显示界面
 					rt_thread_startup(HMI_SelectBatch_thread);	//启动线程
@@ -122,7 +125,8 @@ void Master_thread_entry(void* parameter)
 				}break;
 				case 0x0c : 
 				{
-					HMI_Standard_Atoi();
+					rt_kprintf("OK\r\n");
+					HMI_Standard_Atoi();	//获取界面标准参数并装载进结构体
 					HMI_File_Page(1);	//跳转到主界面
 				}break;
 				case 0x0d	:

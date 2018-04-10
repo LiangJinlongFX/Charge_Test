@@ -55,3 +55,4 @@
 .\objects\csv_database.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtm.h
 .\objects\csv_database.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
 .\objects\csv_database.o: ..\APP\app.h
+.\objects\csv_database.o: ..\FATFS\exfuns\exfuns.h
