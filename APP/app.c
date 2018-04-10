@@ -38,7 +38,7 @@ extern USB_OTG_CORE_HANDLE  USB_OTG_dev;
 
 u8 Device_STA=0;
 u8 HMI_Event;
-
+char Global_str[10][10];
 
 
 void Master_thread_entry(void* parameter)
@@ -52,7 +52,7 @@ void Master_thread_entry(void* parameter)
 			{
 				case 0x01 : 
 				{
-						//创建线程1 
+					//创建线程1 
 					CollectData_thread = rt_thread_create("GetData",CollectData_thread_entry, RT_NULL,512, 2,20);
 					//创建线程1 
 					HMI_FastTest_thread = rt_thread_create("HMI_1",HMI_FastTest_thread_entry, RT_NULL,512,3,20);
@@ -71,11 +71,9 @@ void Master_thread_entry(void* parameter)
 				{
 					Entry_Code_Old=0x03;
 					//创建线程1 
-					HMI_SelectBatch_thread = rt_thread_create("HMI_Batch",HMI_SelectBatch_thread_entry, RT_NULL,512,3,20);
-					
+					HMI_SelectBatch_thread = rt_thread_create("HMI_Batch",HMI_SelectBatch_thread_entry, RT_NULL,512,3,20);					
 					rt_enter_critical();	//进入临界区
-					exfuns_init();
-					f_mount(fs[0],"0:",1);	//挂载工作区
+					f_mount(&fat,"0:",1);	//挂载工作区
 					rt_exit_critical();		//退出临界区
 					HMI_File_Page(8);	//跳转到列表显示界面
 					rt_thread_startup(HMI_SelectBatch_thread);	//启动线程
@@ -265,6 +263,8 @@ void HMI_SelectBatch_thread_entry(void* parameter)
 	
 	/* 显示目录 */
 	count=Scan_BatchDir(Page_Flag,Page_Flag+4);
+	rt_kprintf("count=%d\r\n",count);
+	rt_kprintf("str=%s\r\n",Global_str[0]);
 	HMI_Print_Str("t0",Global_str[0]);
 	HMI_Print_Str("t1",Global_str[1]);
 	HMI_Print_Str("t2",Global_str[2]);

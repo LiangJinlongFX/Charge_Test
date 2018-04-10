@@ -30,7 +30,8 @@ u8*const FILE_TYPE_TBL[FILE_MAX_TYPE_NUM][FILE_MAX_SUBT_NUM]=
 	{"AVI"},			//视频文件
 };
 ///////////////////////////////公共文件区,使用malloc的时候////////////////////////////////////////////
-FATFS *fs[1];				//逻辑磁盘工作区.	 
+FATFS *fs[1];				//逻辑磁盘工作区.
+FATFS fat;
 FIL *file;	  		//文件1
 FIL *ftemp;	  		//文件2.
 UINT br,bw;				//读写变量

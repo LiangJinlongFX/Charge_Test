@@ -19,7 +19,7 @@
 
 /* 任务使用到的全局变量定义 */
 static ReadTimeData_Type ReadTimeData_structure;	//实时数据存储结构体
-static char Global_str[10][10];	//字符串二维缓存数组
+extern char Global_str[10][10];	//字符串二维缓存数组
 static char HMI_Info[100];	//HMI消息缓存数组
 static TestParameters_Type TestParameters_Structure;	//测试指标存放结构体,应用于修改指标和测试时加载指标
 static rt_int16_t SysError_Code;	//系统运行情况代码
