@@ -17,6 +17,9 @@
 #include <rtthread.h>
 #include "CSV_Database.h"
 
+/* 系统调试信息输出开关 */   
+#define Thread_Debug	1
+
 /* 任务使用到的全局变量定义 */
 extern char Global_str[10][10];	//字符串二维缓存数组
 extern rt_uint8_t Standard_val; //测试标准序号

@@ -32,6 +32,8 @@
 #include <rthw.h>
 #include "ff.h"
 #include "exfuns.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/

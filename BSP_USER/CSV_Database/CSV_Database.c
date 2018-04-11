@@ -515,7 +515,7 @@ u8 First_writeTestParameters(void)
 }
 
 
-//支持含小数点的数值字符,但一律转换为无符号整型数值
+//数值字符,但一律转换为无符号整型数值
 unsigned int my_atoi(char s[])
 {
 	u8 i;

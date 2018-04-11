@@ -75,3 +75,4 @@
 .\objects\main.o: ..\FATFS\src\integer.h
 .\objects\main.o: ..\FATFS\src\ffconf.h
 .\objects\main.o: ..\FATFS\exfuns\exfuns.h
+.\objects\main.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdlib.h

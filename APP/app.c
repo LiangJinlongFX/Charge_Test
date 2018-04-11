@@ -135,10 +135,19 @@ void Master_thread_entry(void* parameter)
 				}break;
 				case 0x0c : 
 				{
-					rt_thread_suspend(HMIMonitor_thread);
+					/* 禁止调度以防止干扰串口接收 */
+					rt_enter_critical();	//进入临界区
 					res=HMI_Standard_Atoi();	//获取界面标准参数并装载进结构体
-					rt_thread_resume(HMIMonitor_thread);
+					rt_exit_critical();		//退出临界区
+					#if	Thread_Debug
 					rt_kprintf("res=%d\r\n",TestParameters_Structure.Vout_Max);
+					rt_kprintf("res=%d\r\n",TestParameters_Structure.Cout_Max);
+					rt_kprintf("res=%d\r\n",TestParameters_Structure.V_Ripple);
+					rt_kprintf("res=%d\r\n",TestParameters_Structure.Poweron_Time);
+					rt_kprintf("res=%d\r\n",TestParameters_Structure.Efficiency);
+					rt_kprintf("res=%d\r\n",TestParameters_Structure.Safety_Code);
+					rt_kprintf("res=%d\r\n",TestParameters_Structure.Quick_Charge);
+					#endif
 					HMI_File_Page(1);	//跳转到主界面
 				}break;
 				case 0x0d	:
@@ -224,13 +233,13 @@ void HMI_FastTest_thread_entry(void* parameter)
 		{
 			HMI_Print_Str("t6",str);
 			HMI_Print_Str("t7",str);
-			my_itoa((*Showdata_Structure).V_OUT,str);
+			my_itoa_Dot((*Showdata_Structure).V_OUT,str,3);
 			HMI_Print_Str("t9",str);
-			my_itoa((*Showdata_Structure).C_OUT,str);
+			my_itoa_Dot((*Showdata_Structure).C_OUT,str,3);
 			HMI_Print_Str("t10",str);
 			str[0]='\0';
 			HMI_Print_Str("t11",str);
-			my_itoa((*Showdata_Structure).V_Ripple,str);
+			my_itoa_Dot((*Showdata_Structure).V_Ripple,str,3);
 			HMI_Print_Str("t12",str);
 			str[0]='\0';
 			HMI_Print_Str("t8",str);
