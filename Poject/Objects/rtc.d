@@ -40,3 +40,12 @@
 .\objects\rtc.o: ..\Common\delay.h
 .\objects\rtc.o: ..\Common\usart1.h
 .\objects\rtc.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\rtc.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
+.\objects\rtc.o: .\RTE\RTOS\rtconfig.h
+.\objects\rtc.o: .\RTE\_Target_1\RTE_Components.h
+.\objects\rtc.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdebug.h
+.\objects\rtc.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdef.h
+.\objects\rtc.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\rtc.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtservice.h
+.\objects\rtc.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtm.h
+.\objects\rtc.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h

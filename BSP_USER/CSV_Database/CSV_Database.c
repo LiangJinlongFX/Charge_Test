@@ -17,7 +17,7 @@
 
 //定义数据文件头部标签 
 const char Data_FileHeader[]="Serial_Number,Test_Time,Ripple_Voltage,Vout_Max,Cout_Max,"
-		"Over_Voltage_Protection,Over_Current_Protection,Short_Current,Quick_Charge,Poweron_Time,Efficiency,Test_Subsequence," ;
+		"Over_Voltage_Protection,Over_Current_Protection,Short_Current,Quick_Charge,Poweron_Time,Efficiency,Test_Subsequence,";
 const char CommaStr=',';
 const char EnterStr[2]={0x0d,0x0a};
 
@@ -28,20 +28,19 @@ u8 Current_event;	//定义全局用到的当前标准结构体
  * 测试数据信息存储到文件系统
  * @param  DataStruct [description]
  * @return            [description]
- *	返回代码
+ * 本函数不包含FATFS挂载函数,需提前初始化
  */
-u8 Test_WriteData(TestData_Type DataStruct,char * File_Title)
+u8 Test_WriteData(TestData_Type DataStruct,char* BatchName)
 {
 	u8 res;
-	FIL 	Fsrc;									//定义文件对象
+	FIL 	Fsrc;										//定义文件对象
 	DIR   	Dir;									//定义目录对象
 	u16 	count=0;								//定义统计数
 	u16		count_CRC=0;																		
 	u32   	REsize;
 	char 	File_Name[30];							//定义文件名数组
-	char  	Dir_Name[6];							//定义目录名数组
 	char 	countStr[5];
-	char 	TempStr[6];
+	char 	TempStr[30];
 	UINT 	check_count;							//定义检查统计数
 	RTC_TimeTypeDef RTC_TimeStruct;
 	RTC_DateTypeDef RTC_DateStruct;
@@ -62,66 +61,55 @@ u8 Test_WriteData(TestData_Type DataStruct,char * File_Title)
 //	printf("month=%d\n",DataStruct.Test_Time[2]);
 	
 
-	//生成目录名
-	sprintf(Dir_Name,"0:/%02d%02d%02d",RTC_DateStruct.RTC_Year,RTC_DateStruct.RTC_Month,RTC_DateStruct.RTC_Date);
 	//生成文件名
-	strcpy(File_Name,Dir_Name);
+	sprintf(TempStr,"%02d%02d%02d",RTC_DateStruct.RTC_Year,RTC_DateStruct.RTC_Month,RTC_DateStruct.RTC_Date);
+	//生成文件名
+	strcpy(File_Name,"0:/");
+	strcpy(File_Name,BatchName);	//加入批量名
 	strcat(File_Name,"/");
-	strcat(File_Name,File_Title);
+	strcat(File_Name,TempStr);
 	strcat(File_Name,".csv");
 	printf("%s\r\n",File_Name);
-	//打开目录
-	res=f_opendir(&Dir,(const TCHAR*)Dir_Name);
-	if(res==FR_NO_PATH)
-	{
-		res=f_mkdir((const TCHAR*)Dir_Name);
-		if(res!=0) return 1;		//创建目录失败返回
-		res=f_opendir(&Dir,(const TCHAR*)Dir_Name);
-		if(res!=0) return 2;		//打开目录失败返回
-	}
-	else if(res!=0) return 2;
 
 	//打开文件
 	res=f_open(&Fsrc,File_Name,FA_READ|FA_WRITE);
-	// 如果文件并不存在的打开错误则创建文件
+	/* 如果文件并不存在的打开错误则创建文件 */
 	if(res!=0)
 	{ 
 		if(Creat_FileHeader(File_Name)!=0)
-		return 3;			//创建文件头失败返回
+		return 1;				//创建文件头失败返回
 		res=f_open(&Fsrc,File_Name,FA_READ|FA_WRITE);
-		if(res!=0) return 3;  //仍不能成功打开文件
+		if(res!=0) return 2;  //仍不能成功打开文件
 	}
-	//读取文件数据总量并转换为数值(偏移量：371 字节数：5)
-	res=f_lseek(&Fsrc,371);
-	if(res!=0) return 1;
-	// 读出数据
+	
+	/* 读取当前文件数据总量并转换为数值(偏移量：371 字节数：5) */
+	if(f_lseek(&Fsrc,FileHeader_Size))	return 1;
+	/* 读出当前文件数据总量 */
 	res=f_read(&Fsrc,&countStr,5,&check_count);
 	if(res!=0||check_count!=5) return 1; 
-	// 转换格式
-	printf("count=%s",countStr);
+	/* 转换格式 */
 	count=my_atoi(countStr);
-	// 根据总数给数据体写入序列号
+	/* 根据总数给要写入的数据体写入序列号 */
 	DataStruct.Serial_Number=count+1;		
-	//预估文件空间
-	REsize=378+(count+1)*sizeof(DataStruct);
-	//如果文件空间不足则扩展文件空间
+	/* 预估文件空间 */
+	REsize=FileHeader_Size+(count+1)*sizeof(DataStruct);
+	/* 如果文件空间不足则扩展文件空间 */
 	if(Fsrc.fsize<REsize)
 	{
 		res=f_lseek(&Fsrc,REsize);
 		if(res!=0) return 1;
 	}
 
-	//序列号转换为字符串
-	my_itoa(DataStruct.Serial_Number,TempStr);
-	// 写入数据
-	res=f_lseek(&Fsrc,378+(count*sizeof(DataStruct)));
+	/* 序列号转换为字符串 */
+	sprintf(TempStr,"%5d",DataStruct.Serial_Number);
+	/* 写入数据 5位字符 */
+	res=f_lseek(&Fsrc,FileHeader_Size+(count*sizeof(DataStruct)));
 	if(res!=0) return 1;
 	res=f_write(&Fsrc,TempStr,5,&check_count);
 	if(res!=0||check_count!=5)	return 1;
 
 	// 写入逗号分隔符
-	res=f_lseek(&Fsrc,378+(count*sizeof(DataStruct)));
-	if(res!=0) return 1;
+	if(f_lseek(&Fsrc,FileHeader_Size+(count*sizeof(DataStruct))+5)) return 1;
 	res=f_write(&Fsrc,&CommaStr,1,&check_count);
 	if(res!=0||check_count!=1)	return 1;
 

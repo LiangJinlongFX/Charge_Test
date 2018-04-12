@@ -88,12 +88,18 @@ void Master_thread_entry(void* parameter)
 					//创建模式选择线程
 					HMI_SelectStandard_thread = rt_thread_create("Standard",HMI_SelectStandard_thread_entry, RT_NULL,512,3,20);
 					rt_thread_delete(HMI_SelectBatch_thread);	//删除批量选择线程
+					rt_enter_critical();	//进入临界区
+					f_mount(NULL,"0:",1);	//挂载工作区
+					rt_exit_critical();		//退出临界区
 					HMI_File_Page(25);	//跳转到测试标准选择界面
 					rt_thread_startup(HMI_SelectStandard_thread);	//启动线程
 				}break;
 				case 0x05 :
 				{	
 					rt_thread_delete(HMI_SelectBatch_thread);	//删除批量选择线程
+					rt_enter_critical();	//进入临界区
+					f_mount(NULL,"0:",1);	//挂载工作区
+					rt_exit_critical();		//退出临界区
 					HMI_File_Page(1);	//跳转到主界面界面
 				}break;
 				case 0x06 :  break;
@@ -157,8 +163,13 @@ void Master_thread_entry(void* parameter)
 				}break;
 				case 0x0e	:
 				{
+					/* 禁止调度以防止干扰串口接收 */
+					rt_enter_critical();	//进入临界区
 					HMI_TestLimit_Atoi(&HMI_TestLimit);
+					rt_exit_critical();		//退出临界区
+					#if	Thread_Debug
 					rt_kprintf("HMI_TestLimit=%d\r\n",HMI_TestLimit);
+					#endif
 					HMI_File_Page(1);	//跳转到主界面
 				}break;
 				case 0x0f	:
@@ -233,13 +244,13 @@ void HMI_FastTest_thread_entry(void* parameter)
 		{
 			HMI_Print_Str("t6",str);
 			HMI_Print_Str("t7",str);
-			my_itoa_Dot((*Showdata_Structure).V_OUT,str,3);
+			sprintf(str,"%.3f",(*Showdata_Structure).V_OUT);
 			HMI_Print_Str("t9",str);
-			my_itoa_Dot((*Showdata_Structure).C_OUT,str,3);
+			sprintf(str,"%.3f",(*Showdata_Structure).C_OUT);
 			HMI_Print_Str("t10",str);
 			str[0]='\0';
 			HMI_Print_Str("t11",str);
-			my_itoa_Dot((*Showdata_Structure).V_Ripple,str,3);
+			sprintf(str,"%.3f",(*Showdata_Structure).V_Ripple);
 			HMI_Print_Str("t12",str);
 			str[0]='\0';
 			HMI_Print_Str("t8",str);

@@ -84,7 +84,8 @@ void rt_hw_board_init()
 	if(SD_Init())  rt_kprintf("SD_ERROR!\r\n");
 //	if(DS18B20_Init()) USART2_printf("DS18B20_NotFind!\r\n");
 //	else USART2_printf("DS18B20_Get_Ready!\r\n");
-	My_RTC_Init();
+	if(My_RTC_Init()) rt_kprintf("RTC_ERROR!\r\n");
+	RTC_Set_Date(18,4,12,4);
 	//USBD_Init(&USB_OTG_Core_dev,USB_OTG_FS_CORE_ID,&USR_desc,&USBD_MSC_cb,&USR_cb);
 	USART2_printf("================================\r\n");
 	Dac1_Set_Vol(3299);

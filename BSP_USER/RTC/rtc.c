@@ -1,7 +1,8 @@
 #include "rtc.h"
 #include "led.h"
 #include "delay.h"
-#include "usart1.h" 
+#include "usart1.h"
+#include "rtthread.h"
 //////////////////////////////////////////////////////////////////////////////////	 
 //本程序只供学习使用，未经作者许可，不得用于其它任何用途
 //ALIENTEK STM32F407开发板
@@ -88,7 +89,6 @@ u8 My_RTC_Init(void)
 	 
 		RTC_WriteBackupRegister(RTC_BKP_DR0,0x5050);	//标记已经初始化过了
 	} 
- 
 	return 0;
 }
 

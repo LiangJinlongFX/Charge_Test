@@ -345,7 +345,6 @@ HMI_Error HMI_TestLimit_Atoi(u8 * LimitVal)
 	temp1=my_atoi(str);
 	temp1=temp1<<1;
 	temp2=temp2|temp1;
-	rt_kprintf("res1=%d\r\n",temp2);
 	res=HMI_Get(HMI_Vaule_Type,"bt2",str);
 	temp1=my_atoi(str);
 	temp1=temp1<<2;
@@ -370,8 +369,6 @@ HMI_Error HMI_TestLimit_Atoi(u8 * LimitVal)
 	temp1=my_atoi(str);
 	temp1=temp1<<7;
 	temp2=temp2|temp1;
-	
-	rt_kprintf("res1=%d\r\n",temp1);
 	
 	
 	*LimitVal = temp2;   //将参数传给全局变量  

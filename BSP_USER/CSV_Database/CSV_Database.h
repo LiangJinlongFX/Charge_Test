@@ -38,11 +38,11 @@ typedef struct
 /* 实时检测数据结构体 */
 typedef struct
 {
-	u16 V_OUT;
-	u16 C_OUT;
-	u16 V_D1;
-	u16 V_D2;
-	u16 V_Ripple;
+	float V_OUT;
+	float C_OUT;
+	float V_D1;
+	float V_D2;
+	float	V_Ripple;
 }ReadTimeData_Type;
 
 /* 测试指标存储结构体 */
@@ -52,9 +52,9 @@ typedef struct
  */
 typedef struct
 {
-	u16 Vout_Max;	//最大输出电压
-	u16 Cout_Max;	//最大输出电流
-	u8 V_Ripple;	//纹波电压
+	float Vout_Max;	//最大输出电压
+	float Cout_Max;	//最大输出电流
+	float V_Ripple;	//纹波电压
 	u8 Poweron_Time;	//上电时间
 	u8 Efficiency; //转换效率
 	u8 Safety_Code;	//安全检测开关
@@ -68,7 +68,8 @@ typedef enum
 	Database_ERROR,
 }Database_Res;
 
-#define TestData_Size 18;   //数据存储结构体大小
+#define TestData_Size 18   //数据存储结构体大小
+#define FileHeader_Size 371	//文件标题大小
 
 extern TestStandard_Type TestStandard_Arrary[4];
 extern u8 Current_event;
@@ -76,23 +77,21 @@ extern u8 Current_event;
 extern char Global_str[10][10];
 
 
-u8 Test_ReadData(TestData_Type TestData_Struct);
+u8 Test_ReadData(TestData_Type TestData_Struct);	//读取特定文件下的测试数据条目
 
-u8 Test_WriteData(TestData_Type TestData_Struct,char * File_Title);
+u8 Test_WriteData(TestData_Type TestData_Struct,char* BatchName);	//写入特定批量下的测试数据条目
 
-u8 Num_To_Str(u8 number);
-
-u8 Creat_FileHeader(char *File_Name);
+u8 Creat_FileHeader(char *File_Name);	//创建测试文件并配置文件头
 
 u8 Modify_TestParameters(TestParameters_Type* TestParameters_Structure,u8 Standard_code);	//写入测试配置数据
 
-u8 First_writeTestParameters(void);
+u8 First_writeTestParameters(void);	//创建测试配置文件
 
 u8 Read_TestParameters(TestParameters_Type* TestParameters_Structure,u8 Standard_code);	//读取测试配置数据
 
-u8 Creat_NewBatchDir(char* path);
+u8 Creat_NewBatchDir(char* path);	//创建新的批量目录
 
-u8 Scan_BatchDir(u8 start_val,u8 end_val);
+u8 Scan_BatchDir(u8 start_val,u8 end_val);	//检索批量目录
 
 unsigned int my_atoi(char s[]);
 
