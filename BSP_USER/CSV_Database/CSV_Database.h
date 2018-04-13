@@ -10,9 +10,9 @@ typedef struct
 {
 	u16 Serial_Number;		//数据流水号     0 - 65535
 	u8	Test_Time[6];			//测试时间（年月日时分秒）  example : 18-01-14-13-45-58
-	u8 Ripple_Voltage;			//纹波电压峰值     0 - 255 mV
-	u8 Vout_Max;				//最大输出电压     0 - 25.5 V  *10	   
-	u8 Cout_Max;				//最大输出电流	  0 - 2.55 A  *100	  
+	float Ripple_Voltage;			//纹波电压峰值     0 - 255 mV
+	float Vout_Max;				//最大输出电压     0 - 25.5 V  *10	   
+	float Cout_Max;				//最大输出电流	  0 - 2.55 A  *100	  
 	u8 Over_Voltage_Protection;	//过电压保护		  0 : 不合格/无	1 ： 合格
 	u8 Over_Current_Protection;	//过电流保护		  0 : 不合格/无	1 ： 合格
 	u8 Short_Current;			//短路保护标志位	  0 : 不合格/无	1 ： 合格
@@ -24,9 +24,9 @@ typedef struct
 
 typedef struct
 {
-	u8 Ripple_Voltage;			//纹波电压峰值     0 - 255 mV
-	u8 Vout_Max;				//最大输出电压     0 - 25.5 V  *10	   
-	u8 Cout_Max;				//最大输出电流	  0 - 2.55 A  *100	  
+	float Ripple_Voltage;			//纹波电压峰值     0 - 255 mV
+	float Vout_Max;				//最大输出电压     0 - 25.5 V  *10	   
+	float Cout_Max;				//最大输出电流	  0 - 2.55 A  *100	  
 	u8 Over_Voltage_Protection;	//过电压保护		  0 : 不合格/无	1 ： 合格
 	u8 Over_Current_Protection;	//过电流保护		  0 : 不合格/无	1 ： 合格
 	u8 Short_Current;			//短路保护标志位	  0 : 不合格/无	1 ： 合格
@@ -69,7 +69,7 @@ typedef enum
 }Database_Res;
 
 #define TestData_Size 18   //数据存储结构体大小
-#define FileHeader_Size 371	//文件标题大小
+#define FileHeader_Size 181	//文件标题大小
 
 extern TestStandard_Type TestStandard_Arrary[4];
 extern u8 Current_event;

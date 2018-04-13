@@ -48,7 +48,22 @@
   * @retval None
   */
 int main()
-{
+{	
+	u8 res;
+	TestData_Type Test_da;
+	Test_da.Ripple_Voltage=0.20;
+	Test_da.Vout_Max=5.120;
+	Test_da.Cout_Max=2.20;
+	Test_da.Poweron_Time=89;
+	Test_da.Efficiency=78;
+	Test_da.Over_Current_Protection=Test_da.Over_Voltage_Protection=Test_da.Quick_Charge=Test_da.Short_Current=1;
+	Test_da.Test_Subsequence=6;
+	f_mount(&fat,"0",1);
+	res=Test_WriteData(Test_da,"2");
+	//res=Creat_FileHeader("111.csv");
+	rt_kprintf("%d\r\n",res);
+	f_mount(NULL,"0",1);
+	while(1);
 	Main_entry();
 	return 0;
 }
