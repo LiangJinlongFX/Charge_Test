@@ -22,18 +22,12 @@
 #include "usart1.h"
 #include "CSV_Database.h"
 #include "adc.h"
-#include "usbd_msc_core.h"
-#include "usbd_usr.h"
-#include "usbd_desc.h"
-#include "usb_conf.h"
-#include "usb_app.h"
 #include "ds18b20.h"
 #include "ff.h"  
 #include "exfuns.h"
 #include "Data_Math.h"
 
 
-extern USB_OTG_CORE_HANDLE  USB_OTG_dev;
 /* Private functions ---------------------------------------------------------*/
 
 u8 Device_STA=0;
@@ -432,40 +426,6 @@ void HMI_SelectStandard_thread_entry(void* parameter)
 }
 
 
-/*
- * USB进程  启动USBD MSC 让电脑能读取设备数据
- */
-void usb_thread_entry(void* parameter)
-{
-	while(1)
-	{
-		if(usbx.bDeviceState&0x01)//正在写
-		{
-			rt_kprintf("USB Writing...\r\n");
-		}
-		else if(usbx.bDeviceState&0x02)//正在读
-		{
-			rt_kprintf("USB Reading...\r\n");
-		}
-		else if(usbx.bDeviceState&0x04)
-		{
-			rt_kprintf("USB Write Err \r\n");
-		}
-		else if(usbx.bDeviceState&0x08)
-		{
-			rt_kprintf("USB Read  Err \r\n");
-		}
-		else if(usbx.bDeviceState&0x80)
-		{
-			rt_kprintf("USB Connecting...\r\n");
-		}
-		else if(!usbx.bDeviceState&0x80)
-		{
-			rt_kprintf("USB No Connect\r\n");
-		}
-		rt_thread_delay(1000);
-	}
-}
   
 //线程LED1
 void led1_thread_entry(void* parameter)
@@ -528,15 +488,6 @@ void Main_entry(void)
 	if (led1_thread != RT_NULL) //如果获得线程控制块，启动这个线程
 			rt_thread_startup(led1_thread); 
 
-	//创建线程1 
-    usb_thread = rt_thread_create("usb", //线程1的名称是t1 
-							usb_thread_entry, RT_NULL, //入口是thread1_entry，参数是RT_NULL 
-							512, //线程堆栈大小
-							2, //线程优先级
-							20);//时间片tick
-
-	if (usb_thread != RT_NULL) //如果获得线程控制块，启动这个线程
-			rt_thread_startup(usb_thread);
 
 	//创建线程1 
     HMIMonitor_thread = rt_thread_create("HMIMonitor", //线程1的名称是t1 

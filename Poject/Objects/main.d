@@ -41,18 +41,6 @@
 .\objects\main.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\main.o: ..\BSP_USER\SDIO_SD\sdio_sdcard.h
 .\objects\main.o: ..\BSP_USER\DAC\dac.h
-.\objects\main.o: ..\USB\STM32_USB_Device_Library\Class\msc\inc\usbd_msc_core.h
-.\objects\main.o: ..\USB\STM32_USB_Device_Library\Core\inc\usbd_ioreq.h
-.\objects\main.o: ..\USB\STM32_USB_Device_Library\Core\inc\usbd_def.h
-.\objects\main.o: ..\USB\USB_APP\usbd_conf.h
-.\objects\main.o: ..\USB\USB_APP\usb_conf.h
-.\objects\main.o: ..\USB\STM32_USB_Device_Library\Core\inc\usbd_core.h
-.\objects\main.o: ..\USB\STM32_USB_OTG_Driver\inc\usb_dcd.h
-.\objects\main.o: ..\USB\STM32_USB_OTG_Driver\inc\usb_core.h
-.\objects\main.o: ..\USB\STM32_USB_OTG_Driver\inc\usb_regs.h
-.\objects\main.o: ..\USB\STM32_USB_OTG_Driver\inc\usb_defines.h
-.\objects\main.o: ..\USB\STM32_USB_Device_Library\Core\inc\usbd_usr.h
-.\objects\main.o: ..\USB\USB_APP\usbd_desc.h
 .\objects\main.o: ..\Common\usart2.h
 .\objects\main.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
 .\objects\main.o: .\RTE\RTOS\rtconfig.h
@@ -66,9 +54,6 @@
 .\objects\main.o: ..\BSP_USER\CSV_Database\CSV_Database.h
 .\objects\main.o: ..\BSP_USER\RTC\rtc.h
 .\objects\main.o: ..\APP\app.h
-.\objects\main.o: ..\USB\USB_APP\usb_app.h
-.\objects\main.o: ..\USB\STM32_USB_OTG_Driver\inc\usb_dcd_int.h
-.\objects\main.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\string.h
 .\objects\main.o: ..\BSP_USER\HMI\HMI.h
 .\objects\main.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rthw.h
 .\objects\main.o: ..\FATFS\src\ff.h

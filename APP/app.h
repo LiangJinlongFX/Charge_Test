@@ -43,7 +43,6 @@ static rt_uint8_t Event_Flag;
 
 /* 线程控制块 */
 static rt_thread_t led1_thread=RT_NULL;
-static rt_thread_t usb_thread=RT_NULL;
 static rt_thread_t HMIMonitor_thread=RT_NULL;
 static rt_thread_t Master_thread=RT_NULL;
 static rt_thread_t CollectData_thread=RT_NULL;
@@ -53,7 +52,6 @@ static rt_thread_t HMI_SelectBatch_thread=RT_NULL;
 static rt_thread_t HMI_SelectStandard_thread=RT_NULL;	
 
 /* 线程函数 */
-void usb_thread_entry(void* parameter);						//USB线程
 void led1_thread_entry(void* parameter);					//LED闪烁线程
 void HMIMonitor_thread_entry(void* parameter);		//HMI系统信息监控进程
 void Master_thread_entry(void* parameter);				//线程控制主线程

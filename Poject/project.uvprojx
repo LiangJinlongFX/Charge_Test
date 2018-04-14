@@ -334,9 +334,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>STM32F40_41xxx,USE_STDPERIPH_DRIVER,USE_USB_OTG_FS,ARM_MATH_CM4,__CC_ARM,ARM_MATH_M</Define>
+              <Define>STM32F40_41xxx,USE_STDPERIPH_DRIVER,ARM_MATH_CM4,__CC_ARM,ARM_MATH_M</Define>
               <Undefine></Undefine>
-              <IncludePath>..\BSP_USER\LED;..\CORE;..\Common;..\STM32f4_LIB\inc;..\SYSTEM;..\BSP_USER\SDIO_SD;..\FATFS\exfuns;..\FATFS\src;..\BSP_USER\DAC;..\BSP_USER\CSV_Database;..\USB\STM32_USB_Device_Library\Class\msc\inc;..\USB\STM32_USB_Device_Library\Core\inc;..\USB\STM32_USB_OTG_Driver\inc;..\USB\USB_APP;.\RTE\RTOS;.\RTE;..\BSP_USER\RTC;..\APP;..\BSP_USER\HMI;..\BSP_USER\Switch;..\BSP_USER\ADC;..\BSP_USER\SPI;..\HARDWARE\TLC5615;..\BSP_USER\WKUP;..\HARDWARE\DS18B20;..\BSP_USER\Switch;..\BSP_USER\Data_Math;..\DSP_LIB\Include;..\DSP_LIB</IncludePath>
+              <IncludePath>..\BSP_USER\LED;..\CORE;..\Common;..\STM32f4_LIB\inc;..\SYSTEM;..\BSP_USER\SDIO_SD;..\FATFS\exfuns;..\FATFS\src;..\BSP_USER\DAC;..\BSP_USER\CSV_Database;.\RTE\RTOS;.\RTE;..\BSP_USER\RTC;..\APP;..\BSP_USER\HMI;..\BSP_USER\Switch;..\BSP_USER\ADC;..\BSP_USER\SPI;..\HARDWARE\TLC5615;..\BSP_USER\WKUP;..\HARDWARE\DS18B20;..\BSP_USER\Switch;..\BSP_USER\Data_Math;..\DSP_LIB\Include;..\DSP_LIB</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -614,96 +614,6 @@
               <FileName>ff.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\FATFS\src\ff.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>USB_OTG</GroupName>
-          <Files>
-            <File>
-              <FileName>usb_core.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USB\STM32_USB_OTG_Driver\src\usb_core.c</FilePath>
-            </File>
-            <File>
-              <FileName>usb_dcd.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USB\STM32_USB_OTG_Driver\src\usb_dcd.c</FilePath>
-            </File>
-            <File>
-              <FileName>usb_dcd_int.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USB\STM32_USB_OTG_Driver\src\usb_dcd_int.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>USB_Device</GroupName>
-          <Files>
-            <File>
-              <FileName>usbd_core.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USB\STM32_USB_Device_Library\Core\src\usbd_core.c</FilePath>
-            </File>
-            <File>
-              <FileName>usbd_ioreq.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USB\STM32_USB_Device_Library\Core\src\usbd_ioreq.c</FilePath>
-            </File>
-            <File>
-              <FileName>usbd_req.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USB\STM32_USB_Device_Library\Core\src\usbd_req.c</FilePath>
-            </File>
-            <File>
-              <FileName>usbd_msc_bot.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USB\STM32_USB_Device_Library\Class\msc\src\usbd_msc_bot.c</FilePath>
-            </File>
-            <File>
-              <FileName>usbd_msc_core.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USB\STM32_USB_Device_Library\Class\msc\src\usbd_msc_core.c</FilePath>
-            </File>
-            <File>
-              <FileName>usbd_msc_data.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USB\STM32_USB_Device_Library\Class\msc\src\usbd_msc_data.c</FilePath>
-            </File>
-            <File>
-              <FileName>usbd_msc_scsi.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USB\STM32_USB_Device_Library\Class\msc\src\usbd_msc_scsi.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>USB_APP</GroupName>
-          <Files>
-            <File>
-              <FileName>usb_bsp.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USB\USB_APP\usb_bsp.c</FilePath>
-            </File>
-            <File>
-              <FileName>usbd_desc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USB\USB_APP\usbd_desc.c</FilePath>
-            </File>
-            <File>
-              <FileName>usbd_storage_msd.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USB\USB_APP\usbd_storage_msd.c</FilePath>
-            </File>
-            <File>
-              <FileName>usbd_usr.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USB\USB_APP\usbd_usr.c</FilePath>
-            </File>
-            <File>
-              <FileName>usb_app.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USB\USB_APP\usb_app.c</FilePath>
             </File>
           </Files>
         </Group>

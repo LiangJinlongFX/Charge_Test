@@ -76,7 +76,6 @@ u8 Test_WriteData(TestData_Type DataStruct,char* BatchName)
 	
 	/* 读取当前文件数据总量并转换为数值 */
 	lseek_Size=strlen(Data_FileHeader);
-	rt_kprintf("len=%x\r\n",lseek_Size);
 	if(f_lseek(&Fsrc,lseek_Size))	return 1;
 	/* 读出当前文件数据总量 */
 	res=f_read(&Fsrc,&TempStr,5,&check_count);
@@ -94,7 +93,8 @@ u8 Test_WriteData(TestData_Type DataStruct,char* BatchName)
 		if(res!=0) return 1;
 	}
 
-	lseek_Size=FileHeader_Size+(count*sizeof(DataStruct));	//读写指针改变
+	/* 读写指针移至文件尾部 */
+	lseek_Size=f_size(&Fsrc);		
 	rt_kprintf("len=%x\r\n",lseek_Size);
 	
 	/* 序列号转换为字符串 */
@@ -105,30 +105,25 @@ u8 Test_WriteData(TestData_Type DataStruct,char* BatchName)
 	res=f_write(&Fsrc,TempStr,Str_Len,&check_count);
 	if(res!=0||check_count!=Str_Len)	return 1;
 
-	lseek_Size+=Str_Len;
 	if(f_sync(&Fsrc)) return 1;
 	
 	//时间转换为转换为字符串
 	sprintf(TempStr,"%2d-%2d-%2d %2d:%2d:%2d,",DataStruct.Test_Time[0],DataStruct.Test_Time[1],
 	DataStruct.Test_Time[2],DataStruct.Test_Time[3],DataStruct.Test_Time[4],DataStruct.Test_Time[5]);
 	// 写入数据
-	if(f_lseek(&Fsrc,lseek_Size)) return 1;
 	Str_Len=strlen(TempStr);
 	res=f_write(&Fsrc,TempStr,Str_Len,&check_count);
 	if(res!=0||check_count!=Str_Len)	return 1;
 
-	lseek_Size+=Str_Len;
 	if(f_sync(&Fsrc)) return 1;
 	
 	//纹波电压,输出电压,最大输出电流转换为字符串
 	sprintf(TempStr,"%4.1f,%5.3f,%4.3f,",DataStruct.Ripple_Voltage,DataStruct.Vout_Max,DataStruct.Cout_Max);
 	// 写入数据
-	if(f_lseek(&Fsrc,lseek_Size)) return 1;
 	Str_Len=strlen(TempStr);
 	res=f_write(&Fsrc,TempStr,Str_Len,&check_count);
 	if(res!=0||check_count!=Str_Len)	return 1;
 	
-	lseek_Size+=Str_Len;
 	if(f_sync(&Fsrc)) return 1;
 
 	//过压保护,过流保护,短路保护,快充识别,上电时间,效率,结果代码转换为字符串
@@ -136,16 +131,13 @@ u8 Test_WriteData(TestData_Type DataStruct,char* BatchName)
 	DataStruct.Over_Current_Protection,DataStruct.Short_Current,DataStruct.Quick_Charge,
 	DataStruct.Poweron_Time,DataStruct.Efficiency,DataStruct.Test_Subsequence);
 	// 写入数据
-	if(f_lseek(&Fsrc,lseek_Size)) return 1;
 	Str_Len=strlen(TempStr);
 	res=f_write(&Fsrc,TempStr,Str_Len,&check_count);
 	if(res!=0||check_count!=Str_Len)	return 1;
 
-	lseek_Size+=Str_Len;
 	if(f_sync(&Fsrc)) return 1;
 
 	// 写入换行符
-	if(f_lseek(&Fsrc,lseek_Size)) return 1;
 	res=f_write(&Fsrc,&EnterStr,2,&check_count);
 	if(check_count!=2||res!=0) return 1;
 	
@@ -184,16 +176,13 @@ u8 Creat_FileHeader(char *File_Name)
 	lseek_Size=strlen(Data_FileHeader);
 	res=f_write(&Fsrc,Data_FileHeader,lseek_Size,&check_count);
 	if(check_count!=lseek_Size||res!=0) return 1;
-	/* 初始化总数 */
-	if(f_lseek(&Fsrc,lseek_Size)) return 1;
 	// 将初始总数转换为字符串
 	sprintf(countStr,"%4d",0);
+	strcat(countStr,"\0");
 	// 写入初始总数
 	res=f_write(&Fsrc,&countStr,5,&check_count);
 	if(check_count!=5||res!=0) return 1;
 	// 写入换行符
-	lseek_Size+=5;
-	if(f_lseek(&Fsrc,lseek_Size))	return 1;
 	res=f_write(&Fsrc,&EnterStr,2,&check_count);
 	if(check_count!=2||res!=0) return 1;	
 	//关闭文件
