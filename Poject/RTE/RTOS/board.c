@@ -58,6 +58,7 @@ extern int __bss_end;
 #include "adc.h"
 #include "ds18b20.h"
 #include "HMI.h"
+#include "usart3.h"
 
 
  
@@ -71,17 +72,14 @@ void rt_hw_board_init()
 	//NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
 	uart1_init(9600);		//初始化串口1 HMI用
 	uart2_init(115200);	//提前初始化串口2以输出初始化状态
+	uart3_init(4800);		//初始化串口3接收HLW8032数据
 	LED_Init();					//初始化指示灯
 	Switch_Init();
 	Adc_Init();
 	Dac_Init();
 	USART2_printf("================================\r\n");
 	if(SD_Init())  rt_kprintf("SD_ERROR!\r\n");
-//	if(DS18B20_Init()) USART2_printf("DS18B20_NotFind!\r\n");
-//	else USART2_printf("DS18B20_Get_Ready!\r\n");
 	if(My_RTC_Init()) rt_kprintf("RTC_ERROR!\r\n");
-	RTC_Set_Date(18,4,12,4);
-	//USBD_Init(&USB_OTG_Core_dev,USB_OTG_FS_CORE_ID,&USR_desc,&USBD_MSC_cb,&USR_cb);
 	USART2_printf("================================\r\n");
 	Dac1_Set_Vol(3299);
 	Dac2_Set_Vol(3299);

@@ -163,7 +163,7 @@
 /  GET_SECTOR_SIZE command must be implemented to the disk_ioctl() function. */
 
 
-#define	_USE_ERASE	0	/* 0:Disable or 1:Enable */
+#define	_USE_ERASE	1	/* 0:Disable or 1:Enable */
 /* To enable sector erase feature, set _USE_ERASE to 1. Also CTRL_ERASE_SECTOR command
 /  should be added to the disk_ioctl() function. */
 

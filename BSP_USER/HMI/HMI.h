@@ -103,6 +103,7 @@ HMI_Error HMI_ShowBatch(void);
 HMI_Error HMI_ShowBatchList(void);
 HMI_Error HMI_RTC_Atoi(void);
 HMI_Error HMI_FastTest(void);
+HMI_Error HMI_Creat_NewBatch(void);
 void HMI_ShowError(u16 Running_Code);
 
 

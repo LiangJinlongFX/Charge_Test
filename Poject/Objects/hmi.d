@@ -51,3 +51,4 @@
 .\objects\hmi.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
 .\objects\hmi.o: ..\APP\app.h
 .\objects\hmi.o: ..\Common\delay.h
+.\objects\hmi.o: ..\BSP_USER\RTC\rtc.h

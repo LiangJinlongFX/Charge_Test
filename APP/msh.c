@@ -79,12 +79,14 @@ int showtime(void)
 {
 	RTC_TimeTypeDef RTC_TimeStruct;
 	RTC_DateTypeDef RTC_DateStruct;
+
 	
 	RTC_GetDate(RTC_Format_BIN, &RTC_DateStruct);
 	RTC_GetTime(RTC_Format_BIN,&RTC_TimeStruct);
 	
 	rt_kprintf("Date:20%02d-%02d-%02d\r\n",RTC_DateStruct.RTC_Year,RTC_DateStruct.RTC_Month,RTC_DateStruct.RTC_Date);
 	rt_kprintf("Time:%02d:%02d:%02d\r\n",RTC_TimeStruct.RTC_Hours,RTC_TimeStruct.RTC_Minutes,RTC_TimeStruct.RTC_Seconds);
+	
 	return 0;
 }
 

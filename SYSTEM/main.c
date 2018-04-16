@@ -29,6 +29,8 @@
 #include "exfuns.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "usart3.h"
+#include "dma.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -43,7 +45,28 @@
   * @retval None
   */
 int main()
-{	
+{
+	u8 res;
+//	
+//	TestData_Type Date;
+//	
+//	Date.Vout_Max=5.17;
+//	Date.Vout_Min=4.98;
+//	Date.Cout_Max=2.10;
+//	Date.Cout_short=0.056;
+//	Date.Noload_Power=0.078;
+//	Date.Over_Current_Protection=1;
+//	Date.Efficiency=89;
+//	Date.Ripple_Voltage=0.067;
+//	f_mount(&fat,"0",1);
+	
+//	res=Creat_NewBatchDir("123");
+//	
+//	res=Test_WriteData(Date,"2");
+////	res=Creat_FileHeader("123.csv");
+//	rt_kprintf("res=%d\r\n",res);
+//	f_mount(NULL,"0",1);
+//	while(1);
 	Main_entry();
 	return 0;
 }

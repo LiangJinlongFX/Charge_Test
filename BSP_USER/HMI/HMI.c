@@ -7,6 +7,7 @@
 #include "rtthread.h"
 #include "app.h"
 #include "delay.h"
+#include "rtc.h"
 
 /*
  * 批量检测条目限制变量 bit7:转换效率 bit6:上电时间 bit5:电路保护 bit4:OCP bit3:OVP bit2:cmax bit1:vmax bit0:纹波  1：为有效
@@ -21,6 +22,7 @@ u8 HMI_TestLimit=0x88;
 HMI_Error USART_Solution(u8 HMI_Type,char* HMI_Rx_String)
 {
 	u16 i=0;
+	
 	
 	//等待设备响应
 	do{
@@ -43,6 +45,8 @@ HMI_Error USART_Solution(u8 HMI_Type,char* HMI_Rx_String)
 		case HMI_Instr_OK :	HMI_Type = HMI_Instr_OK; break;
 		default : break;
 	}
+	
+//	if(USART_RX_BUF[0]!=HMI_Type) return HMI_Parse_Error;
 	
 	//从串口接收到的字符串提取有效数据
 	for(i=1;i<=UASRT1_RX_BUFFER_LEN-4;i++)
@@ -67,16 +71,12 @@ HMI_Error HMI_File_Page(u8 Page_ID)
 {
 	char str[30];
 	char str2[10];
-	u8 res=HMI_OK;
 	
 	my_itoa(Page_ID,str2);
 	strcpy(str,"page ");
 	strcat(str,str2);
 	HMI_Print(str);
 	
-	//HMI_Page_ACK(Page_ID);
-//	if(res!=HMI_OK) return res;
-
 	return HMI_OK;
 }
 /**
@@ -136,7 +136,6 @@ HMI_Error HMI_Print(char* str)
  */
 HMI_Error HMI_Page_ACK(u8 Page_ID)
 {
-	u16 i;
 	u8 Type;
 	char str[10];
 	HMI_Print("sendme");
@@ -155,31 +154,28 @@ HMI_Error HMI_StandardPage_Show(void)
 	char Num_str[10];
 	u8 Code_temp;
 	
-	/* 显示最大输出电压 */
-	my_itoa(TestParameters_Structure.Vout_Max,Num_str);
+	/* 显示额定输出电压 */
+	my_itoa(TestParameters_Structure.Vout,Num_str);
 	HMI_Print_Str("t0",Num_str);
-	/* 显示最大输出电流 */
-	my_itoa(TestParameters_Structure.Cout_Max,Num_str);
+	Num_str[0]='\0';
+	/* 显示输出电压容差 */
+	my_itoa(TestParameters_Structure.Vout_Tolerance,Num_str);
 	HMI_Print_Str("t1",Num_str);
-	/* 显示纹波峰值电压 */
-	my_itoa(TestParameters_Structure.V_Ripple,Num_str);
+	Num_str[0]='\0';
+	/* 显示最大输出电流值 */
+	my_itoa(TestParameters_Structure.Cout_Max,Num_str);
 	HMI_Print_Str("t2",Num_str);
-	/* 显示上电时间 */
-	my_itoa(TestParameters_Structure.Poweron_Time,Num_str);
+	Num_str[0]='\0';
+	/* 显示纹波电压 */
+	my_itoa(TestParameters_Structure.V_Ripple,Num_str);
 	HMI_Print_Str("t3",Num_str);
+	Num_str[0]='\0';
 	/* 显示转换效率 */
 	my_itoa(TestParameters_Structure.Efficiency,Num_str);
 	HMI_Print_Str("t4",Num_str);
-	/* 显示过压保护开关 */
-	if(TestParameters_Structure.Safety_Code&0x01)	Code_temp=1;
-	else Code_temp=0;
-	HMI_Print_Val("bt0",Code_temp);
-	/* 显示短路保护开关 */
-	if(TestParameters_Structure.Safety_Code&0x02)	Code_temp=1;
-	else Code_temp=0;
-	HMI_Print_Val("bt2",Code_temp);
+	Num_str[0]='\0';
 	/* 显示过流保护开关 */
-	if(TestParameters_Structure.Safety_Code&0x02)	Code_temp=1;
+	if(TestParameters_Structure.Safety_Code)	Code_temp=1;
 	else Code_temp=0;
 	HMI_Print_Val("bt1",Code_temp);
 	/* 显示快充诱导开关 */
@@ -197,7 +193,6 @@ HMI_Error HMI_Get(u8 Object_Type,char* Object_ID,char* fmt)
 {
 	char str[20];
 	char str2[10];
-	u16 temp;
 	u8 i=0,n=0;
 	u8 res=HMI_OK;
 	
@@ -243,48 +238,40 @@ HMI_Error HMI_Standard_Atoi(void)
 	u8 bit_temp;	//位缓存
 	u8 res=HMI_OK;
 	
-	/* 获取最大输出电压 */
+	/* 获取额定输出电压 */
 	res=HMI_Get(HMI_String_Type,"t0",str);
-	TestParameters_Structure.Vout_Max=my_atoi(str);
-//	rt_kprintf("%s\r\n",str);
-	/* 获取最大输出电流 */
+	TestParameters_Structure.Vout=my_atoi(str);
+	rt_kprintf("%s\r\n",str);
+	str[0]='\0';
+	/* 获取电压容差 */
 	strcpy(str,"");
 	res=HMI_Get(HMI_String_Type,"t1",str);
-	TestParameters_Structure.Cout_Max=my_atoi(str);
-//	rt_kprintf("%s\r\n",str);
-	/* 获取纹波峰值电压 */
+	TestParameters_Structure.Vout_Tolerance=my_atoi(str);
+	rt_kprintf("%s\r\n",str);
+	str[0]='\0';
+	/* 获取最大输出电流 */
 	strcpy(str,"");
 	res=HMI_Get(HMI_String_Type,"t2",str);
-	TestParameters_Structure.V_Ripple=my_atoi(str);
-//	rt_kprintf("%s\r\n",str);
-	/* 获取上电时间 */
+	TestParameters_Structure.Cout_Max=my_atoi(str);
+	rt_kprintf("%s\r\n",str);
+	str[0]='\0';
+	/* 获取纹波电压 */
 	strcpy(str,"");
 	res=HMI_Get(HMI_String_Type,"t3",str);
-	TestParameters_Structure.Poweron_Time=my_atoi(str);
-//	rt_kprintf("%s\r\n",str);
+	TestParameters_Structure.V_Ripple=my_atoi(str);
+	rt_kprintf("%s\r\n",str);
+	str[0]='\0';
 	/* 获取转换效率 */
 	strcpy(str,"");
 	res=HMI_Get(HMI_String_Type,"t4",str);
 	TestParameters_Structure.Efficiency=my_atoi(str);
-//	rt_kprintf("%s\r\n",str);
-	/* 获取过压保护开关 */
-	strcpy(str,"");
-	res=HMI_Get(HMI_Vaule_Type,"bt0",str);
-	bit_temp=my_atoi(str);
-	TestParameters_Structure.Safety_Code=bit_temp;
-//	rt_kprintf("%s\r\n",str);
-	/* 获取短路保护开关 */
+	rt_kprintf("%s\r\n",str);
+	str[0]='\0';
+	/* 获取过流保护开关 */
 	strcpy(str,"");
 	res=HMI_Get(HMI_Vaule_Type,"bt1",str);
 	bit_temp=my_atoi(str);
-	bit_temp=bit_temp<<1;
-	TestParameters_Structure.Safety_Code=bit_temp|TestParameters_Structure.Safety_Code;
-	/* 获取过流保护开关 */
-	strcpy(str,"");
-	res=HMI_Get(HMI_Vaule_Type,"bt2",str);
-	bit_temp=my_atoi(str);
-	bit_temp=bit_temp<<2;
-	TestParameters_Structure.Safety_Code=bit_temp|TestParameters_Structure.Safety_Code;
+	TestParameters_Structure.Safety_Code=bit_temp;
 	/* 获取快充诱导开关 */
 	strcpy(str,"");
 	res=HMI_Get(HMI_Vaule_Type,"FastCharg_STA",str);
@@ -384,27 +371,15 @@ HMI_Error HMI_TestLimit_Atoi(u8 * LimitVal)
 HMI_Error HMI_RTC_Show(void)
 {
 	char str1[20];
-	char str2[10];
+
 	RTC_TimeTypeDef RTC_TimeStruct;
 	RTC_DateTypeDef RTC_DateStruct;
 	
 	RTC_GetDate(RTC_Format_BIN, &RTC_DateStruct); //获取当前日期
 	RTC_GetTime(RTC_Format_BIN,&RTC_TimeStruct);  //获取当前时间
 	
-	my_itoa(RTC_DateStruct.RTC_Year,str2);
-	strcpy(str1,str2);
-	strcat(str1,"-");
-	my_itoa(RTC_DateStruct.RTC_Month,str2);
-	strcat(str1,str2);
-	strcat(str1,"-");
-	my_itoa(RTC_DateStruct.RTC_Date,str2);
-	strcat(str1,str2);
-	strcat(str1," ");
-	my_itoa(RTC_TimeStruct.RTC_Hours,str2);
-	strcat(str1,str2);
-	strcat(str1,":");
-	my_itoa(RTC_TimeStruct.RTC_Minutes,str2);
-	strcat(str1,str2);
+	sprintf(str1,"%d-%d-%d %d:%d",RTC_DateStruct.RTC_Year,RTC_DateStruct.RTC_Month,
+	RTC_DateStruct.RTC_Date,RTC_TimeStruct.RTC_Hours,RTC_TimeStruct.RTC_Minutes);
 	
 	HMI_Print_Str("t1",str1);
 	
@@ -417,8 +392,12 @@ HMI_Error HMI_RTC_Atoi(void)
 	char str2[10];
 	char str_temp;
 	u8 year,month,day,hour,min;
-	u8 res1,res2;
-	HMI_Get(HMI_String_Type,"t3",str1);
+	int res1;
+	u8 res2;
+	/* 禁止调度以防止干扰串口接收 */
+	rt_enter_critical();	//进入临界区
+	if(HMI_Get(HMI_String_Type,"t2",str1)) return 1;
+	rt_exit_critical();		//退出临界区
 	str2[0]=str1[0];str2[1]=str1[1];str2[2]='\0';
 	year=my_atoi(str2);
 	str2[0]=str1[2];str2[1]=str1[3];str2[2]='\0';
@@ -429,12 +408,14 @@ HMI_Error HMI_RTC_Atoi(void)
 	hour=my_atoi(str2);
 	str2[0]=str1[8];str2[1]=str1[9];str2[2]='\0';
 	min=my_atoi(str2);
-	rt_kprintf("str=%s\r\n",str1);
-	rt_kprintf("%d %d %d %d %d\r\n",year,month,day,hour,min);
-	if(month>12||month<1||day>31||day<1||day>31||hour>24||hour<1||min>60)
-		HMI_File_Page(16);
-	else HMI_File_Page(1);
-	return res1;
+	if(month>12||month<1||day>31||day<1||day>31||hour>24||hour<1||min>60) return HMI_Parse_Error;
+	RTC_Set_Date(year,month,day,1);
+	res1=hour-12;
+	if(res1<=0) res2=RTC_H12_AM;
+	else res2=RTC_H12_PM;
+	RTC_Set_Time(hour,min,0,res2);
+	
+	return HMI_OK;
 }
 
 HMI_Error HMI_ShowBatch(void)
@@ -469,6 +450,25 @@ HMI_Error HMI_ShowBatch(void)
 	return HMI_OK;
 }
 
+/*
+ * 获取批量名称并创建新批量目录
+ */
+HMI_Error HMI_Creat_NewBatch(void)
+{
+	char str[20];
+	u8 res;
+	
+	/* 禁止调度以防止干扰串口接收 */
+	rt_enter_critical();	//进入临界区
+	if(HMI_Get(HMI_String_Type,"t1",str)) return 1;
+	rt_kprintf("name=%s",str);
+	res=Creat_NewBatchDir(str);
+	rt_kprintf("code=%d\r\n",res);
+	rt_exit_critical();		//退出临界区	
+
+	
+	return 0;
+}
 
 /*
  * 系统运行错误执行(使程序停止运行)

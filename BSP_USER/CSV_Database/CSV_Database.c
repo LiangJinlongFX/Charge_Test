@@ -16,12 +16,9 @@
 
 
 //定义数据文件头部标签 
-const char Data_FileHeader[]="Serial_Number,Test_Time,Ripple_Voltage,Vout_Max,Cout_Max,"
-		"Over_Voltage_Protection,Over_Current_Protection,Short_Current,Quick_Charge,Poweron_Time,Efficiency,Test_Subsequence,";
-const char CommaStr=',';
-const char EnterStr[2]={0x0d,0x0a};
+const char Data_FileHeader[]="Serial_Number,Testing_Time,Vout_Max,Vout_Min,Cout_Max,"
+		"ShortCircuit_Current,NoLoad_Power,Conversion_Efficiency,Ripple_Voltage,OCP,Quick_Charge,Text_Code,";
 
-TestStandard_Type TestStandard_Arrary[4];
 u8 Current_event;	//定义全局用到的当前标准结构体
 
 /**
@@ -75,7 +72,7 @@ u8 Test_WriteData(TestData_Type DataStruct,char* BatchName)
 	}
 	
 	/* 读取当前文件数据总量并转换为数值 */
-	lseek_Size=strlen(Data_FileHeader);
+	lseek_Size=strlen(Data_FileHeader);	//偏移
 	if(f_lseek(&Fsrc,lseek_Size))	return 1;
 	/* 读出当前文件数据总量 */
 	res=f_read(&Fsrc,&TempStr,5,&check_count);
@@ -87,12 +84,23 @@ u8 Test_WriteData(TestData_Type DataStruct,char* BatchName)
 	/* 根据总数给要写入的数据体写入序列号 */
 	DataStruct.Serial_Number=count+1;		
 	/* 预估文件空间,如果文件空间不足则扩展文件空间 */
-	if(Fsrc.fsize<FileHeader_Size+(count+1)*sizeof(DataStruct))
+	if(Fsrc.fsize<lseek_Size+7+(count+1)*sizeof(DataStruct))
 	{
-		res=f_lseek(&Fsrc,FileHeader_Size+(count+1)*sizeof(DataStruct));
+		res=f_lseek(&Fsrc,lseek_Size+7+(count+1)*sizeof(DataStruct));
 		if(res!=0) return 1;
 	}
 
+	/* 重新写入统计数据 */
+	count+=1;
+	/* 将初始总数转换为字符串 */
+	sprintf(TempStr,"%5d\r\n",count);
+	/* 写入初始总数 */
+	lseek_Size=strlen(Data_FileHeader);	//偏移
+	rt_kprintf("count_add=%x\r\n",lseek_Size);
+	if(f_lseek(&Fsrc,	lseek_Size-7)) return 1;
+	res=f_write(&Fsrc,&TempStr,strlen(TempStr),&check_count);
+	if(check_count!=strlen(TempStr)||res!=0) return 1;
+		
 	/* 读写指针移至文件尾部 */
 	lseek_Size=f_size(&Fsrc);		
 	rt_kprintf("len=%x\r\n",lseek_Size);
@@ -117,38 +125,23 @@ u8 Test_WriteData(TestData_Type DataStruct,char* BatchName)
 
 	if(f_sync(&Fsrc)) return 1;
 	
-	//纹波电压,输出电压,最大输出电流转换为字符串
-	sprintf(TempStr,"%4.1f,%5.3f,%4.3f,",DataStruct.Ripple_Voltage,DataStruct.Vout_Max,DataStruct.Cout_Max);
-	// 写入数据
+	//最大输出电压,最小输出电压,最大输出电流,短路电流,空载功率,转换效率,纹波电压转换为字符串
+	sprintf(TempStr,"%5.3f,%5.3f,%4.3f,%4.3f,%4.3f,%3.1f,%4f,",DataStruct.Vout_Max,DataStruct.Vout_Min,
+	DataStruct.Cout_Max,DataStruct.Cout_short,DataStruct.Noload_Power,DataStruct.Efficiency,DataStruct.Ripple_Voltage);
+	/* 写入数据 */
 	Str_Len=strlen(TempStr);
 	res=f_write(&Fsrc,TempStr,Str_Len,&check_count);
 	if(res!=0||check_count!=Str_Len)	return 1;
 	
 	if(f_sync(&Fsrc)) return 1;
 
-	//过压保护,过流保护,短路保护,快充识别,上电时间,效率,结果代码转换为字符串
-	sprintf(TempStr,"%1d,%1d,%1d,%1d,%3d,%2d,%1d",DataStruct.Over_Voltage_Protection,
-	DataStruct.Over_Current_Protection,DataStruct.Short_Current,DataStruct.Quick_Charge,
-	DataStruct.Poweron_Time,DataStruct.Efficiency,DataStruct.Test_Subsequence);
-	// 写入数据
+	/* 过流保护,快充支持,测试结果代码加换行符转换为字符串 */
+	sprintf(TempStr,"%1d,%1d,%1d\r\n",DataStruct.Over_Current_Protection,DataStruct.Quick_Charge,DataStruct.Test_Subsequence);
+	/* 写入数据 */
 	Str_Len=strlen(TempStr);
 	res=f_write(&Fsrc,TempStr,Str_Len,&check_count);
 	if(res!=0||check_count!=Str_Len)	return 1;
-
-	if(f_sync(&Fsrc)) return 1;
-
-	// 写入换行符
-	res=f_write(&Fsrc,&EnterStr,2,&check_count);
-	if(check_count!=2||res!=0) return 1;
 	
-	//重新写入统计数据
-	count+=1;
-	// 将初始总数转换为字符串
-	my_itoa(count,TempStr);
-	// 写入初始总数
-	if(f_lseek(&Fsrc,	FileHeader_Size-7)) return 1;
-	res=f_write(&Fsrc,&TempStr,5,&check_count);
-	if(check_count!=5||res!=0) return 1;
 	//关闭文件
 	if(f_close(&Fsrc)) return 1;
 	
@@ -165,11 +158,11 @@ u8 Creat_FileHeader(char *File_Name)
 	u8 res=0;
 	u16 lseek_Size;
 	UINT check_count=0;
-	char countStr[5];
+	char countStr[10];
 
 	/* 创建新的CSV文件并初始化文件头部 */		
 	if(f_open(&Fsrc,File_Name,FA_READ|FA_WRITE|FA_CREATE_NEW)) return 1;
-	if(f_lseek(&Fsrc,180)) return 1;
+	if(f_lseek(&Fsrc,200)) return 1;	//空间预分配
 	/* 返回文件开始位置 */
 	if(f_lseek(&Fsrc,0)) return 1;
 	/* 写入文件头部标签 */
@@ -177,17 +170,14 @@ u8 Creat_FileHeader(char *File_Name)
 	res=f_write(&Fsrc,Data_FileHeader,lseek_Size,&check_count);
 	if(check_count!=lseek_Size||res!=0) return 1;
 	// 将初始总数转换为字符串
-	sprintf(countStr,"%4d",0);
-	strcat(countStr,"\0");
-	// 写入初始总数
-	res=f_write(&Fsrc,&countStr,5,&check_count);
-	if(check_count!=5||res!=0) return 1;
-	// 写入换行符
-	res=f_write(&Fsrc,&EnterStr,2,&check_count);
-	if(check_count!=2||res!=0) return 1;	
+	sprintf(countStr,"%5d\r\n",0);
+	// 写入初始总数及换行符
+	res=f_write(&Fsrc,&countStr,strlen(countStr),&check_count);
+	if(check_count!=strlen(countStr)||res!=0) return 1;
+
 	//关闭文件
-	res=f_close(&Fsrc);
-	if(res!=0)  return 1;
+	if(f_close(&Fsrc)) return 1;
+	
 	return 0;
 }
 
@@ -307,10 +297,10 @@ u8 First_writeTestParameters(void)
 	u8 res;
 	TestParameters_Type TestParameters_temp;
 	
-	TestParameters_temp.Vout_Max=5100;
+	TestParameters_temp.Vout=5100;
+	TestParameters_temp.Vout_Tolerance=10;
 	TestParameters_temp.Cout_Max=3000;
 	TestParameters_temp.V_Ripple=200;
-	TestParameters_temp.Poweron_Time=2;
 	TestParameters_temp.Efficiency=89;
 	TestParameters_temp.Quick_Charge=0;
 	TestParameters_temp.Safety_Code=0;

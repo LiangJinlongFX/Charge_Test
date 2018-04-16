@@ -61,3 +61,4 @@
 .\objects\board.o: ..\BSP_USER\ADC\adc.h
 .\objects\board.o: ..\HARDWARE\DS18B20\ds18b20.h
 .\objects\board.o: ..\BSP_USER\HMI\HMI.h
+.\objects\board.o: ..\Common\usart3.h

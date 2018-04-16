@@ -82,7 +82,7 @@ u8 My_RTC_Init(void)
     RTC_InitStructure.RTC_AsynchPrediv = 0x7F;//RTC异步分频系数(1~0X7F)
     RTC_InitStructure.RTC_SynchPrediv  = 0xFF;//RTC同步分频系数(0~7FFF)
     RTC_InitStructure.RTC_HourFormat   = RTC_HourFormat_24;//RTC设置为,24小时格式
-    RTC_Init(&RTC_InitStructure);
+    if(RTC_Init(&RTC_InitStructure)) return 1;
  
 		RTC_Set_Time(23,59,56,RTC_H12_AM);	//设置时间
 		RTC_Set_Date(14,5,5,1);		//设置日期

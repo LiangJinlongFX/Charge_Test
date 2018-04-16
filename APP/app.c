@@ -101,11 +101,13 @@ void Master_thread_entry(void* parameter)
 				{
 					Entry_Code_Old=0x07;
 					//创建模式选择线程
-					HMI_SelectStandard_thread = rt_thread_create("Standard",HMI_SelectStandard_thread_entry, RT_NULL,512,3,20);
+					///HMI_SelectStandard_thread = rt_thread_create("Standard",HMI_SelectStandard_thread_entry, RT_NULL,512,3,20);
 					/* 获取批量目录名称并将其写入SD卡中 */
-					
-					HMI_File_Page(25);	//跳转到测试标准选择界面
-					rt_thread_startup(HMI_SelectStandard_thread);	//启动线程
+					f_mount(&fat,"0",1);
+					HMI_Creat_NewBatch();
+					f_mount(NULL,"0",1);
+					HMI_File_Page(1);	//跳转到测试标准选择界面
+					//rt_thread_startup(HMI_SelectStandard_thread);	//启动线程
 				}break;
 				case 0x08 : 
 				{
@@ -140,10 +142,10 @@ void Master_thread_entry(void* parameter)
 					res=HMI_Standard_Atoi();	//获取界面标准参数并装载进结构体
 					rt_exit_critical();		//退出临界区
 					#if	Thread_Debug
-					rt_kprintf("res=%d\r\n",TestParameters_Structure.Vout_Max);
+					rt_kprintf("res=%d\r\n",TestParameters_Structure.Vout);
+					rt_kprintf("res=%d\r\n",TestParameters_Structure.Vout_Tolerance);
 					rt_kprintf("res=%d\r\n",TestParameters_Structure.Cout_Max);
 					rt_kprintf("res=%d\r\n",TestParameters_Structure.V_Ripple);
-					rt_kprintf("res=%d\r\n",TestParameters_Structure.Poweron_Time);
 					rt_kprintf("res=%d\r\n",TestParameters_Structure.Efficiency);
 					rt_kprintf("res=%d\r\n",TestParameters_Structure.Safety_Code);
 					rt_kprintf("res=%d\r\n",TestParameters_Structure.Quick_Charge);
@@ -173,7 +175,8 @@ void Master_thread_entry(void* parameter)
 				}break;
 				case 0x10	:
 				{
-					
+					HMI_RTC_Atoi();
+					HMI_File_Page(1);
 				}break;
 				/* 界面按键动作触发(通用) */
 				case 0x51 :{Event_Flag=1;rt_mb_send(Event_mb,Event_Flag);}break;	//上翻
@@ -236,18 +239,18 @@ void HMI_FastTest_thread_entry(void* parameter)
 	{
 		if(rt_mb_recv(GetData_mb, (rt_uint32_t*)&Showdata_Structure, RT_WAITING_FOREVER)== RT_EOK)
 		{
-			HMI_Print_Str("t6",str);
-			HMI_Print_Str("t7",str);
+			HMI_Print_Str("t6",str);	//显示AC输入电压
+			HMI_Print_Str("t7",str);	//显示AC输入电流
 			sprintf(str,"%.3f",(*Showdata_Structure).V_OUT);
-			HMI_Print_Str("t9",str);
+			HMI_Print_Str("t9",str);	//显示DC输出电压
 			sprintf(str,"%.3f",(*Showdata_Structure).C_OUT);
-			HMI_Print_Str("t10",str);
+			HMI_Print_Str("t10",str);	//显示DC输出电流
 			str[0]='\0';
-			HMI_Print_Str("t11",str);
+			HMI_Print_Str("t11",str);	//显示转换效率
 			sprintf(str,"%.3f",(*Showdata_Structure).V_Ripple);
-			HMI_Print_Str("t12",str);
+			HMI_Print_Str("t12",str);	//显示纹波电压
 			str[0]='\0';
-			HMI_Print_Str("t8",str);
+			HMI_Print_Str("t8",str);	//显示备注信息
 		}
 		rt_thread_delay(100);
 	}
