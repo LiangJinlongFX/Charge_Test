@@ -67,11 +67,6 @@ int main()
 ////	res=Creat_FileHeader("123.csv");
 //	rt_kprintf("res=%d\r\n",res);
 //	f_mount(NULL,"0",1);
-	while(1)
-	{
-		MTK_IncreaseVoltage();
-		delay_ms(1000);
-	}
 	Main_entry();
 	return 0;
 }

@@ -44,55 +44,99 @@ float Get_PowerRipple(void)
 /*
  * MTK-PE诱导  增大输出电压
  */
-void MTK_IncreaseVoltage(void)
+void MTK_IncreaseVoltage(u8 Voltage_level)
 {
-	SW=1;
-	delay_ms(100);
-	SW=0;
-	delay_ms(100);
-	SW=1;
-	delay_ms(100);
-	SW=0;
-	delay_ms(100);
-	SW=1;
-	delay_ms(300);
-	SW=0;
-	delay_ms(100);
-	SW=1;
-	delay_ms(300);
-	SW=0;
-	delay_ms(100);
-	SW=1;
-	delay_ms(500);
-	SW=0;
+	u8 i;
+
+	if(Voltage_level==0||Voltage_level>3) return;
+	
+	for(i=0;i<Voltage_level;i++)
+	{
+		SW=0;
+		delay_ms(200);
+		SW=1;
+		delay_ms(100);
+		
+		/* 1 */
+		SW=0;
+		delay_ms(100);
+		SW=1;
+		delay_ms(100);
+		/* 2 */
+		SW=0;
+		delay_ms(100);
+		SW=1;
+		delay_ms(100);
+		/* 3 */
+		SW=0;
+		delay_ms(300);
+		SW=1;
+		delay_ms(100);
+		/* 4 */
+		SW=0;
+		delay_ms(300);
+		SW=1;
+		delay_ms(100);
+		/* 5 */
+		SW=0;
+		delay_ms(300);
+		SW=1;
+		delay_ms(100);
+		/* 6 */
+		SW=0;
+		delay_ms(500);
+		SW=1;
+		delay_ms(100);
+	}
+		/* keep */
+	SW=0;		
 }
 
 /*
  * MTK-PE诱导  减少输出电压
  */
-void MTK_DecreaseVoltage(void)
+void MTK_DecreaseVoltage(u8 Voltage_level)
 {
-	SW=1;
-	delay_ms(300);
-	SW=0;
-	delay_ms(100);
-	SW=1;
-	delay_ms(300);
-	SW=0;
-	delay_ms(100);
-	SW=1;
-	delay_ms(300);
-	SW=0;
-	delay_ms(100);
-	SW=1;
-	delay_ms(100);
-	SW=0;
-	delay_ms(100);
-	SW=1;
-	delay_ms(100);
-	SW=0;
-	delay_ms(100);
-	SW=1;
-	delay_ms(500);
+	u8 i=0;
+	
+	for(i=0;i<Voltage_level;i++)
+	{
+		SW=0;
+		delay_ms(200);
+		SW=1;
+		delay_ms(100);
+		
+		SW=0;
+		delay_ms(300);
+		SW=1;
+		delay_ms(100);
+		
+		SW=0;
+		delay_ms(300);
+		SW=1;
+		delay_ms(100);
+
+		SW=0;
+		delay_ms(300);
+		SW=1;
+		delay_ms(100);
+		
+		/* 1 */
+		SW=0;
+		delay_ms(100);
+		SW=1;
+		delay_ms(100);
+		/* 2 */
+		SW=0;
+		delay_ms(100);
+		SW=1;
+		delay_ms(100);		
+		
+		SW=0;
+		delay_ms(500);
+		SW=1;
+		delay_ms(100);
+	}
+	/* keep */
 	SW=0;
 }

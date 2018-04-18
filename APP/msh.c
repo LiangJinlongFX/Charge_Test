@@ -6,6 +6,7 @@
 #include "switch.h"
 #include "rtc.h"
 #include "HMI.h"
+#include "Data_Math.h"
 
 int mycmd(void)
 {
@@ -101,5 +102,18 @@ int page(int argc,char** argv)
 }
 
 MSH_CMD_EXPORT(page,my command test);
+
+int mtk(int argc,char** argv)
+{
+	if(my_atoi(argv[1]))
+	MTK_IncreaseVoltage(1);
+	else
+	MTK_DecreaseVoltage(1);	
+	return 0;
+}
+
+MSH_CMD_EXPORT(mtk,my command test);
+
+
 
 

@@ -54,3 +54,4 @@
 .\objects\msh.o: ..\BSP_USER\ADC\adc.h
 .\objects\msh.o: ..\BSP_USER\Switch\switch.h
 .\objects\msh.o: ..\BSP_USER\RTC\rtc.h
+.\objects\msh.o: ..\BSP_USER\Data_Math\Data_Math.h
