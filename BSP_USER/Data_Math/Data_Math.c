@@ -3,6 +3,8 @@
 #include "math.h" 
 #include "arm_math.h"
 #include "adc.h"
+#include "switch.h"
+#include "delay.h"
 
 
 
@@ -37,4 +39,60 @@ float Get_PowerRipple(void)
 	PowerRipple=(float)Adc_Val*3.3f/4096;
 	
 	return PowerRipple;
+}
+
+/*
+ * MTK-PE诱导  增大输出电压
+ */
+void MTK_IncreaseVoltage(void)
+{
+	SW=1;
+	delay_ms(100);
+	SW=0;
+	delay_ms(100);
+	SW=1;
+	delay_ms(100);
+	SW=0;
+	delay_ms(100);
+	SW=1;
+	delay_ms(300);
+	SW=0;
+	delay_ms(100);
+	SW=1;
+	delay_ms(300);
+	SW=0;
+	delay_ms(100);
+	SW=1;
+	delay_ms(500);
+	SW=0;
+}
+
+/*
+ * MTK-PE诱导  减少输出电压
+ */
+void MTK_DecreaseVoltage(void)
+{
+	SW=1;
+	delay_ms(300);
+	SW=0;
+	delay_ms(100);
+	SW=1;
+	delay_ms(300);
+	SW=0;
+	delay_ms(100);
+	SW=1;
+	delay_ms(300);
+	SW=0;
+	delay_ms(100);
+	SW=1;
+	delay_ms(100);
+	SW=0;
+	delay_ms(100);
+	SW=1;
+	delay_ms(100);
+	SW=0;
+	delay_ms(100);
+	SW=1;
+	delay_ms(500);
+	SW=0;
 }

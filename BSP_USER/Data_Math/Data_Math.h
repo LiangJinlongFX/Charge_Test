@@ -6,5 +6,8 @@ float Get_PowerVoltage(void);
 float Get_PowerCurrent(void);
 float Get_PowerRipple(void);
 
+void MTK_IncreaseVoltage(void);
+void MTK_DecreaseVoltage(void);
+
 #endif
 

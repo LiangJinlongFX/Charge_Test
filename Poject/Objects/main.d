@@ -63,3 +63,4 @@
 .\objects\main.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\main.o: ..\Common\usart3.h
 .\objects\main.o: ..\BSP_USER\DMA\dma.h
+.\objects\main.o: ..\BSP_USER\Data_Math\Data_Math.h

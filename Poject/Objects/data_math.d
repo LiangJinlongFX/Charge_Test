@@ -41,3 +41,5 @@
 .\objects\data_math.o: ..\DSP_LIB\Include\core_cm4.h
 .\objects\data_math.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\string.h
 .\objects\data_math.o: ..\BSP_USER\ADC\adc.h
+.\objects\data_math.o: ..\BSP_USER\Switch\switch.h
+.\objects\data_math.o: ..\Common\delay.h
