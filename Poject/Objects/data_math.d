@@ -36,6 +36,7 @@
 .\objects\data_math.o: ..\STM32f4_LIB\inc\stm32f4xx_dcmi.h
 .\objects\data_math.o: ..\STM32f4_LIB\inc\stm32f4xx_fsmc.h
 .\objects\data_math.o: ..\BSP_USER\Data_Math\Data_Math.h
+.\objects\data_math.o: ..\BSP_USER\DAC\dac.h
 .\objects\data_math.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\math.h
 .\objects\data_math.o: ..\DSP_LIB\Include\arm_math.h
 .\objects\data_math.o: ..\DSP_LIB\Include\core_cm4.h

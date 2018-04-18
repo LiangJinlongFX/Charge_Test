@@ -11,6 +11,7 @@
 int mycmd(void)
 {
 	rt_kprintf("hello world!\r\n");
+	QC20_Induced();
 	return 0;
 }
 
@@ -32,14 +33,10 @@ MSH_CMD_EXPORT(print,my command test);
 
 int dac(int argc,char** argv)
 {
-	rt_kprintf("dac1=");
+	Dac2_Set_Vol(my_atoi(argv[1]));
+	Dac1_Set_Vol(my_atoi(argv[1]));
+	rt_kprintf("dac=%d\r\n",my_atoi(argv[1]));
 	
-	if(argc>1)	
-	{
-		rt_kprintf("%s\r\n",argv[1]);
-		Dac1_Set_Vol(my_atoi(argv[1]));
-		rt_kprintf("dac=%d\r\n",my_atoi(argv[1]));
-	}
 	return 0;
 }
 

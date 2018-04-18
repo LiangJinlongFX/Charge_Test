@@ -140,3 +140,8 @@ void MTK_DecreaseVoltage(u8 Voltage_level)
 	/* keep */
 	SW=0;
 }
+
+void QC20_Induced()
+{
+	USB_DP_SetVol(600);
+}
