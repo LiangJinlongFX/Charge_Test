@@ -64,3 +64,4 @@
 .\objects\main.o: ..\Common\usart3.h
 .\objects\main.o: ..\BSP_USER\DMA\dma.h
 .\objects\main.o: ..\BSP_USER\Data_Math\Data_Math.h
+.\objects\main.o: ..\HARDWARE\HLW8032\hlw8032.h

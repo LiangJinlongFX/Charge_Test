@@ -32,6 +32,7 @@
 #include "usart3.h"
 #include "dma.h"
 #include "Data_Math.h"
+#include "hlw8032.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -48,6 +49,8 @@
 int main()
 {
 	u8 i;
+	u8 res;
+	float AC_V;
 //	
 //	TestData_Type Date;
 //	
@@ -72,8 +75,11 @@ int main()
 		if(USART3_RX_Flag)
 		{
 			USART3_RX_Flag=0;
-			for(i=0;i<USART3_RX_Size;i++)
-				rt_kprintf("%x ",USART3_RX_BUF[i]);
+			res=UsartToStruct();
+			AC_V=((float)default_VoltageparameterREG/(float)HLW8032REG_Structure.VoltageREG_Val)*V_K1;
+			printf("V=%f\r\n",AC_V);
+			AC_V=((float)default_CurrentParameterREG/(float)HLW8032REG_Structure.CurrentREG_Val)*C_K2;
+			printf("C=%f\r\n",AC_V);
 			USART3_RX_Size=0;
 		}
 	}

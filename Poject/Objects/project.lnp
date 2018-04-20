@@ -17,6 +17,7 @@
 ".\objects\dma.o"
 ".\objects\tlc5615.o"
 ".\objects\ds18b20.o"
+".\objects\hlw8032.o"
 ".\objects\delay.o"
 ".\objects\sys.o"
 ".\objects\usart1.o"
