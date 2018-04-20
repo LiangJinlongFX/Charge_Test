@@ -4,6 +4,7 @@
 #include "dac.h"
 
 #define USB_DP_SetVol(vol) Dac2_Set_Vol(vol)
+#define USB_DM_SetVol(vol) Dac1_Set_Vol(vol)
 float Get_PowerVoltage(void);
 float Get_PowerCurrent(void);
 float Get_PowerRipple(void);

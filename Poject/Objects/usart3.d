@@ -38,3 +38,13 @@
 .\objects\usart3.o: ..\STM32f4_LIB\inc\stm32f4xx_fsmc.h
 .\objects\usart3.o: ..\Common\sys.h
 .\objects\usart3.o: ..\BSP_USER\DMA\dma.h
+.\objects\usart3.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
+.\objects\usart3.o: .\RTE\RTOS\rtconfig.h
+.\objects\usart3.o: .\RTE\_Target_1\RTE_Components.h
+.\objects\usart3.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdebug.h
+.\objects\usart3.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdef.h
+.\objects\usart3.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\usart3.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtservice.h
+.\objects\usart3.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtm.h
+.\objects\usart3.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
+.\objects\usart3.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\string.h

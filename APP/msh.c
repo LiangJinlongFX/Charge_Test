@@ -33,8 +33,8 @@ MSH_CMD_EXPORT(print,my command test);
 
 int dac(int argc,char** argv)
 {
-	Dac2_Set_Vol(my_atoi(argv[1]));
-	Dac1_Set_Vol(my_atoi(argv[1]));
+	USB_DP_SetVol(my_atoi(argv[1]));
+	USB_DM_SetVol(my_atoi(argv[1]));
 	rt_kprintf("dac=%d\r\n",my_atoi(argv[1]));
 	
 	return 0;

@@ -30,6 +30,8 @@
 #include "sys.h"
 
 extern u8 USART3_RX_BUF[100];	//串口3接收缓存数组
+extern u8 USART3_RX_Size;			//串口3当前接收的字节数
+extern u8 USART3_RX_Flag;			//串口3接收完成标志
 
 void uart3_init(u32 bound);
 

@@ -47,7 +47,7 @@
   */
 int main()
 {
-	u8 res;
+	u8 i;
 //	
 //	TestData_Type Date;
 //	
@@ -67,6 +67,16 @@ int main()
 ////	res=Creat_FileHeader("123.csv");
 //	rt_kprintf("res=%d\r\n",res);
 //	f_mount(NULL,"0",1);
+	while(1)
+	{
+		if(USART3_RX_Flag)
+		{
+			USART3_RX_Flag=0;
+			for(i=0;i<USART3_RX_Size;i++)
+				rt_kprintf("%x ",USART3_RX_BUF[i]);
+			USART3_RX_Size=0;
+		}
+	}
 	Main_entry();
 	return 0;
 }
