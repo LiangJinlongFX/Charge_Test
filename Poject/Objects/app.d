@@ -59,3 +59,5 @@
 .\objects\app.o: ..\FATFS\exfuns\exfuns.h
 .\objects\app.o: ..\BSP_USER\Data_Math\Data_Math.h
 .\objects\app.o: ..\BSP_USER\DAC\dac.h
+.\objects\app.o: ..\Common\usart3.h
+.\objects\app.o: ..\HARDWARE\HLW8032\hlw8032.h

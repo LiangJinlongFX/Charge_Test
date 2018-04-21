@@ -70,19 +70,6 @@ int main()
 ////	res=Creat_FileHeader("123.csv");
 //	rt_kprintf("res=%d\r\n",res);
 //	f_mount(NULL,"0",1);
-	while(1)
-	{
-		if(USART3_RX_Flag)
-		{
-			USART3_RX_Flag=0;
-			res=UsartToStruct();
-			AC_V=((float)default_VoltageparameterREG/(float)HLW8032REG_Structure.VoltageREG_Val)*V_K1;
-			printf("V=%f\r\n",AC_V);
-			AC_V=((float)default_CurrentParameterREG/(float)HLW8032REG_Structure.CurrentREG_Val)*C_K2;
-			printf("C=%f\r\n",AC_V);
-			USART3_RX_Size=0;
-		}
-	}
 	Main_entry();
 	return 0;
 }

@@ -51,9 +51,9 @@ void uart3_init(u32 bound)
 	
 	/* 中断开关设置 */
 	USART_ITConfig(USART3,USART_IT_TC,DISABLE);  
-	USART_ITConfig(USART3,USART_IT_RXNE,ENABLE);  
 	USART_ITConfig(USART3,USART_IT_TXE,DISABLE);  
-	USART_ITConfig(USART3,USART_IT_IDLE,ENABLE);  
+	USART_ITConfig(USART3,USART_IT_IDLE,DISABLE);
+	USART_ITConfig(USART3,USART_IT_RXNE,DISABLE);    
 
 	USART_Cmd(USART3, ENABLE);  //使能串口3
 	
@@ -66,7 +66,9 @@ void uart3_init(u32 bound)
 
 void USART3_IRQHandler(void)                	//串口3中断服务程序
 {
- if(USART_GetITStatus(USART3, USART_IT_RXNE)!= RESET)
+	/* 通知RTT进入中断 */
+	rt_interrupt_enter();
+	if(USART_GetITStatus(USART3, USART_IT_RXNE)!= RESET)
 	{       
 			if(USART3_RX_Size<=24)
 			{
@@ -79,4 +81,6 @@ void USART3_IRQHandler(void)                	//串口3中断服务程序
 		USART_ClearFlag(USART3,USART_FLAG_IDLE);
 		if(USART3_RX_Size>=24) USART3_RX_Flag=1;
 	}
+	/* 通知RTT退出中断 */
+	rt_interrupt_leave();
 }

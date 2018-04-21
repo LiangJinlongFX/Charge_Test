@@ -26,6 +26,8 @@
 #include "ff.h"  
 #include "exfuns.h"
 #include "Data_Math.h"
+#include "usart3.h"
+#include "hlw8032.h"
 
 
 /* Private functions ---------------------------------------------------------*/
@@ -52,14 +54,18 @@ void Master_thread_entry(void* parameter)
 					//创建线程1 
 					CollectData_thread = rt_thread_create("GetData",CollectData_thread_entry, RT_NULL,512, 2,20);
 					//创建线程1 
-					HMI_FastTest_thread = rt_thread_create("HMI_1",HMI_FastTest_thread_entry, RT_NULL,512,3,20);
+					HMI_FastTest_thread = rt_thread_create("HMI_1",HMI_FastTest_thread_entry, RT_NULL,1024,3,20);
 					
 					HMI_File_Page(20);	//跳转到快速测试界面
+					USART_ITConfig(USART3,USART_IT_IDLE,ENABLE);
+					USART_ITConfig(USART3,USART_IT_RXNE,ENABLE);   
 					rt_thread_startup(CollectData_thread);	//启动数据采集线程
 					rt_thread_startup(HMI_FastTest_thread);	//启动快速界面检测线程 
 				}break;
 				case 0x02 : 
 				{
+					USART_ITConfig(USART3,USART_IT_IDLE,DISABLE);
+					USART_ITConfig(USART3,USART_IT_RXNE,DISABLE);   
 					rt_thread_delete(CollectData_thread);	//删除数据采集线程
 					rt_thread_delete(HMI_FastTest_thread);	//删除快速界面检测线程
 					HMI_File_Page(1); 
@@ -222,9 +228,16 @@ void CollectData_thread_entry(void* parameter)
 		ReadTimeData_structure.V_OUT=Get_PowerVoltage();	//采集电压
 		ReadTimeData_structure.C_OUT=Get_PowerCurrent();	//采集电流
 		ReadTimeData_structure.V_Ripple=Get_PowerRipple();	//采集纹波电压
+		if(USART3_RX_Flag)
+		{
+			USART3_RX_Flag=0;
+			if(HLW8032Get_Data(&HLW8032Data_Structure)) continue;
+			ReadTimeData_structure.V_IN=HLW8032Data_Structure.AC_Voltage;
+			ReadTimeData_structure.C_IN=HLW8032Data_Structure.AC_Current;
+		}
 		rt_exit_critical();		//退出临界区
 		rt_mb_send(GetData_mb,(rt_uint32_t)&ReadTimeData_structure);
-		rt_thread_delay(100);
+		rt_thread_delay(500);
 	}
 }
 
@@ -239,7 +252,9 @@ void HMI_FastTest_thread_entry(void* parameter)
 	{
 		if(rt_mb_recv(GetData_mb, (rt_uint32_t*)&Showdata_Structure, RT_WAITING_FOREVER)== RT_EOK)
 		{
+			sprintf(str,"%.2f",(*Showdata_Structure).V_IN);
 			HMI_Print_Str("t6",str);	//显示AC输入电压
+			sprintf(str,"%.3f",(*Showdata_Structure).C_IN);
 			HMI_Print_Str("t7",str);	//显示AC输入电流
 			sprintf(str,"%.3f",(*Showdata_Structure).V_OUT);
 			HMI_Print_Str("t9",str);	//显示DC输出电压

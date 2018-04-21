@@ -26,6 +26,8 @@ typedef struct
 /* 实时检测数据结构体 */
 typedef struct
 {
+	float V_IN;
+	float C_IN;
 	float V_OUT;
 	float C_OUT;
 	float V_D1;
