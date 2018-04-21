@@ -28,29 +28,7 @@
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __USB_CONF__H__
 #define __USB_CONF__H__
-
-/* Includes ------------------------------------------------------------------*/
-#if defined (USE_STM322xG_EVAL)
- #include "stm322xg_eval.h"
- #include "stm322xg_eval_lcd.h"
- #include "stm322xg_eval_ioe.h"
- #include "stm322xg_eval_sdio_sd.h"
-#elif defined(USE_STM324xG_EVAL)
- #include "stm32f4xx.h"
- #include "stm324xg_eval.h" 
- #include "stm324xg_eval_lcd.h"
- #include "stm324xg_eval_ioe.h"
- #include "stm324xg_eval_sdio_sd.h"
-#elif defined (USE_STM3210C_EVAL)
- #include "stm32f10x.h"
- #include "stm3210c_eval.h" 
- #include "stm3210c_eval_lcd.h"
- #include "stm3210c_eval_ioe.h"
- #include "stm3210c_eval_spi_sd.h"
-#else
- #error "Missing define: Evaluation board (ie. USE_STM322xG_EVAL)"
-#endif
-
+#include "stm32f4xx.h"
 
 /** @addtogroup USB_OTG_DRIVER
   * @{
@@ -149,52 +127,48 @@
 *       --> Txn should be configured with the minimum space of 16 words
 *  (v) The FIFO is used optimally when used TxFIFOs are allocated in the top 
 *       of the FIFO.Ex: use EP1 and EP2 as IN instead of EP1 and EP3 as IN ones.
-*   (vi) In HS case 12 FIFO locations should be reserved for internal DMA registers
+*   (vi) In HS case12 FIFO locations should be reserved for internal DMA registers
 *        so total FIFO size should be 1012 Only instead of 1024       
 *******************************************************************************/
  
 /****************** USB OTG HS CONFIGURATION **********************************/
 #ifdef USB_OTG_HS_CORE
  #define RX_FIFO_HS_SIZE                          512
- #define TX0_FIFO_HS_SIZE                          64
+ #define TX0_FIFO_HS_SIZE                         128
  #define TX1_FIFO_HS_SIZE                         372
- #define TX2_FIFO_HS_SIZE                          64
- #define TX3_FIFO_HS_SIZE                           0
- #define TX4_FIFO_HS_SIZE                           0
- #define TX5_FIFO_HS_SIZE                           0
+ #define TX2_FIFO_HS_SIZE                          0
+ #define TX3_FIFO_HS_SIZE                          0
+ #define TX4_FIFO_HS_SIZE                          0
+ #define TX5_FIFO_HS_SIZE                          0
 
+// #define USB_OTG_HS_LOW_PWR_MGMT_SUPPORT
 // #define USB_OTG_HS_SOF_OUTPUT_ENABLED
 
  #ifdef USE_ULPI_PHY
   #define USB_OTG_ULPI_PHY_ENABLED
  #endif
- #ifdef USE_EMBEDDED_PHY 
+ #ifdef USE_EMBEDDED_PHY
    #define USB_OTG_EMBEDDED_PHY_ENABLED
-   /* wakeup is working only when HS core is configured in FS mode */
-   #define USB_OTG_HS_LOW_PWR_MGMT_SUPPORT
  #endif
- /* #define USB_OTG_HS_INTERNAL_DMA_ENABLED */ /* Be aware that enabling DMA mode will result in data being sent only by
-                                                  multiple of 4 packet sizes. This is due to the fact that USB DMA does
-                                                  not allow sending data from non word-aligned addresses.
-                                                  For this specific application, it is advised to not enable this option
-                                                  unless required. */
+ #define USB_OTG_HS_INTERNAL_DMA_ENABLED
  #define USB_OTG_HS_DEDICATED_EP1_ENABLED
 #endif
 
 /****************** USB OTG FS CONFIGURATION **********************************/
 #ifdef USB_OTG_FS_CORE
  #define RX_FIFO_FS_SIZE                          128
- #define TX0_FIFO_FS_SIZE                          32
+ #define TX0_FIFO_FS_SIZE                          64
  #define TX1_FIFO_FS_SIZE                         128
- #define TX2_FIFO_FS_SIZE                          32 
- #define TX3_FIFO_FS_SIZE                           0
+ #define TX2_FIFO_FS_SIZE                          0
+ #define TX3_FIFO_FS_SIZE                          0
 
 // #define USB_OTG_FS_LOW_PWR_MGMT_SUPPORT
 // #define USB_OTG_FS_SOF_OUTPUT_ENABLED
 #endif
 
 /****************** USB OTG MISC CONFIGURATION ********************************/
-#define VBUS_SENSING_ENABLED
+//Explorer STM32F407开发板没用到VBUS,所以禁止检测VBUS上面的电压
+//#define VBUS_SENSING_ENABLED
 
 /****************** USB OTG MODE CONFIGURATION ********************************/
 //#define USE_HOST_MODE
@@ -303,6 +277,5 @@
 /**
   * @}
   */ 
-
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
 

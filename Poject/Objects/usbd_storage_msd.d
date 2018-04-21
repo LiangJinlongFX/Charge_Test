@@ -40,15 +40,3 @@
 .\objects\usbd_storage_msd.o: ..\STM32f4_LIB\inc\stm32f4xx_fsmc.h
 .\objects\usbd_storage_msd.o: ..\BSP_USER\SDIO_SD\sdio_sdcard.h
 .\objects\usbd_storage_msd.o: ..\Common\sys.h
-.\objects\usbd_storage_msd.o: ..\USB\USB_APP\usb_app.h
-.\objects\usbd_storage_msd.o: ..\USB\STM32_USB_Device_Library\Class\msc\inc\usbd_msc_core.h
-.\objects\usbd_storage_msd.o: ..\USB\STM32_USB_Device_Library\Core\inc\usbd_ioreq.h
-.\objects\usbd_storage_msd.o: ..\USB\STM32_USB_Device_Library\Core\inc\usbd_core.h
-.\objects\usbd_storage_msd.o: ..\USB\STM32_USB_OTG_Driver\inc\usb_dcd.h
-.\objects\usbd_storage_msd.o: ..\USB\STM32_USB_OTG_Driver\inc\usb_core.h
-.\objects\usbd_storage_msd.o: ..\USB\STM32_USB_OTG_Driver\inc\usb_regs.h
-.\objects\usbd_storage_msd.o: ..\USB\STM32_USB_OTG_Driver\inc\usb_defines.h
-.\objects\usbd_storage_msd.o: ..\USB\STM32_USB_Device_Library\Core\inc\usbd_usr.h
-.\objects\usbd_storage_msd.o: ..\USB\USB_APP\usbd_desc.h
-.\objects\usbd_storage_msd.o: ..\USB\STM32_USB_OTG_Driver\inc\usb_dcd_int.h
-.\objects\usbd_storage_msd.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\string.h

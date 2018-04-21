@@ -32,6 +32,8 @@
 /* Includes ------------------------------------------------------------------*/
 #include "usbd_core.h"
 
+extern USB_OTG_CORE_HANDLE  USB_OTG_dev;
+
 
 /** @addtogroup USBD_USER
   * @{

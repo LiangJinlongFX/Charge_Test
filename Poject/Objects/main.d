@@ -65,3 +65,15 @@
 .\objects\main.o: ..\BSP_USER\DMA\dma.h
 .\objects\main.o: ..\BSP_USER\Data_Math\Data_Math.h
 .\objects\main.o: ..\HARDWARE\HLW8032\hlw8032.h
+.\objects\main.o: ..\USB\STM32_USB_Device_Library\Class\msc\inc\usbd_msc_core.h
+.\objects\main.o: ..\USB\STM32_USB_Device_Library\Core\inc\usbd_ioreq.h
+.\objects\main.o: ..\USB\STM32_USB_Device_Library\Core\inc\usbd_def.h
+.\objects\main.o: ..\USB\USB_APP\usbd_conf.h
+.\objects\main.o: ..\USB\USB_APP\usb_conf.h
+.\objects\main.o: ..\USB\STM32_USB_Device_Library\Core\inc\usbd_core.h
+.\objects\main.o: ..\USB\STM32_USB_OTG_Driver\inc\usb_dcd.h
+.\objects\main.o: ..\USB\STM32_USB_OTG_Driver\inc\usb_core.h
+.\objects\main.o: ..\USB\STM32_USB_OTG_Driver\inc\usb_regs.h
+.\objects\main.o: ..\USB\STM32_USB_OTG_Driver\inc\usb_defines.h
+.\objects\main.o: ..\USB\STM32_USB_Device_Library\Core\inc\usbd_usr.h
+.\objects\main.o: ..\USB\USB_APP\usbd_desc.h

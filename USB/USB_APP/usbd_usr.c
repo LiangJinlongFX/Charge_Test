@@ -1,72 +1,39 @@
-/**
-  ******************************************************************************
-  * @file    usbd_usr.c
-  * @author  MCD Application Team
-  * @version V1.1.0
-  * @date    19-March-2012
-  * @brief   This file includes the user application layer
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; COPYRIGHT 2012 STMicroelectronics</center></h2>
-  *
-  * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
-  * You may not use this file except in compliance with the License.
-  * You may obtain a copy of the License at:
-  *
-  *        http://www.st.com/software_license_agreement_liberty_v2
-  *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
-  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  * See the License for the specific language governing permissions and
-  * limitations under the License.
-  *
-  ******************************************************************************
-  */ 
+#include "usbd_usr.h" 
+#include "usb_dcd_int.h"
+#include <stdio.h> 
+#include <usart1.h> 
+//////////////////////////////////////////////////////////////////////////////////	 
+//本程序只供学习使用，未经作者许可，不得用于其它任何用途
+//ALIENTEK STM32F407开发板
+//USBD-USR 代码	   
+//正点原子@ALIENTEK
+//技术论坛:www.openedv.com
+//创建日期:2014/7/21
+//版本：V1.0
+//版权所有，盗版必究。
+//Copyright(C) 广州市星翼电子科技有限公司 2009-2019
+//All rights reserved									  
+//*******************************************************************************
+//修改信息
+//无
+////////////////////////////////////////////////////////////////////////////////// 	   
 
-/* Includes ------------------------------------------------------------------*/
-#include "usbd_usr.h"
-#include "usbd_ioreq.h"
-#include "lcd_log.h"
-
-/** @addtogroup STM32_USB_OTG_DEVICE_LIBRARY
-* @{
-*/
-
-/** @defgroup USBD_USR 
-* @brief    This file includes the user application layer
-* @{
-*/ 
-
-/** @defgroup USBD_USR_Private_TypesDefinitions
-* @{
-*/ 
-/**
-* @}
-*/ 
+//表示USB连接状态
+//0,没有连接;
+//1,已经连接;
+vu8 bDeviceState=0;		//默认没有连接  
 
 
-/** @defgroup USBD_USR_Private_Defines
-* @{
-*/ 
-/**
-* @}
-*/ 
+USB_OTG_CORE_HANDLE  USB_OTG_dev;
 
-
-/** @defgroup USBD_USR_Private_Macros
-* @{
-*/ 
-/**
-* @}
-*/ 
-
-
-/** @defgroup USBD_USR_Private_Variables
-* @{
-*/ 
-
+//USB OTG 中断服务函数
+//处理所有USB中断
+void OTG_FS_IRQHandler(void)
+{
+  	USBD_OTG_ISR_Handler(&USB_OTG_dev);
+}  
+//指向DEVICE_PROP结构体
+//USB Device 用户回调函数. 
 USBD_Usr_cb_TypeDef USR_cb =
 {
   USBD_USR_Init,
@@ -74,162 +41,80 @@ USBD_Usr_cb_TypeDef USR_cb =
   USBD_USR_DeviceConfigured,
   USBD_USR_DeviceSuspended,
   USBD_USR_DeviceResumed,
-  
-  
   USBD_USR_DeviceConnected,
   USBD_USR_DeviceDisconnected,    
 };
 
-/**
-* @}
-*/
-
-/** @defgroup USBD_USR_Private_Constants
-* @{
-*/ 
-
-/**
-* @}
-*/
-
-
-
-/** @defgroup USBD_USR_Private_FunctionPrototypes
-* @{
-*/ 
-/**
-* @}
-*/ 
-
-
-/** @defgroup USBD_USR_Private_Functions
-* @{
-*/ 
-
-/**
-* @brief  USBD_USR_Init 
-*         Displays the message on LCD for host lib initialization
-* @param  None
-* @retval None
-*/
+//USB Device 用户自定义初始化函数
 void USBD_USR_Init(void)
-{  
-  /* Initialize LEDs */
-  STM_EVAL_LEDInit(LED1);
-  STM_EVAL_LEDInit(LED2);
-  STM_EVAL_LEDInit(LED3);
-  STM_EVAL_LEDInit(LED4);   
-  
-  /* Initialize the LCD */
-#if defined (USE_STM322xG_EVAL)
-  STM322xG_LCD_Init();
-#elif defined(USE_STM324xG_EVAL)
-  STM324xG_LCD_Init();
-#elif defined (USE_STM3210C_EVAL)
-  STM3210C_LCD_Init();
-#else
- #error "Missing define: Evaluation board (ie. USE_STM322xG_EVAL)"
-#endif
-
-  LCD_LOG_Init();
-  
-#ifdef USE_USB_OTG_HS 
-  LCD_LOG_SetHeader(" USB OTG HS VCP Device");
-#else
-  LCD_LOG_SetHeader(" USB OTG FS VCP Device");
-#endif
-  LCD_UsrLog("> USB device library started.\n"); 
-  LCD_LOG_SetFooter ("     USB Device Library v1.1.0" );
-}
-
-/**
-* @brief  USBD_USR_DeviceReset 
-*         Displays the message on LCD on device Reset Event
-* @param  speed : device speed
-* @retval None
-*/
-void USBD_USR_DeviceReset(uint8_t speed )
 {
- switch (speed)
- {
-   case USB_OTG_SPEED_HIGH: 
-     LCD_LOG_SetFooter ("     USB Device Library v1.1.0 [HS]" );
-     break;
+	printf("USBD_USR_Init\r\n");
+} 
 
-  case USB_OTG_SPEED_FULL: 
-     LCD_LOG_SetFooter ("     USB Device Library v1.1.0 [FS]" );
-     break;
- default:
-     LCD_LOG_SetFooter ("     USB Device Library v1.1.0 [??]" );
- }
+//USB Device 复位
+//speed:USB速度,0,高速;1,全速;其他,错误.
+void USBD_USR_DeviceReset (uint8_t speed)
+{
+	switch (speed)
+	{
+		case USB_OTG_SPEED_HIGH:
+			printf("USB Device Library v1.1.0  [HS]\r\n");
+			break; 
+		case USB_OTG_SPEED_FULL: 
+			printf("USB Device Library v1.1.0  [FS]\r\n");
+			break;
+		default:
+			printf("USB Device Library v1.1.0  [??]\r\n"); 
+			break;
+	}
 }
 
-
-/**
-* @brief  USBD_USR_DeviceConfigured
-*         Displays the message on LCD on device configuration Event
-* @param  None
-* @retval Staus
-*/
+//USB Device 配置成功
 void USBD_USR_DeviceConfigured (void)
 {
-  LCD_UsrLog("> VCP Interface configured.\n");
-}
+	printf("MSC Interface started.\r\n"); 
+} 
 
-/**
-* @brief  USBD_USR_DeviceSuspended 
-*         Displays the message on LCD on device suspend Event
-* @param  None
-* @retval None
-*/
+//USB Device挂起
 void USBD_USR_DeviceSuspended(void)
 {
-  LCD_UsrLog("> USB Device in Suspend Mode.\n");
-  /* Users can do their application actions here for the USB-Reset */
-}
+	printf("Device In suspend mode.\r\n");
+} 
 
-
-/**
-* @brief  USBD_USR_DeviceResumed 
-*         Displays the message on LCD on device resume Event
-* @param  None
-* @retval None
-*/
+//USB Device恢复
 void USBD_USR_DeviceResumed(void)
-{
-    LCD_UsrLog("> USB Device in Idle Mode.\n");
-  /* Users can do their application actions here for the USB-Reset */
+{ 
+	printf("Device Resumed\r\n");
 }
 
-
-/**
-* @brief  USBD_USR_DeviceConnected
-*         Displays the message on LCD on device connection Event
-* @param  None
-* @retval Staus
-*/
+//USB Device连接成功
 void USBD_USR_DeviceConnected (void)
 {
-  LCD_UsrLog("> USB Device Connected.\n");
+	bDeviceState=1;
+	printf("USB Device Connected.\r\n");
 }
 
-
-/**
-* @brief  USBD_USR_DeviceDisonnected
-*         Displays the message on LCD on device disconnection Event
-* @param  None
-* @retval Staus
-*/
+//USB Device未连接
 void USBD_USR_DeviceDisconnected (void)
 {
-  LCD_UsrLog("> USB Device Disconnected.\n");
-}
-/**
-* @}
-*/ 
+	bDeviceState=0;
+	printf("USB Device Disconnected.\r\n");
+} 
 
-/**
-* @}
-*/ 
 
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

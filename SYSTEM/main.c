@@ -34,6 +34,11 @@
 #include "Data_Math.h"
 #include "hlw8032.h"
 
+#include "usbd_msc_core.h"
+#include "usbd_usr.h"
+#include "usbd_desc.h"
+#include "usb_conf.h"
+
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -76,6 +81,8 @@ int main()
 //		printf("C=%f\r\n",Get_PowerCurrent());
 //		delay_ms(500);
 //	}
+	USBD_Init(&USB_OTG_dev,USB_OTG_FS_CORE_ID,&USR_desc,&USBD_MSC_cb,&USR_cb);
+	while(1);
 	Main_entry();
 	return 0;
 }
