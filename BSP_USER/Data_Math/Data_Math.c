@@ -14,8 +14,7 @@ float Get_PowerVoltage(void)
 	float PowerVoltage=0;
 	
 	Adc_Val=Get_Adc_Average(1,8,20);
-	rt_kprintf("res=%d\r\n",Adc_Val);
-	PowerVoltage=(float)Adc_Val*3.3f/4096;
+	PowerVoltage=(float)Adc_Val*10*3.3f/4096;
 	
 	
 	return PowerVoltage;	

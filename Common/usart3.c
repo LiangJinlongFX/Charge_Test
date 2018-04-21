@@ -36,6 +36,7 @@ void uart3_init(u32 bound)
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;	//字长为8位数据格式
 	USART_InitStructure.USART_StopBits = USART_StopBits_1;	//一个停止位
 	USART_InitStructure.USART_Parity = USART_Parity_Even;	//偶校验位
+	USART_InitStructure.USART_Parity = USART_Parity_No;
 	USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;//无硬件数据流控制
 	USART_InitStructure.USART_Mode = USART_Mode_Rx;	//只接收模式
 	USART_Init(USART3, &USART_InitStructure); //初始化串口3	

@@ -72,7 +72,7 @@ void rt_hw_board_init()
 	//NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
 	uart1_init(9600);		//初始化串口1 HMI用
 	uart2_init(115200);	//提前初始化串口2以输出初始化状态
-	uart3_init(4800);		//初始化串口3接收HLW8032数据
+//	uart3_init(4800);		//初始化串口3接收HLW8032数据
 	LED_Init();					//初始化指示灯
 	Switch_Init();
 	Adc_Init();
