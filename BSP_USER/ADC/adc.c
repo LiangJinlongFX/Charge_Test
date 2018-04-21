@@ -99,7 +99,7 @@ u16 Get_Adc1(u8 ch)
 	 
 	while(!ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC ));//等待转换结束
 
-	return ADC_GetConversionValue(ADC1);	//返回最近一次ADC1规则组的转换结果
+	return (ADC_GetConversionValue(ADC1)&0xfff);	//返回最近一次ADC1规则组的转换结果
 }
 u16 Get_Adc2(u8 ch)   
 {
@@ -110,7 +110,7 @@ u16 Get_Adc2(u8 ch)
 	 
 	while(!ADC_GetFlagStatus(ADC2, ADC_FLAG_EOC ));//等待转换结束
 
-	return ADC_GetConversionValue(ADC2);	//返回最近一次ADC1规则组的转换结果
+	return ADC_GetConversionValue(ADC2);	//返回最近一次ADC2规则组的转换结果
 }
 //获取通道ch的转换值，取times次,然后平均 
 //ch:通道编号

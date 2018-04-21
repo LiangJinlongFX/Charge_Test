@@ -5,6 +5,7 @@
 
 #define USB_DP_SetVol(vol) Dac2_Set_Vol(vol)
 #define USB_DM_SetVol(vol) Dac1_Set_Vol(vol)
+
 float Get_PowerVoltage(void);
 float Get_PowerCurrent(void);
 float Get_PowerRipple(void);
@@ -19,7 +20,9 @@ float Get_PowerRipple(void);
 void MTK_IncreaseVoltage(u8 Voltage_level);
 void MTK_DecreaseVoltage(u8 Voltage_level);
 
-void QC20_Induced(void);
+u8 QC_Init(void);
+
+void QC20_AdjustVoltage(u8 Voltage_level);
 
 #endif
 

@@ -252,12 +252,16 @@ void HMI_FastTest_thread_entry(void* parameter)
 	{
 		if(rt_mb_recv(GetData_mb, (rt_uint32_t*)&Showdata_Structure, RT_WAITING_FOREVER)== RT_EOK)
 		{
+			str[0]='\0';
 			sprintf(str,"%.2f",(*Showdata_Structure).V_IN);
 			HMI_Print_Str("t6",str);	//显示AC输入电压
+			str[0]='\0';
 			sprintf(str,"%.3f",(*Showdata_Structure).C_IN);
 			HMI_Print_Str("t7",str);	//显示AC输入电流
+			str[0]='\0';
 			sprintf(str,"%.3f",(*Showdata_Structure).V_OUT);
 			HMI_Print_Str("t9",str);	//显示DC输出电压
+			str[0]='\0';
 			sprintf(str,"%.3f",(*Showdata_Structure).C_OUT);
 			HMI_Print_Str("t10",str);	//显示DC输出电流
 			str[0]='\0';

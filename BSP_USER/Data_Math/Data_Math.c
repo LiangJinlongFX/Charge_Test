@@ -5,7 +5,7 @@
 #include "adc.h"
 #include "switch.h"
 #include "delay.h"
-
+#include "rtthread.h"
 
 
 float Get_PowerVoltage(void)
@@ -13,8 +13,9 @@ float Get_PowerVoltage(void)
 	u16 Adc_Val;
 	float PowerVoltage=0;
 	
-	Adc_Val=Get_Adc_Average(1,8,30);
-	PowerVoltage=(float)Adc_Val*10*3.3f/4096;
+	Adc_Val=Get_Adc_Average(1,8,20);
+	rt_kprintf("res=%d\r\n",Adc_Val);
+	PowerVoltage=(float)Adc_Val*3.3f/4096;
 	
 	
 	return PowerVoltage;	
@@ -37,6 +38,7 @@ float Get_PowerRipple(void)
 	
 	Adc_Val=Get_Adc_Average(1,1,30);
 	PowerRipple=(float)Adc_Val*3.3f/4096;
+	
 	
 	return PowerRipple;
 }
@@ -141,7 +143,39 @@ void MTK_DecreaseVoltage(u8 Voltage_level)
 	SW=0;
 }
 
-void QC20_Induced()
+
+/*
+ * QC2.0 QC3.0识别
+ * return 0:支持QC2.0
+ */
+u8 QC_Init()
 {
-	USB_DP_SetVol(600);
+	u16 temp_Val;
+	
+	USB_DP_SetVol(600);	//D+加0.6V电压
+	temp_Val=Get_Adc2(6);	//获取D-电压
+	if(temp_Val<740||temp_Val>750) return 1;	//D-跟随D+失败
+	delay_ms(1300);	//等待充电器断开D+ D-连接
+	temp_Val=Get_Adc2(6);	//获取D-电压
+	if(temp_Val>100) return 2;	//D-不变为0,不支持QC2.0
+	
+	return 0;
+}
+
+/*
+ * QC电压调整
+ */
+void QC20_AdjustVoltage(u8 Voltage_level)
+{
+	switch(Voltage_level)
+	{
+		case 0:{USB_DP_SetVol(600);USB_DM_SetVol(0);}break;				//5V
+		case 1:{USB_DP_SetVol(3299);USB_DM_SetVol(600);}break;		//9V
+		case 2:{USB_DP_SetVol(600);USB_DM_SetVol(600);}break;			//12V
+		case 3:{USB_DP_SetVol(3299);USB_DM_SetVol(3299);}break;		//20V
+		case 4:{USB_DP_SetVol(600);USB_DM_SetVol(3299);}break;		//continuous mode
+		case 5:{USB_DP_SetVol(600);delay_ms(100);USB_DP_SetVol(3299);delay_ms(100);USB_DP_SetVol(600);}break;			//continuous mode  V+
+		case 6:{USB_DM_SetVol(3299);delay_ms(100);USB_DM_SetVol(600);delay_ms(100);USB_DM_SetVol(3299);}break;		//continuous mode  V-
+		default:break;
+	}
 }

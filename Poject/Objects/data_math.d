@@ -44,3 +44,12 @@
 .\objects\data_math.o: ..\BSP_USER\ADC\adc.h
 .\objects\data_math.o: ..\BSP_USER\Switch\switch.h
 .\objects\data_math.o: ..\Common\delay.h
+.\objects\data_math.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
+.\objects\data_math.o: .\RTE\RTOS\rtconfig.h
+.\objects\data_math.o: .\RTE\_Target_1\RTE_Components.h
+.\objects\data_math.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdebug.h
+.\objects\data_math.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdef.h
+.\objects\data_math.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\data_math.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtservice.h
+.\objects\data_math.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtm.h
+.\objects\data_math.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h

@@ -11,7 +11,6 @@
 int mycmd(void)
 {
 	rt_kprintf("hello world!\r\n");
-	QC20_Induced();
 	return 0;
 }
 
@@ -46,7 +45,7 @@ int showadc(void)
 {
 	u16 res;
 	
-	res=Get_Adc_Average(1,ADC_Channel_5,20);
+	res=Get_Adc_Average(1,ADC_Channel_8,20);
 	rt_kprintf("ADC1=%d\r\n",res);
 	res=Get_Adc_Average(2,ADC_Channel_0,1);
 	rt_kprintf("ADC2=%d\r\n",res);
@@ -55,15 +54,6 @@ int showadc(void)
 
 MSH_CMD_EXPORT(showadc,my command test);
 
-int fan(void)
-{
-	
-	SW=~SW;
-	
-	return 0;
-}
-
-MSH_CMD_EXPORT(fan,my command test);
 
 int sw(void)
 {	
@@ -111,6 +101,13 @@ int mtk(int argc,char** argv)
 
 MSH_CMD_EXPORT(mtk,my command test);
 
+int qc(int argc,char** argv)
+{
+	QC20_AdjustVoltage(my_atoi(argv[1]));
+	return 0;
+}
+
+MSH_CMD_EXPORT(qc,my command test);
 
 
 

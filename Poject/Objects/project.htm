@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Sat Apr 21 13:47:37 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Sat Apr 21 17:06:46 2018
 <BR><P>
 <H3>Maximum Stack Usage =        528 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -127,7 +127,6 @@ Function Pointers
  <LI><a href="#[90]">cmd_ps</a> from msh_cmd.o(i.cmd_ps) referenced from msh_cmd.o(FSymTab)
  <LI><a href="#[91]">cmd_time</a> from msh_cmd.o(i.cmd_time) referenced from msh_cmd.o(FSymTab)
  <LI><a href="#[7d]">dac</a> from msh.o(i.dac) referenced from msh.o(FSymTab)
- <LI><a href="#[7f]">fan</a> from msh.o(i.fan) referenced from msh.o(FSymTab)
  <LI><a href="#[6d]">finsh_rx_ind</a> from shell.o(i.finsh_rx_ind) referenced from shell.o(i.finsh_thread_entry)
  <LI><a href="#[79]">finsh_system_init</a> from shell.o(i.finsh_system_init) referenced from shell.o(.rti_fn.3)
  <LI><a href="#[6c]">finsh_thread_entry</a> from shell.o(i.finsh_thread_entry) referenced from shell.o(i.finsh_system_init)
@@ -147,10 +146,11 @@ Function Pointers
  <LI><a href="#[5c]">main</a> from components.o(i.$Sub$$main) referenced from entry9a.o(.ARM.Collect$$$$0000000B)
  <LI><a href="#[6e]">main_thread_entry</a> from components.o(i.main_thread_entry) referenced from components.o(i.rt_application_init)
  <LI><a href="#[8f]">msh_help</a> from msh_1.o(i.msh_help) referenced from msh_1.o(FSymTab)
- <LI><a href="#[83]">mtk</a> from msh.o(i.mtk) referenced from msh.o(FSymTab)
+ <LI><a href="#[82]">mtk</a> from msh.o(i.mtk) referenced from msh.o(FSymTab)
  <LI><a href="#[7b]">mycmd</a> from msh.o(i.mycmd) referenced from msh.o(FSymTab)
- <LI><a href="#[82]">page</a> from msh.o(i.page) referenced from msh.o(FSymTab)
+ <LI><a href="#[81]">page</a> from msh.o(i.page) referenced from msh.o(FSymTab)
  <LI><a href="#[7c]">print</a> from msh.o(i.print) referenced from msh.o(FSymTab)
+ <LI><a href="#[83]">qc</a> from msh.o(i.qc) referenced from msh.o(FSymTab)
  <LI><a href="#[77]">rt_hw_usart_init</a> from usart2.o(i.rt_hw_usart_init) referenced from usart2.o(.rti_fn.1)
  <LI><a href="#[6a]">rt_thread_exit</a> from thread.o(i.rt_thread_exit) referenced from thread.o(i._rt_thread_init)
  <LI><a href="#[74]">rt_thread_idle_entry</a> from idle.o(i.rt_thread_idle_entry) referenced from idle.o(i.rt_thread_idle_init)
@@ -165,8 +165,8 @@ Function Pointers
  <LI><a href="#[7a]">rti_end</a> from components.o(i.rti_end) referenced from components.o(.rti_fn.6.end)
  <LI><a href="#[75]">rti_start</a> from components.o(i.rti_start) referenced from components.o(.rti_fn.0)
  <LI><a href="#[7e]">showadc</a> from msh.o(i.showadc) referenced from msh.o(FSymTab)
- <LI><a href="#[81]">showtime</a> from msh.o(i.showtime) referenced from msh.o(FSymTab)
- <LI><a href="#[80]">sw</a> from msh.o(i.sw) referenced from msh.o(FSymTab)
+ <LI><a href="#[80]">showtime</a> from msh.o(i.showtime) referenced from msh.o(FSymTab)
+ <LI><a href="#[7f]">sw</a> from msh.o(i.sw) referenced from msh.o(FSymTab)
  <LI><a href="#[85]">version</a> from cmd.o(i.version) referenced 2 times from cmd.o(FSymTab)
 </UL>
 <P>
@@ -584,7 +584,7 @@ Global Symbols
 <P><STRONG><a name="[eb]"></a>strcat</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, strcat.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Print_Val
 <LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Print_Str
-<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Get
+<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Get
 <LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_File_Page
 <LI><a href="#[19b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;finsh_get_prompt
 </UL>
@@ -597,7 +597,7 @@ Global Symbols
 <P><STRONG><a name="[ea]"></a>strcpy</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, strcpy.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Print_Val
 <LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Print_Str
-<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Get
+<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Get
 <LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_File_Page
 <LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Scan_BatchDir
 <LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_SelectBatch_thread_entry
@@ -904,7 +904,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[62]"></a>CollectData_thread_entry</STRONG> (Thumb, 98 bytes, Stack size 0 bytes, app.o(i.CollectData_thread_entry))
-<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = CollectData_thread_entry &rArr; Get_PowerVoltage &rArr; Get_Adc_Average &rArr; delay_ms &rArr; rt_thread_delay &rArr; rt_thread_sleep &rArr; rt_thread_suspend &rArr; rt_timer_stop
+<BR><BR>[Stack]<UL><LI>Max Depth = 160<LI>Call Chain = CollectData_thread_entry &rArr; Get_PowerVoltage &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_thread_delay
 <LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HLW8032Get_Data
@@ -922,7 +922,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;f_mkdir
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Creat_NewBatch
+<BR>[Called By]<UL><LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Creat_NewBatch
 </UL>
 
 <P><STRONG><a name="[d1]"></a>DAC_Cmd</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, stm32f4xx_dac.o(i.DAC_Cmd))
@@ -982,7 +982,8 @@ Global Symbols
 <LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2uiz
 <LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DAC_SetChannel1Data
 </UL>
-<BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dac
+<BR>[Called By]<UL><LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;QC20_AdjustVoltage
+<LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dac
 <LI><a href="#[1bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_hw_board_init
 </UL>
 
@@ -995,7 +996,7 @@ Global Symbols
 <LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2uiz
 <LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DAC_SetChannel2Data
 </UL>
-<BR>[Called By]<UL><LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;QC20_Induced
+<BR>[Called By]<UL><LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;QC20_AdjustVoltage
 <LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dac
 <LI><a href="#[1bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_hw_board_init
 </UL>
@@ -1079,7 +1080,7 @@ Global Symbols
 <LI><a href="#[144]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Switch_Init
 </UL>
 
-<P><STRONG><a name="[d9]"></a>Get_Adc1</STRONG> (Thumb, 44 bytes, Stack size 8 bytes, adc.o(i.Get_Adc1))
+<P><STRONG><a name="[d9]"></a>Get_Adc1</STRONG> (Thumb, 46 bytes, Stack size 8 bytes, adc.o(i.Get_Adc1))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = Get_Adc1 &rArr; ADC_RegularChannelConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_SoftwareStartConv
@@ -1130,10 +1131,11 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CollectData_thread_entry
 </UL>
 
-<P><STRONG><a name="[c1]"></a>Get_PowerVoltage</STRONG> (Thumb, 46 bytes, Stack size 8 bytes, data_math.o(i.Get_PowerVoltage))
-<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = Get_PowerVoltage &rArr; Get_Adc_Average &rArr; delay_ms &rArr; rt_thread_delay &rArr; rt_thread_sleep &rArr; rt_thread_suspend &rArr; rt_timer_stop
+<P><STRONG><a name="[c1]"></a>Get_PowerVoltage</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, data_math.o(i.Get_PowerVoltage))
+<BR><BR>[Stack]<UL><LI>Max Depth = 160<LI>Call Chain = Get_PowerVoltage &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
 <BR>[Calls]<UL><LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Get_Adc_Average
+<LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CollectData_thread_entry
 </UL>
@@ -1141,7 +1143,7 @@ Global Symbols
 <P><STRONG><a name="[c4]"></a>HLW8032Get_Data</STRONG> (Thumb, 114 bytes, Stack size 8 bytes, hlw8032.o(i.HLW8032Get_Data))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = HLW8032Get_Data &rArr; UsartToStruct
 </UL>
-<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UsartToStruct
+<BR>[Calls]<UL><LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UsartToStruct
 </UL>
 <BR>[Called By]<UL><LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CollectData_thread_entry
 </UL>
@@ -1150,24 +1152,24 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = HMIMonitor_thread_entry &rArr; rt_mb_send &rArr; rt_mb_send_wait &rArr; rt_ipc_list_suspend &rArr; rt_thread_suspend &rArr; rt_timer_stop
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_thread_delay
-<LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Solution
+<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Solution
 <LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_mb_send
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> app.o(i.Main_entry)
 </UL>
-<P><STRONG><a name="[e1]"></a>HMI_Creat_NewBatch</STRONG> (Thumb, 56 bytes, Stack size 24 bytes, hmi.o(i.HMI_Creat_NewBatch))
+<P><STRONG><a name="[e2]"></a>HMI_Creat_NewBatch</STRONG> (Thumb, 56 bytes, Stack size 24 bytes, hmi.o(i.HMI_Creat_NewBatch))
 <BR><BR>[Stack]<UL><LI>Max Depth = 504<LI>Call Chain = HMI_Creat_NewBatch &rArr; Creat_NewBatchDir &rArr; f_mkdir &rArr; dir_register &rArr; dir_alloc &rArr; dir_next &rArr; create_chain &rArr; put_fat &rArr; move_window &rArr; sync_window &rArr; disk_write &rArr; SD_WriteDisk &rArr; SD_WriteMultiBlocks &rArr; SD_Init &rArr; SD_EnableWideBusOperation &rArr; SDEnWideBus &rArr; FindSCR &rArr; SDIO_SendCommand
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_exit_critical
 <LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_enter_critical
-<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Get
-<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Get
+<LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 <LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Creat_NewBatchDir
 </UL>
 <BR>[Called By]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Master_thread_entry
 </UL>
 
-<P><STRONG><a name="[63]"></a>HMI_FastTest_thread_entry</STRONG> (Thumb, 216 bytes, Stack size 24 bytes, app.o(i.HMI_FastTest_thread_entry))
+<P><STRONG><a name="[63]"></a>HMI_FastTest_thread_entry</STRONG> (Thumb, 232 bytes, Stack size 24 bytes, app.o(i.HMI_FastTest_thread_entry))
 <BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = HMI_FastTest_thread_entry &rArr; HMI_Print_Str &rArr; HMI_Print &rArr; __2printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_thread_delay
@@ -1189,13 +1191,13 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Main_entry
 <LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Master_thread_entry
 <LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_SelectStandard_thread_entry
-<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;page
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;page
 </UL>
 
-<P><STRONG><a name="[e2]"></a>HMI_Get</STRONG> (Thumb, 164 bytes, Stack size 56 bytes, hmi.o(i.HMI_Get))
+<P><STRONG><a name="[e3]"></a>HMI_Get</STRONG> (Thumb, 164 bytes, Stack size 56 bytes, hmi.o(i.HMI_Get))
 <BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = HMI_Get &rArr; delay_ms &rArr; rt_thread_delay &rArr; rt_thread_sleep &rArr; rt_thread_suspend &rArr; rt_timer_stop
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Solution
+<BR>[Calls]<UL><LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Solution
 <LI><a href="#[ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Print
 <LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
 <LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;my_itoa
@@ -1205,7 +1207,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_TestLimit_Atoi
 <LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Standard_Atoi
 <LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_RTC_Atoi
-<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Creat_NewBatch
+<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Creat_NewBatch
 </UL>
 
 <P><STRONG><a name="[ec]"></a>HMI_Print</STRONG> (Thumb, 18 bytes, Stack size 8 bytes, hmi.o(i.HMI_Print))
@@ -1216,7 +1218,7 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Print_Val
 <LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Print_Str
-<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Get
+<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Get
 <LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_File_Page
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print
 </UL>
@@ -1252,7 +1254,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_exit_critical
 <LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_enter_critical
-<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Get
+<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Get
 <LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_Set_Time
 <LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_Set_Date
 <LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;my_atoi
@@ -1278,7 +1280,7 @@ Global Symbols
 <LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_exit_critical
 <LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_enter_critical
 <LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Print_Str
-<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 <LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Scan_BatchDir
 <LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_mb_send
 <LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_mb_recv
@@ -1329,8 +1331,8 @@ Global Symbols
 <P><STRONG><a name="[fb]"></a>HMI_Standard_Atoi</STRONG> (Thumb, 206 bytes, Stack size 32 bytes, hmi.o(i.HMI_Standard_Atoi))
 <BR><BR>[Stack]<UL><LI>Max Depth = 184<LI>Call Chain = HMI_Standard_Atoi &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Get
-<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Get
+<LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 <LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;my_atoi
 </UL>
 <BR>[Called By]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Master_thread_entry
@@ -1339,7 +1341,7 @@ Global Symbols
 <P><STRONG><a name="[fc]"></a>HMI_TestLimit_Atoi</STRONG> (Thumb, 170 bytes, Stack size 24 bytes, hmi.o(i.HMI_TestLimit_Atoi))
 <BR><BR>[Stack]<UL><LI>Max Depth = 152<LI>Call Chain = HMI_TestLimit_Atoi &rArr; HMI_Get &rArr; delay_ms &rArr; rt_thread_delay &rArr; rt_thread_sleep &rArr; rt_thread_suspend &rArr; rt_timer_stop
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Get
+<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Get
 <LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;my_atoi
 </UL>
 <BR>[Called By]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Master_thread_entry
@@ -1379,7 +1381,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
 </UL>
-<BR>[Called By]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mtk
+<BR>[Called By]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mtk
 </UL>
 
 <P><STRONG><a name="[102]"></a>MTK_IncreaseVoltage</STRONG> (Thumb, 178 bytes, Stack size 32 bytes, data_math.o(i.MTK_IncreaseVoltage))
@@ -1387,7 +1389,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
 </UL>
-<BR>[Called By]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mtk
+<BR>[Called By]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mtk
 </UL>
 
 <P><STRONG><a name="[103]"></a>Main_entry</STRONG> (Thumb, 170 bytes, Stack size 32 bytes, app.o(i.Main_entry))
@@ -1395,7 +1397,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_File_Page
 <LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
-<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 <LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_thread_startup
 <LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_thread_create
 <LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_mb_init
@@ -1416,8 +1418,8 @@ Global Symbols
 <LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_RTC_Show
 <LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_RTC_Atoi
 <LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_File_Page
-<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Creat_NewBatch
-<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Creat_NewBatch
+<LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 <LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;First_writeTestParameters
 <LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITConfig
 <LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_thread_startup
@@ -1495,12 +1497,14 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sys_Enter_Standby
 </UL>
 
-<P><STRONG><a name="[118]"></a>QC20_Induced</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, data_math.o(i.QC20_Induced))
-<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = QC20_Induced &rArr; Dac2_Set_Vol &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
+<P><STRONG><a name="[118]"></a>QC20_AdjustVoltage</STRONG> (Thumb, 132 bytes, Stack size 16 bytes, data_math.o(i.QC20_AdjustVoltage))
+<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = QC20_AdjustVoltage &rArr; Dac2_Set_Vol &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
 </UL>
 <BR>[Calls]<UL><LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Dac2_Set_Vol
+<LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Dac1_Set_Vol
+<LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
 </UL>
-<BR>[Called By]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mycmd
+<BR>[Called By]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qc
 </UL>
 
 <P><STRONG><a name="[ad]"></a>RCC_AHB1PeriphClockCmd</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f4xx_rcc.o(i.RCC_AHB1PeriphClockCmd))
@@ -1599,7 +1603,7 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_RTC_Show
 <LI><a href="#[191]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_fattime
-<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;showtime
+<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;showtime
 </UL>
 
 <P><STRONG><a name="[119]"></a>RTC_GetFlagStatus</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, stm32f4xx_rtc.o(i.RTC_GetFlagStatus))
@@ -1614,7 +1618,7 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_RTC_Show
 <LI><a href="#[191]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_fattime
-<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;showtime
+<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;showtime
 </UL>
 
 <P><STRONG><a name="[149]"></a>RTC_ITConfig</STRONG> (Thumb, 60 bytes, Stack size 12 bytes, stm32f4xx_rtc.o(i.RTC_ITConfig))
@@ -2143,10 +2147,10 @@ Global Symbols
 <LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_uart_write
 </UL>
 
-<P><STRONG><a name="[e0]"></a>USART_Solution</STRONG> (Thumb, 66 bytes, Stack size 16 bytes, hmi.o(i.USART_Solution))
+<P><STRONG><a name="[e1]"></a>USART_Solution</STRONG> (Thumb, 66 bytes, Stack size 16 bytes, hmi.o(i.USART_Solution))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = USART_Solution
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Get
+<BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Get
 <LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMIMonitor_thread_entry
 </UL>
 
@@ -2157,7 +2161,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f40_41xxx.o(RESET)
 </UL>
-<P><STRONG><a name="[df]"></a>UsartToStruct</STRONG> (Thumb, 128 bytes, Stack size 8 bytes, hlw8032.o(i.UsartToStruct))
+<P><STRONG><a name="[e0]"></a>UsartToStruct</STRONG> (Thumb, 128 bytes, Stack size 8 bytes, hlw8032.o(i.UsartToStruct))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = UsartToStruct
 </UL>
 <BR>[Called By]<UL><LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HLW8032Get_Data
@@ -2263,7 +2267,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Dac2_Set_Vol
 <LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Dac1_Set_Vol
-<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 <LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;my_atoi
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> msh.o(FSymTab)
@@ -2283,11 +2287,12 @@ Global Symbols
 <LI><a href="#[181]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
 </UL>
 <BR>[Called By]<UL><LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Main_entry
+<LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;QC20_AdjustVoltage
 <LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MTK_IncreaseVoltage
 <LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MTK_DecreaseVoltage
 <LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check_WKUP
 <LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Get_Adc_Average
-<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Get
+<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Get
 <LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;My_RTC_Init
 </UL>
 
@@ -2474,9 +2479,6 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Modify_TestParameters
 </UL>
 
-<P><STRONG><a name="[7f]"></a>fan</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, msh.o(i.fan))
-<BR>[Address Reference Count : 1]<UL><LI> msh.o(FSymTab)
-</UL>
 <P><STRONG><a name="[19b]"></a>finsh_get_prompt</STRONG> (Thumb, 32 bytes, Stack size 8 bytes, shell.o(i.finsh_get_prompt))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = finsh_get_prompt
 </UL>
@@ -2496,7 +2498,7 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = finsh_system_init &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
 <BR>[Calls]<UL><LI><a href="#[19f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_malloc
-<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 <LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_thread_startup
 <LI><a href="#[1a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_thread_init
 <LI><a href="#[1a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_sem_init
@@ -2508,7 +2510,7 @@ Global Symbols
 <P><STRONG><a name="[6c]"></a>finsh_thread_entry</STRONG> (Thumb, 878 bytes, Stack size 16 bytes, shell.o(i.finsh_thread_entry))
 <BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = finsh_thread_entry &rArr; msh_auto_complete &rArr; msh_help &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 <LI><a href="#[1a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_device_set_rx_indicate
 <LI><a href="#[1a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_device_read
 <LI><a href="#[1a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_device_open
@@ -2556,7 +2558,7 @@ Global Symbols
 <P><STRONG><a name="[84]"></a>hello</STRONG> (Thumb, 12 bytes, Stack size 8 bytes, cmd.o(i.hello))
 <BR><BR>[Stack]<UL><LI>Max Depth = 160<LI>Call Chain = hello &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> cmd.o(FSymTab)
 </UL>
@@ -2570,7 +2572,7 @@ Global Symbols
 <P><STRONG><a name="[8e]"></a>list</STRONG> (Thumb, 48 bytes, Stack size 16 bytes, cmd.o(i.list))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = list &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 <LI><a href="#[16d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strncmp
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> cmd.o(FSymTab)
@@ -2602,7 +2604,7 @@ Global Symbols
 <P><STRONG><a name="[93]"></a>list_mem</STRONG> (Thumb, 32 bytes, Stack size 8 bytes, mem.o(i.list_mem))
 <BR><BR>[Stack]<UL><LI>Max Depth = 160<LI>Call Chain = list_mem &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;cmd_free
 </UL>
@@ -2670,7 +2672,7 @@ Global Symbols
 <P><STRONG><a name="[1ab]"></a>msh_auto_complete</STRONG> (Thumb, 150 bytes, Stack size 32 bytes, msh_1.o(i.msh_auto_complete))
 <BR><BR>[Stack]<UL><LI>Max Depth = 200<LI>Call Chain = msh_auto_complete &rArr; msh_help &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 <LI><a href="#[1af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_strncpy
 <LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;msh_help
 <LI><a href="#[16d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strncmp
@@ -2682,7 +2684,7 @@ Global Symbols
 <P><STRONG><a name="[1ac]"></a>msh_exec</STRONG> (Thumb, 74 bytes, Stack size 16 bytes, msh_1.o(i.msh_exec))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = msh_exec &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 <LI><a href="#[16c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_msh_exec_cmd
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;finsh_thread_entry
@@ -2691,7 +2693,7 @@ Global Symbols
 <P><STRONG><a name="[8f]"></a>msh_help</STRONG> (Thumb, 56 bytes, Stack size 16 bytes, msh_1.o(i.msh_help))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = msh_help &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 <LI><a href="#[16d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strncmp
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;msh_auto_complete
@@ -2703,7 +2705,7 @@ Global Symbols
 <LI><a href="#[19b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;finsh_get_prompt
 </UL>
 
-<P><STRONG><a name="[83]"></a>mtk</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, msh.o(i.mtk))
+<P><STRONG><a name="[82]"></a>mtk</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, msh.o(i.mtk))
 <BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = mtk &rArr; MTK_IncreaseVoltage &rArr; delay_ms &rArr; rt_thread_delay &rArr; rt_thread_sleep &rArr; rt_thread_suspend &rArr; rt_timer_stop
 </UL>
 <BR>[Calls]<UL><LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MTK_IncreaseVoltage
@@ -2718,7 +2720,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_TestLimit_Atoi
 <LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Standard_Atoi
 <LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_RTC_Atoi
-<LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mtk
+<LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qc
+<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mtk
 <LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dac
 </UL>
 
@@ -2727,19 +2730,18 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_StandardPage_Show
 <LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Print_Val
-<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Get
+<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Get
 <LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_File_Page
 </UL>
 
-<P><STRONG><a name="[7b]"></a>mycmd</STRONG> (Thumb, 16 bytes, Stack size 8 bytes, msh.o(i.mycmd))
+<P><STRONG><a name="[7b]"></a>mycmd</STRONG> (Thumb, 12 bytes, Stack size 8 bytes, msh.o(i.mycmd))
 <BR><BR>[Stack]<UL><LI>Max Depth = 160<LI>Call Chain = mycmd &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
-<BR>[Calls]<UL><LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;QC20_Induced
-<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> msh.o(FSymTab)
 </UL>
-<P><STRONG><a name="[82]"></a>page</STRONG> (Thumb, 14 bytes, Stack size 8 bytes, msh.o(i.page))
+<P><STRONG><a name="[81]"></a>page</STRONG> (Thumb, 14 bytes, Stack size 8 bytes, msh.o(i.page))
 <BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = page &rArr; HMI_File_Page &rArr; HMI_Print &rArr; __2printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_File_Page
@@ -2750,7 +2752,7 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = print &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Print
-<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> msh.o(FSymTab)
 </UL>
@@ -2763,6 +2765,14 @@ Global Symbols
 <LI><a href="#[179]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;create_chain
 </UL>
 
+<P><STRONG><a name="[83]"></a>qc</STRONG> (Thumb, 18 bytes, Stack size 8 bytes, msh.o(i.qc))
+<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = qc &rArr; QC20_AdjustVoltage &rArr; Dac2_Set_Vol &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
+</UL>
+<BR>[Calls]<UL><LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;QC20_AdjustVoltage
+<LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;my_atoi
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> msh.o(FSymTab)
+</UL>
 <P><STRONG><a name="[1b0]"></a>rt_application_init</STRONG> (Thumb, 30 bytes, Stack size 16 bytes, components.o(i.rt_application_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 208<LI>Call Chain = rt_application_init &rArr; rt_thread_create &rArr; rt_object_allocate &rArr; rt_malloc &rArr; rt_sem_take &rArr; rt_ipc_list_suspend &rArr; rt_thread_suspend &rArr; rt_timer_stop
 </UL>
@@ -2775,7 +2785,7 @@ Global Symbols
 <P><STRONG><a name="[1b1]"></a>rt_components_board_init</STRONG> (Thumb, 36 bytes, Stack size 16 bytes, components.o(i.rt_components_board_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = rt_components_board_init &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_hw_board_init
 </UL>
@@ -2783,7 +2793,7 @@ Global Symbols
 <P><STRONG><a name="[1ae]"></a>rt_components_init</STRONG> (Thumb, 42 bytes, Stack size 16 bytes, components.o(i.rt_components_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = rt_components_init &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main_thread_entry
 </UL>
@@ -2823,7 +2833,7 @@ Global Symbols
 <P><STRONG><a name="[1a4]"></a>rt_device_open</STRONG> (Thumb, 98 bytes, Stack size 16 bytes, device.o(i.rt_device_open))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = rt_device_open &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;finsh_thread_entry
 <LI><a href="#[1b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_console_set_device
@@ -2855,7 +2865,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_set_errno
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<BR>[Called By]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 </UL>
 
 <P><STRONG><a name="[c0]"></a>rt_enter_critical</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, scheduler.o(i.rt_enter_critical))
@@ -2866,7 +2876,7 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[181]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
 <LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_RTC_Atoi
-<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Creat_NewBatch
+<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Creat_NewBatch
 <LI><a href="#[1c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_hw_console_output
 <LI><a href="#[1b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_device_find
 <LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Master_thread_entry
@@ -2885,7 +2895,7 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[181]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
 <LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_RTC_Atoi
-<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Creat_NewBatch
+<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Creat_NewBatch
 <LI><a href="#[1c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_hw_console_output
 <LI><a href="#[1b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_device_find
 <LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Master_thread_entry
@@ -2918,7 +2928,7 @@ Global Symbols
 <LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Adc_Init
 <LI><a href="#[144]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Switch_Init
 <LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;My_RTC_Init
-<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 <LI><a href="#[1c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart3_init
 <LI><a href="#[1c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart2_init
 <LI><a href="#[152]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART2_printf
@@ -2938,13 +2948,13 @@ Global Symbols
 <LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_SendData
 <LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_GetFlagStatus
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<BR>[Called By]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 </UL>
 
 <P><STRONG><a name="[96]"></a>rt_hw_hard_fault_exception</STRONG> (Thumb, 102 bytes, Stack size 8 bytes, cpuport.o(i.rt_hw_hard_fault_exception))
 <BR><BR>[Stack]<UL><LI>Max Depth = 200<LI>Call Chain = rt_hw_hard_fault_exception &rArr; list_thread &rArr; _list_thread &rArr; object_split &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 <LI><a href="#[1b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_thread_self
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_thread
 </UL>
@@ -2991,7 +3001,7 @@ Global Symbols
 <LI><a href="#[9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Handler
 </UL>
 
-<P><STRONG><a name="[e3]"></a>rt_kprintf</STRONG> (Thumb, 64 bytes, Stack size 32 bytes, kservice.o(i.rt_kprintf))
+<P><STRONG><a name="[df]"></a>rt_kprintf</STRONG> (Thumb, 64 bytes, Stack size 32 bytes, kservice.o(i.rt_kprintf))
 <BR><BR>[Stack]<UL><LI>Max Depth = 152<LI>Call Chain = rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_hw_console_output
@@ -2999,12 +3009,13 @@ Global Symbols
 <LI><a href="#[1cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_vsnprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Main_entry
+<LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Get_PowerVoltage
 <LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Standard_Atoi
-<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Creat_NewBatch
+<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Creat_NewBatch
 <LI><a href="#[1a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_device_open
 <LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Master_thread_entry
 <LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_SelectBatch_thread_entry
-<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;showtime
+<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;showtime
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;showadc
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print
 <LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mycmd
@@ -3299,7 +3310,7 @@ Global Symbols
 <P><STRONG><a name="[1de]"></a>rt_show_version</STRONG> (Thumb, 40 bytes, Stack size 8 bytes, kservice.o(i.rt_show_version))
 <BR><BR>[Stack]<UL><LI>Max Depth = 160<LI>Call Chain = rt_show_version &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rtthread_startup
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;version
@@ -3329,7 +3340,7 @@ Global Symbols
 <P><STRONG><a name="[1c3]"></a>rt_system_heap_init</STRONG> (Thumb, 96 bytes, Stack size 8 bytes, mem.o(i.rt_system_heap_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 160<LI>Call Chain = rt_system_heap_init &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 <LI><a href="#[1a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_sem_init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_hw_board_init
@@ -3616,7 +3627,7 @@ Global Symbols
 <LI><a href="#[1ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;skip_atoi
 <LI><a href="#[1f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_number
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<BR>[Called By]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 </UL>
 
 <P><STRONG><a name="[ab]"></a>rtthread_startup</STRONG> (Thumb, 42 bytes, Stack size 8 bytes, components.o(i.rtthread_startup))
@@ -3639,20 +3650,20 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 160<LI>Call Chain = showadc &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
 <BR>[Calls]<UL><LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Get_Adc_Average
-<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> msh.o(FSymTab)
 </UL>
-<P><STRONG><a name="[81]"></a>showtime</STRONG> (Thumb, 58 bytes, Stack size 16 bytes, msh.o(i.showtime))
+<P><STRONG><a name="[80]"></a>showtime</STRONG> (Thumb, 58 bytes, Stack size 16 bytes, msh.o(i.showtime))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = showtime &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 <LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_GetTime
 <LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_GetDate
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> msh.o(FSymTab)
 </UL>
-<P><STRONG><a name="[80]"></a>sw</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, msh.o(i.sw))
+<P><STRONG><a name="[7f]"></a>sw</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, msh.o(i.sw))
 <BR>[Address Reference Count : 1]<UL><LI> msh.o(FSymTab)
 </UL>
 <P><STRONG><a name="[1c0]"></a>uart1_init</STRONG> (Thumb, 172 bytes, Stack size 48 bytes, usart1.o(i.uart1_init))
@@ -4008,7 +4019,7 @@ Local Symbols
 <P><STRONG><a name="[15d]"></a>_list_device</STRONG> (Thumb, 114 bytes, Stack size 112 bytes, cmd.o(i._list_device))
 <BR><BR>[Stack]<UL><LI>Max Depth = 272<LI>Call Chain = _list_device &rArr; object_split &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 <LI><a href="#[15f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_strlen
 <LI><a href="#[161]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;object_split
 <LI><a href="#[160]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;object_name_maxlen
@@ -4020,7 +4031,7 @@ Local Symbols
 <P><STRONG><a name="[162]"></a>_list_event</STRONG> (Thumb, 124 bytes, Stack size 32 bytes, cmd.o(i._list_event))
 <BR><BR>[Stack]<UL><LI>Max Depth = 200<LI>Call Chain = _list_event &rArr; show_wait_queue &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 <LI><a href="#[164]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;show_wait_queue
 <LI><a href="#[163]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_list_len
 <LI><a href="#[161]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;object_split
@@ -4032,7 +4043,7 @@ Local Symbols
 <P><STRONG><a name="[165]"></a>_list_mailbox</STRONG> (Thumb, 154 bytes, Stack size 40 bytes, cmd.o(i._list_mailbox))
 <BR><BR>[Stack]<UL><LI>Max Depth = 208<LI>Call Chain = _list_mailbox &rArr; show_wait_queue &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 <LI><a href="#[15f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_strlen
 <LI><a href="#[164]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;show_wait_queue
 <LI><a href="#[163]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_list_len
@@ -4045,7 +4056,7 @@ Local Symbols
 <P><STRONG><a name="[166]"></a>_list_mempool</STRONG> (Thumb, 112 bytes, Stack size 40 bytes, cmd.o(i._list_mempool))
 <BR><BR>[Stack]<UL><LI>Max Depth = 208<LI>Call Chain = _list_mempool &rArr; show_wait_queue &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 <LI><a href="#[164]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;show_wait_queue
 <LI><a href="#[161]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;object_split
 <LI><a href="#[160]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;object_name_maxlen
@@ -4056,7 +4067,7 @@ Local Symbols
 <P><STRONG><a name="[167]"></a>_list_mutex</STRONG> (Thumb, 90 bytes, Stack size 40 bytes, cmd.o(i._list_mutex))
 <BR><BR>[Stack]<UL><LI>Max Depth = 200<LI>Call Chain = _list_mutex &rArr; object_split &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 <LI><a href="#[163]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_list_len
 <LI><a href="#[161]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;object_split
 <LI><a href="#[160]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;object_name_maxlen
@@ -4067,7 +4078,7 @@ Local Symbols
 <P><STRONG><a name="[168]"></a>_list_sem</STRONG> (Thumb, 134 bytes, Stack size 32 bytes, cmd.o(i._list_sem))
 <BR><BR>[Stack]<UL><LI>Max Depth = 200<LI>Call Chain = _list_sem &rArr; show_wait_queue &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 <LI><a href="#[164]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;show_wait_queue
 <LI><a href="#[163]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_list_len
 <LI><a href="#[161]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;object_split
@@ -4079,7 +4090,7 @@ Local Symbols
 <P><STRONG><a name="[169]"></a>_list_thread</STRONG> (Thumb, 162 bytes, Stack size 32 bytes, cmd.o(i._list_thread))
 <BR><BR>[Stack]<UL><LI>Max Depth = 192<LI>Call Chain = _list_thread &rArr; object_split &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 <LI><a href="#[161]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;object_split
 <LI><a href="#[160]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;object_name_maxlen
 </UL>
@@ -4089,7 +4100,7 @@ Local Symbols
 <P><STRONG><a name="[16a]"></a>_list_timer</STRONG> (Thumb, 104 bytes, Stack size 32 bytes, cmd.o(i._list_timer))
 <BR><BR>[Stack]<UL><LI>Max Depth = 192<LI>Call Chain = _list_timer &rArr; object_split &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 <LI><a href="#[16b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_tick_get
 <LI><a href="#[161]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;object_split
 <LI><a href="#[160]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;object_name_maxlen
@@ -4117,7 +4128,7 @@ Local Symbols
 <P><STRONG><a name="[161]"></a>object_split</STRONG> (Thumb, 18 bytes, Stack size 8 bytes, cmd.o(i.object_split))
 <BR><BR>[Stack]<UL><LI>Max Depth = 160<LI>Call Chain = object_split &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[16a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_list_timer
 <LI><a href="#[169]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_list_thread
@@ -4139,7 +4150,7 @@ Local Symbols
 <P><STRONG><a name="[164]"></a>show_wait_queue</STRONG> (Thumb, 38 bytes, Stack size 16 bytes, cmd.o(i.show_wait_queue))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = show_wait_queue &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[168]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_list_sem
 <LI><a href="#[166]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_list_mempool
@@ -4173,7 +4184,7 @@ Local Symbols
 <P><STRONG><a name="[1a7]"></a>shell_handle_history</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, shell.o(i.shell_handle_history))
 <BR><BR>[Stack]<UL><LI>Max Depth = 160<LI>Call Chain = shell_handle_history &rArr; rt_kprintf &rArr; rt_vsnprintf &rArr; print_number
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
+<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_kprintf
 <LI><a href="#[19b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;finsh_get_prompt
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;finsh_thread_entry
