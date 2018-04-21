@@ -1143,22 +1143,6 @@ Section Cross References
     usbd_desc.o(.data) refers to usbd_desc.o(i.USBD_USR_SerialStrDescriptor) for USBD_USR_SerialStrDescriptor
     usbd_desc.o(.data) refers to usbd_desc.o(i.USBD_USR_ConfigStrDescriptor) for USBD_USR_ConfigStrDescriptor
     usbd_desc.o(.data) refers to usbd_desc.o(i.USBD_USR_InterfaceStrDescriptor) for USBD_USR_InterfaceStrDescriptor
-    usbd_storage_msd.o(i.STORAGE_GetCapacity) refers to ldiv.o(.text) for __aeabi_ldivmod
-    usbd_storage_msd.o(i.STORAGE_GetCapacity) refers to sdio_sdcard.o(.bss) for SDCardInfo
-    usbd_storage_msd.o(i.STORAGE_IsReady) refers to usbd_storage_msd.o(.data) for .data
-    usbd_storage_msd.o(i.STORAGE_Read) refers to sdio_sdcard.o(i.SD_ReadDisk) for SD_ReadDisk
-    usbd_storage_msd.o(i.STORAGE_Read) refers to usbd_storage_msd.o(.data) for .data
-    usbd_storage_msd.o(i.STORAGE_Write) refers to sdio_sdcard.o(i.SD_WriteDisk) for SD_WriteDisk
-    usbd_storage_msd.o(i.STORAGE_Write) refers to usbd_storage_msd.o(.data) for .data
-    usbd_storage_msd.o(.data) refers to usbd_storage_msd.o(i.STORAGE_Init) for STORAGE_Init
-    usbd_storage_msd.o(.data) refers to usbd_storage_msd.o(i.STORAGE_GetCapacity) for STORAGE_GetCapacity
-    usbd_storage_msd.o(.data) refers to usbd_storage_msd.o(i.STORAGE_IsReady) for STORAGE_IsReady
-    usbd_storage_msd.o(.data) refers to usbd_storage_msd.o(i.STORAGE_IsWriteProtected) for STORAGE_IsWriteProtected
-    usbd_storage_msd.o(.data) refers to usbd_storage_msd.o(i.STORAGE_Read) for STORAGE_Read
-    usbd_storage_msd.o(.data) refers to usbd_storage_msd.o(i.STORAGE_Write) for STORAGE_Write
-    usbd_storage_msd.o(.data) refers to usbd_storage_msd.o(i.STORAGE_GetMaxLun) for STORAGE_GetMaxLun
-    usbd_storage_msd.o(.data) refers to usbd_storage_msd.o(.constdata) for STORAGE_Inquirydata
-    usbd_storage_msd.o(.data) refers to usbd_storage_msd.o(.data) for USBD_MICRO_SDIO_fops
     usbd_usr.o(i.OTG_FS_IRQHandler) refers to usb_dcd_int.o(i.USBD_OTG_ISR_Handler) for USBD_OTG_ISR_Handler
     usbd_usr.o(i.OTG_FS_IRQHandler) refers to usbd_usr.o(.bss) for .bss
     usbd_usr.o(i.USBD_USR_DeviceConfigured) refers to printfa.o(i.__0printf) for __2printf
@@ -1177,6 +1161,22 @@ Section Cross References
     usbd_usr.o(.data) refers to usbd_usr.o(i.USBD_USR_DeviceResumed) for USBD_USR_DeviceResumed
     usbd_usr.o(.data) refers to usbd_usr.o(i.USBD_USR_DeviceConnected) for USBD_USR_DeviceConnected
     usbd_usr.o(.data) refers to usbd_usr.o(i.USBD_USR_DeviceDisconnected) for USBD_USR_DeviceDisconnected
+    usbd_storage_msd.o(i.STORAGE_GetCapacity) refers to ldiv.o(.text) for __aeabi_ldivmod
+    usbd_storage_msd.o(i.STORAGE_GetCapacity) refers to sdio_sdcard.o(.bss) for SDCardInfo
+    usbd_storage_msd.o(i.STORAGE_IsReady) refers to usbd_storage_msd.o(.data) for .data
+    usbd_storage_msd.o(i.STORAGE_Read) refers to sdio_sdcard.o(i.SD_ReadDisk) for SD_ReadDisk
+    usbd_storage_msd.o(i.STORAGE_Read) refers to usbd_storage_msd.o(.data) for .data
+    usbd_storage_msd.o(i.STORAGE_Write) refers to sdio_sdcard.o(i.SD_WriteDisk) for SD_WriteDisk
+    usbd_storage_msd.o(i.STORAGE_Write) refers to usbd_storage_msd.o(.data) for .data
+    usbd_storage_msd.o(.data) refers to usbd_storage_msd.o(i.STORAGE_Init) for STORAGE_Init
+    usbd_storage_msd.o(.data) refers to usbd_storage_msd.o(i.STORAGE_GetCapacity) for STORAGE_GetCapacity
+    usbd_storage_msd.o(.data) refers to usbd_storage_msd.o(i.STORAGE_IsReady) for STORAGE_IsReady
+    usbd_storage_msd.o(.data) refers to usbd_storage_msd.o(i.STORAGE_IsWriteProtected) for STORAGE_IsWriteProtected
+    usbd_storage_msd.o(.data) refers to usbd_storage_msd.o(i.STORAGE_Read) for STORAGE_Read
+    usbd_storage_msd.o(.data) refers to usbd_storage_msd.o(i.STORAGE_Write) for STORAGE_Write
+    usbd_storage_msd.o(.data) refers to usbd_storage_msd.o(i.STORAGE_GetMaxLun) for STORAGE_GetMaxLun
+    usbd_storage_msd.o(.data) refers to usbd_storage_msd.o(.constdata) for STORAGE_Inquirydata
+    usbd_storage_msd.o(.data) refers to usbd_storage_msd.o(.data) for USBD_MICRO_SDIO_fops
     completion.o(i.rt_completion_done) refers to context_rvds.o(.text) for rt_hw_interrupt_disable
     completion.o(i.rt_completion_done) refers to thread.o(i.rt_thread_resume) for rt_thread_resume
     completion.o(i.rt_completion_done) refers to scheduler.o(i.rt_schedule) for rt_schedule
@@ -2747,12 +2747,12 @@ Removing Unused input sections from the image.
     Removing usbd_desc.o(.revsh_text), (4 bytes).
     Removing usbd_desc.o(.rrx_text), (6 bytes).
     Removing usbd_desc.o(.data), (10 bytes).
-    Removing usbd_storage_msd.o(.rev16_text), (4 bytes).
-    Removing usbd_storage_msd.o(.revsh_text), (4 bytes).
-    Removing usbd_storage_msd.o(.rrx_text), (6 bytes).
     Removing usbd_usr.o(.rev16_text), (4 bytes).
     Removing usbd_usr.o(.revsh_text), (4 bytes).
     Removing usbd_usr.o(.rrx_text), (6 bytes).
+    Removing usbd_storage_msd.o(.rev16_text), (4 bytes).
+    Removing usbd_storage_msd.o(.revsh_text), (4 bytes).
+    Removing usbd_storage_msd.o(.rrx_text), (6 bytes).
     Removing completion.o(i.rt_completion_done), (58 bytes).
     Removing completion.o(i.rt_completion_init), (24 bytes).
     Removing completion.o(i.rt_completion_wait), (122 bytes).
@@ -3126,8 +3126,8 @@ Image Symbol Table
     .text                                    0x080007c6   Section        0  llshl.o(.text)
     .text                                    0x080007e4   Section        0  llushr.o(.text)
     .text                                    0x08000804   Section        0  llsshr.o(.text)
-    .text                                    0x08000828   Section        0  iusefp.o(.text)
     .text                                    0x08000828   Section        0  depilogue.o(.text)
+    .text                                    0x08000828   Section        0  iusefp.o(.text)
     .text                                    0x080008e2   Section        0  dfixul.o(.text)
     .text                                    0x08000914   Section       48  cdrcmple.o(.text)
     .text                                    0x08000944   Section       36  init.o(.text)
@@ -3757,11 +3757,11 @@ Image Symbol Table
     .data                                    0x200000e0   Section       32  usbd_msc_scsi.o(.data)
     .data                                    0x20000100   Section       28  usbd_desc.o(.data)
     .data                                    0x2000011c   Section       22  usbd_desc.o(.data)
-    .data                                    0x20000132   Section        1  usbd_storage_msd.o(.data)
-    .data                                    0x20000134   Section       32  usbd_storage_msd.o(.data)
-    .data                                    0x20000154   Section        4  usbd_storage_msd.o(.data)
-    .data                                    0x20000158   Section        1  usbd_usr.o(.data)
-    .data                                    0x2000015c   Section       28  usbd_usr.o(.data)
+    .data                                    0x20000132   Section        1  usbd_usr.o(.data)
+    .data                                    0x20000134   Section       28  usbd_usr.o(.data)
+    .data                                    0x20000150   Section        1  usbd_storage_msd.o(.data)
+    .data                                    0x20000154   Section       32  usbd_storage_msd.o(.data)
+    .data                                    0x20000174   Section        4  usbd_storage_msd.o(.data)
     .data                                    0x20000178   Section        4  shell.o(.data)
     .data                                    0x2000017c   Section        4  symbol.o(.data)
     .data                                    0x20000180   Section        4  symbol.o(.data)
@@ -4502,11 +4502,11 @@ Image Symbol Table
     USR_desc                                 0x20000100   Data          28  usbd_desc.o(.data)
     USBD_LangIDDesc                          0x2000011c   Data           4  usbd_desc.o(.data)
     USBD_DeviceDesc                          0x20000120   Data          18  usbd_desc.o(.data)
-    USB_STATUS_REG                           0x20000132   Data           1  usbd_storage_msd.o(.data)
-    USBD_MICRO_SDIO_fops                     0x20000134   Data          32  usbd_storage_msd.o(.data)
-    USBD_STORAGE_fops                        0x20000154   Data           4  usbd_storage_msd.o(.data)
-    bDeviceState                             0x20000158   Data           1  usbd_usr.o(.data)
-    USR_cb                                   0x2000015c   Data          28  usbd_usr.o(.data)
+    bDeviceState                             0x20000132   Data           1  usbd_usr.o(.data)
+    USR_cb                                   0x20000134   Data          28  usbd_usr.o(.data)
+    USB_STATUS_REG                           0x20000150   Data           1  usbd_storage_msd.o(.data)
+    USBD_MICRO_SDIO_fops                     0x20000154   Data          32  usbd_storage_msd.o(.data)
+    USBD_STORAGE_fops                        0x20000174   Data           4  usbd_storage_msd.o(.data)
     shell                                    0x20000178   Data           4  shell.o(.data)
     _syscall_table_begin                     0x2000017c   Data           4  symbol.o(.data)
     _syscall_table_end                       0x20000180   Data           4  symbol.o(.data)
@@ -4676,7 +4676,7 @@ Memory Map of the image
     0x08001f56   0x08001f56   0x00000002   PAD
     0x08001f58   0x08001f58   0x00000064   Code   RO         1607    i.NVIC_Init         misc.o
     0x08001fbc   0x08001fbc   0x00000014   Code   RO         1608    i.NVIC_PriorityGroupConfig  misc.o
-    0x08001fd0   0x08001fd0   0x0000000c   Code   RO         5463    i.OTG_FS_IRQHandler  usbd_usr.o
+    0x08001fd0   0x08001fd0   0x0000000c   Code   RO         5394    i.OTG_FS_IRQHandler  usbd_usr.o
     0x08001fdc   0x08001fdc   0x0000000c   Code   RO         3221    i.PWR_BackupAccessCmd  stm32f4xx_pwr.o
     0x08001fe8   0x08001fe8   0x00000010   Code   RO         3223    i.PWR_ClearFlag     stm32f4xx_pwr.o
     0x08001ff8   0x08001ff8   0x00000020   Code   RO         3225    i.PWR_EnterSTANDBYMode  stm32f4xx_pwr.o
@@ -4750,13 +4750,13 @@ Memory Map of the image
     0x08003ab4   0x08003ab4   0x000002e0   Code   RO          429    i.SD_WriteBlock     sdio_sdcard.o
     0x08003d94   0x08003d94   0x00000070   Code   RO          430    i.SD_WriteDisk      sdio_sdcard.o
     0x08003e04   0x08003e04   0x0000030c   Code   RO          431    i.SD_WriteMultiBlocks  sdio_sdcard.o
-    0x08004110   0x08004110   0x00000024   Code   RO         5394    i.STORAGE_GetCapacity  usbd_storage_msd.o
-    0x08004134   0x08004134   0x00000004   Code   RO         5395    i.STORAGE_GetMaxLun  usbd_storage_msd.o
-    0x08004138   0x08004138   0x00000004   Code   RO         5396    i.STORAGE_Init      usbd_storage_msd.o
-    0x0800413c   0x0800413c   0x00000014   Code   RO         5397    i.STORAGE_IsReady   usbd_storage_msd.o
-    0x08004150   0x08004150   0x00000004   Code   RO         5398    i.STORAGE_IsWriteProtected  usbd_storage_msd.o
-    0x08004154   0x08004154   0x00000030   Code   RO         5399    i.STORAGE_Read      usbd_storage_msd.o
-    0x08004184   0x08004184   0x00000030   Code   RO         5400    i.STORAGE_Write     usbd_storage_msd.o
+    0x08004110   0x08004110   0x00000024   Code   RO         5469    i.STORAGE_GetCapacity  usbd_storage_msd.o
+    0x08004134   0x08004134   0x00000004   Code   RO         5470    i.STORAGE_GetMaxLun  usbd_storage_msd.o
+    0x08004138   0x08004138   0x00000004   Code   RO         5471    i.STORAGE_Init      usbd_storage_msd.o
+    0x0800413c   0x0800413c   0x00000014   Code   RO         5472    i.STORAGE_IsReady   usbd_storage_msd.o
+    0x08004150   0x08004150   0x00000004   Code   RO         5473    i.STORAGE_IsWriteProtected  usbd_storage_msd.o
+    0x08004154   0x08004154   0x00000030   Code   RO         5474    i.STORAGE_Read      usbd_storage_msd.o
+    0x08004184   0x08004184   0x00000030   Code   RO         5475    i.STORAGE_Write     usbd_storage_msd.o
     0x080041b4   0x080041b4   0x00000002   Code   RO          284    i.SVC_Handler       stm32f4xx_it.o
     0x080041b6   0x080041b6   0x00000002   PAD
     0x080041b8   0x080041b8   0x000000b4   Code   RO          337    i.SetSysClock       system_stm32f4xx.o
@@ -4818,14 +4818,14 @@ Memory Map of the image
     0x08004f8a   0x08004f8a   0x0000001c   Code   RO         4776    i.USBD_Suspend      usbd_core.o
     0x08004fa6   0x08004fa6   0x00000002   PAD
     0x08004fa8   0x08004fa8   0x00000020   Code   RO         5325    i.USBD_USR_ConfigStrDescriptor  usbd_desc.o
-    0x08004fc8   0x08004fc8   0x00000024   Code   RO         5464    i.USBD_USR_DeviceConfigured  usbd_usr.o
-    0x08004fec   0x08004fec   0x00000028   Code   RO         5465    i.USBD_USR_DeviceConnected  usbd_usr.o
+    0x08004fc8   0x08004fc8   0x00000024   Code   RO         5395    i.USBD_USR_DeviceConfigured  usbd_usr.o
+    0x08004fec   0x08004fec   0x00000028   Code   RO         5396    i.USBD_USR_DeviceConnected  usbd_usr.o
     0x08005014   0x08005014   0x0000000c   Code   RO         5326    i.USBD_USR_DeviceDescriptor  usbd_desc.o
-    0x08005020   0x08005020   0x0000002c   Code   RO         5466    i.USBD_USR_DeviceDisconnected  usbd_usr.o
-    0x0800504c   0x0800504c   0x00000080   Code   RO         5467    i.USBD_USR_DeviceReset  usbd_usr.o
-    0x080050cc   0x080050cc   0x0000001c   Code   RO         5468    i.USBD_USR_DeviceResumed  usbd_usr.o
-    0x080050e8   0x080050e8   0x00000024   Code   RO         5469    i.USBD_USR_DeviceSuspended  usbd_usr.o
-    0x0800510c   0x0800510c   0x00000018   Code   RO         5470    i.USBD_USR_Init     usbd_usr.o
+    0x08005020   0x08005020   0x0000002c   Code   RO         5397    i.USBD_USR_DeviceDisconnected  usbd_usr.o
+    0x0800504c   0x0800504c   0x00000080   Code   RO         5398    i.USBD_USR_DeviceReset  usbd_usr.o
+    0x080050cc   0x080050cc   0x0000001c   Code   RO         5399    i.USBD_USR_DeviceResumed  usbd_usr.o
+    0x080050e8   0x080050e8   0x00000024   Code   RO         5400    i.USBD_USR_DeviceSuspended  usbd_usr.o
+    0x0800510c   0x0800510c   0x00000018   Code   RO         5401    i.USBD_USR_Init     usbd_usr.o
     0x08005124   0x08005124   0x00000024   Code   RO         5327    i.USBD_USR_InterfaceStrDescriptor  usbd_desc.o
     0x08005148   0x08005148   0x0000000c   Code   RO         5328    i.USBD_USR_LangIDStrDescriptor  usbd_desc.o
     0x08005154   0x08005154   0x00000028   Code   RO         5329    i.USBD_USR_ManufacturerStrDescriptor  usbd_desc.o
@@ -5071,7 +5071,7 @@ Memory Map of the image
     0x08009595   0x08009595   0x00000007   Data   RO         5153    .constdata          usbd_msc_data.o
     0x0800959c   0x0800959c   0x00000008   Data   RO         5154    .constdata          usbd_msc_data.o
     0x080095a4   0x080095a4   0x00000008   Data   RO         5155    .constdata          usbd_msc_data.o
-    0x080095ac   0x080095ac   0x00000024   Data   RO         5401    .constdata          usbd_storage_msd.o
+    0x080095ac   0x080095ac   0x00000024   Data   RO         5476    .constdata          usbd_storage_msd.o
     0x080095d0   0x080095d0   0x00000006   Data   RO         5839    .constdata          cmd.o
     0x080095d6   0x080095d6   0x00000008   Data   RO         5840    .constdata          cmd.o
     0x080095de   0x080095de   0x0000000e   Data   RO         5841    .constdata          cmd.o
@@ -5175,13 +5175,13 @@ Memory Map of the image
     0x200000e0   COMPRESSED   0x00000020   Data   RW         5190    .data               usbd_msc_scsi.o
     0x20000100   COMPRESSED   0x0000001c   Data   RW         5332    .data               usbd_desc.o
     0x2000011c   COMPRESSED   0x00000016   Data   RW         5333    .data               usbd_desc.o
-    0x20000132   COMPRESSED   0x00000001   Data   RW         5402    .data               usbd_storage_msd.o
+    0x20000132   COMPRESSED   0x00000001   Data   RW         5403    .data               usbd_usr.o
     0x20000133   COMPRESSED   0x00000001   PAD
-    0x20000134   COMPRESSED   0x00000020   Data   RW         5403    .data               usbd_storage_msd.o
-    0x20000154   COMPRESSED   0x00000004   Data   RW         5404    .data               usbd_storage_msd.o
-    0x20000158   COMPRESSED   0x00000001   Data   RW         5472    .data               usbd_usr.o
-    0x20000159   COMPRESSED   0x00000003   PAD
-    0x2000015c   COMPRESSED   0x0000001c   Data   RW         5473    .data               usbd_usr.o
+    0x20000134   COMPRESSED   0x0000001c   Data   RW         5404    .data               usbd_usr.o
+    0x20000150   COMPRESSED   0x00000001   Data   RW         5477    .data               usbd_storage_msd.o
+    0x20000151   COMPRESSED   0x00000003   PAD
+    0x20000154   COMPRESSED   0x00000020   Data   RW         5478    .data               usbd_storage_msd.o
+    0x20000174   COMPRESSED   0x00000004   Data   RW         5479    .data               usbd_storage_msd.o
     0x20000178   COMPRESSED   0x00000004   Data   RW         6095    .data               shell.o
     0x2000017c   COMPRESSED   0x00000004   Data   RW         6162    .data               symbol.o
     0x20000180   COMPRESSED   0x00000004   Data   RW         6163    .data               symbol.o
@@ -5205,7 +5205,7 @@ Memory Map of the image
     0x200006e0        -       0x00000040   Zero   RW         4934    .bss                usbd_req.o
     0x20000720        -       0x00003030   Zero   RW         5011    .bss                usbd_msc_bot.o
     0x20003750        -       0x00000020   Zero   RW         5189    .bss                usbd_msc_scsi.o
-    0x20003770        -       0x000005f4   Zero   RW         5471    .bss                usbd_usr.o
+    0x20003770        -       0x000005f4   Zero   RW         5402    .bss                usbd_usr.o
     0x20003d64        -       0x00000304   Zero   RW         6093    .bss                shell.o
     0x20004068        -       0x00000180   Zero   RW         6413    .bss                idle.o
     0x200041e8        -       0x00000080   Zero   RW         6730    .bss                kservice.o
