@@ -33,7 +33,7 @@
 #include "usbd_core.h"
 
 extern USB_OTG_CORE_HANDLE  USB_OTG_dev;
-
+extern vu8 USB_STATUS_REG;
 
 /** @addtogroup USBD_USER
   * @{

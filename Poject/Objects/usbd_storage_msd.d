@@ -40,3 +40,5 @@
 .\objects\usbd_storage_msd.o: ..\STM32f4_LIB\inc\stm32f4xx_fsmc.h
 .\objects\usbd_storage_msd.o: ..\BSP_USER\SDIO_SD\sdio_sdcard.h
 .\objects\usbd_storage_msd.o: ..\Common\sys.h
+.\objects\usbd_storage_msd.o: ..\Common\usart1.h
+.\objects\usbd_storage_msd.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdio.h

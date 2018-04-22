@@ -1,4 +1,4 @@
-SET PATH=D:\Program Files\keil\ARM\ARMCC\Bin;C:\Program Files\Microsoft MPI\Bin\;D:\miniconda;D:\miniconda\Library\mingw-w64\bin;D:\miniconda\Library\usr\bin;D:\miniconda\Library\bin;D:\miniconda\Scripts;D:\Program Files\python3\Scripts\;D:\Program Files\python3\;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;d:\quartusii91\quartus\bin;D:\Program Files\JAVA\JDK\bin;D:\Program Files\JAVA\JDK\jre\bin;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;D:\Program Files\matlab\runtime\win64;D:\Program Files\matlab\bin;D:\Program Files\matlab\polyspace\bin;D:\Program Files\cmake\bin;D:\Program Files\ADB;D:\Program Files\Git\Git\bin;C:\SysGCC\arm-eabi\bin;D:\Program Files\MinGW\bin;C:\SysGCC\avr\bin;C:\SysGCC\msp430\bin;D:\nuget.exe;E:\Èí¼þ¿ª·¢\¿ª·¢°ü\ELL\ELL\external\OpenBLASLibs.0.2.19.3\build\native\x64\haswell\bin;C:\Users\Áº½õÁú\AppData\Local\Microsoft\WindowsApps;D:\IntelFPGA\modelsim_ase\win32aloem;C:\Users\Áº½õÁú\AppData\Local\Programs\Fiddler
+SET PATH=D:\Program Files\keil\ARM\ARMCC\Bin;C:\Program Files\Microsoft MPI\Bin\;D:\miniconda;D:\miniconda\Library\mingw-w64\bin;D:\miniconda\Library\usr\bin;D:\miniconda\Library\bin;D:\miniconda\Scripts;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;d:\quartusii91\quartus\bin;D:\Program Files\JAVA\JDK\bin;D:\Program Files\JAVA\JDK\jre\bin;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;D:\Program Files\matlab\runtime\win64;D:\Program Files\matlab\bin;D:\Program Files\matlab\polyspace\bin;D:\Program Files\cmake\bin;D:\Program Files\ADB;D:\Program Files\Git\Git\bin;C:\SysGCC\arm-eabi\bin;D:\Program Files\MinGW\bin;C:\SysGCC\avr\bin;C:\SysGCC\msp430\bin;D:\nuget.exe;E:\Èí¼þ¿ª·¢\¿ª·¢°ü\ELL\ELL\external\OpenBLASLibs.0.2.19.3\build\native\x64\haswell\bin;D:\Program Files\doxygen\bin;D:\Program Files\Sublime_Text\Sublime Text3;D:\Program Files\TortoiseGit\bin;C:\Users\Áº½õÁú\AppData\Local\Microsoft\WindowsApps;D:\IntelFPGA\modelsim_ase\win32aloem;C:\Users\Áº½õÁú\AppData\Local\Programs\Fiddler;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps;
 SET CPU_TYPE=STM32F405RGTx
 SET CPU_VENDOR=STMicroelectronics
 SET UV2_TARGET=Target 1
@@ -18,12 +18,15 @@ SET CPU_CLOCK=0x007A1200
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\spi.__i"
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\wkup.__i"
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\data_math.__i"
+"D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\dma.__i"
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\tlc5615.__i"
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\ds18b20.__i"
+"D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\hlw8032.__i"
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\delay.__i"
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\sys.__i"
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\usart1.__i"
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\usart2.__i"
+"D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\usart3.__i"
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\misc.__i"
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\stm32f4xx_gpio.__i"
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\stm32f4xx_rcc.__i"
@@ -40,9 +43,11 @@ SET CPU_CLOCK=0x007A1200
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\exfuns.__i"
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\diskio.__i"
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\ff.__i"
-"D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\usb_core.__i"
-"D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\usb_dcd.__i"
+"D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\msh.__i"
+"D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\app.__i"
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\usb_dcd_int.__i"
+"D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\usb_dcd.__i"
+"D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\usb_core.__i"
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\usbd_core.__i"
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\usbd_ioreq.__i"
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\usbd_req.__i"
@@ -52,11 +57,8 @@ SET CPU_CLOCK=0x007A1200
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\usbd_msc_scsi.__i"
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\usb_bsp.__i"
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\usbd_desc.__i"
-"D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\usbd_storage_msd.__i"
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\usbd_usr.__i"
-"D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\usb_app.__i"
-"D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\msh.__i"
-"D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\app.__i"
+"D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\usbd_storage_msd.__i"
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\completion.__i"
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\pipe.__i"
 "D:\Program Files\keil\ARM\ARMCC\Bin\ArmCC" --Via ".\objects\portal.__i"
