@@ -231,21 +231,18 @@ u8 Read_TestParameters(TestParameters_Type* TestParameters_Structure,u8 Standard
 {
 	u8 res;
 	UINT check_count;
-	FIL* Fsrc;
 	
-	Fsrc=rt_malloc(sizeof(FIL));
-	if(Fsrc==NULL) return 1;
-
-	
-	res=f_open(Fsrc,"0:/setting.data",FA_READ);
-	if(res != 0) return 1;
+	res=f_open(&Fsrc1,"0:/set.dat",FA_READ);
+	if(res != 0) 
+	{
+			if(res==4) First_writeTestParameters();	//是因为找不到配置文件错误则创建新的文件
+			else return 1;
+	}
 	//偏移(Standard_code*sizeof(TestParameters_Type)
-	res=f_lseek(Fsrc,Standard_code*sizeof(TestParameters_Type));
-	if(res!=0) return 2;
-	res=f_read(Fsrc,&TestParameters_Structure,sizeof(TestParameters_Type),&check_count);
+	res=f_lseek(&Fsrc1,Standard_code*sizeof(TestParameters_Type));
+	if(res!=0) return res;
+	res=f_read(&Fsrc1,&TestParameters_Structure,sizeof(TestParameters_Type),&check_count);
 	if(res!=0||check_count!=sizeof(TestParameters_Type)) return 3;
-
-	rt_free(Fsrc);
 	
 	return 0;	
 }

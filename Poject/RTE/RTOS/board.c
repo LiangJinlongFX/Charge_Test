@@ -59,11 +59,13 @@ extern int __bss_end;
 #include "ds18b20.h"
 #include "HMI.h"
 #include "usart3.h"
+#include "CSV_Database.h"
+#include "app.h"
 
 
  
 void rt_hw_board_init()
-{  
+{
 	// rtthread tick configuration
 	// 2. Configure rtos tick and interrupt
 	SysTick_Config(SystemCoreClock / RT_TICK_PER_SECOND);
@@ -81,8 +83,6 @@ void rt_hw_board_init()
 	if(SD_Init())  rt_kprintf("SD_ERROR!\r\n");
 	if(My_RTC_Init()) rt_kprintf("RTC_ERROR!\r\n");
 	USART2_printf("================================\r\n");
-	Dac1_Set_Vol(3299);
-	Dac2_Set_Vol(3299);
 	
 		
     /* Call components board initial (use INIT_BOARD_EXPORT()) */

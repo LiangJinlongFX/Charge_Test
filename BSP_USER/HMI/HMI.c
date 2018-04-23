@@ -51,10 +51,10 @@ HMI_Error USART_Solution(u8 HMI_Type,char* HMI_Rx_String)
 	//从串口接收到的字符串提取有效数据
 	for(i=1;i<=UASRT1_RX_BUFFER_LEN-4;i++)
 	{
-		HMI_Rx_String[i-1]=USART_RX_BUF[i];
+		HMI_Rx_String[i-1]=USART_RX_BUF[i];		
 	}
 	//加上结尾符号以方便识别
-	HMI_Rx_String[i]='\0';
+	HMI_Rx_String[i-1]='\0';
 	//清除缓冲变量
 	HMI_RX_FLAG=0;
 	UASRT1_RX_BUFFER_LEN=0;
@@ -92,7 +92,10 @@ HMI_Error HMI_Print_Str(char* Object_ID,char* fmt)
 	strcat(str,".txt=\"");
 	strcat(str,fmt);
 	strcat(str,"\"");
+	/* 禁止调度以防止干扰串口接收 */
+	rt_enter_critical();	//进入临界区
 	HMI_Print(str);
+	rt_exit_critical();		//退出临界区
 
 	return HMI_OK;
 }
@@ -155,31 +158,31 @@ HMI_Error HMI_StandardPage_Show(void)
 	u8 Code_temp;
 	
 	/* 显示额定输出电压 */
-	my_itoa(TestParameters_Structure.Vout,Num_str);
+	my_itoa(TestParameters_Structure[Standard_val].Vout,Num_str);
 	HMI_Print_Str("t0",Num_str);
 	Num_str[0]='\0';
 	/* 显示输出电压容差 */
-	my_itoa(TestParameters_Structure.Vout_Tolerance,Num_str);
+	my_itoa(TestParameters_Structure[Standard_val].Vout_Tolerance,Num_str);
 	HMI_Print_Str("t1",Num_str);
 	Num_str[0]='\0';
 	/* 显示最大输出电流值 */
-	my_itoa(TestParameters_Structure.Cout_Max,Num_str);
+	my_itoa(TestParameters_Structure[Standard_val].Cout_Max,Num_str);
 	HMI_Print_Str("t2",Num_str);
 	Num_str[0]='\0';
 	/* 显示纹波电压 */
-	my_itoa(TestParameters_Structure.V_Ripple,Num_str);
+	my_itoa(TestParameters_Structure[Standard_val].V_Ripple,Num_str);
 	HMI_Print_Str("t3",Num_str);
 	Num_str[0]='\0';
 	/* 显示转换效率 */
-	my_itoa(TestParameters_Structure.Efficiency,Num_str);
+	my_itoa(TestParameters_Structure[Standard_val].Efficiency,Num_str);
 	HMI_Print_Str("t4",Num_str);
 	Num_str[0]='\0';
 	/* 显示过流保护开关 */
-	if(TestParameters_Structure.Safety_Code)	Code_temp=1;
+	if(TestParameters_Structure[Standard_val].Safety_Code)	Code_temp=1;
 	else Code_temp=0;
 	HMI_Print_Val("bt1",Code_temp);
 	/* 显示快充诱导开关 */
-	HMI_Print_Val("FastCharg_STA",TestParameters_Structure.Quick_Charge);
+	HMI_Print_Val("FastCharg_STA",TestParameters_Structure[Standard_val].Quick_Charge);
 
 	return HMI_OK;
 }
@@ -240,42 +243,32 @@ HMI_Error HMI_Standard_Atoi(void)
 	
 	/* 获取额定输出电压 */
 	res=HMI_Get(HMI_String_Type,"t0",str);
-	TestParameters_Structure.Vout=my_atoi(str);
-	rt_kprintf("%s\r\n",str);
-	str[0]='\0';
+	TestParameters_Structure[Standard_val].Vout=my_atoi(str);
 	/* 获取电压容差 */
 	strcpy(str,"");
 	res=HMI_Get(HMI_String_Type,"t1",str);
-	TestParameters_Structure.Vout_Tolerance=my_atoi(str);
-	rt_kprintf("%s\r\n",str);
-	str[0]='\0';
+	TestParameters_Structure[Standard_val].Vout_Tolerance=my_atoi(str);
 	/* 获取最大输出电流 */
 	strcpy(str,"");
 	res=HMI_Get(HMI_String_Type,"t2",str);
-	TestParameters_Structure.Cout_Max=my_atoi(str);
-	rt_kprintf("%s\r\n",str);
-	str[0]='\0';
+	TestParameters_Structure[Standard_val].Cout_Max=my_atoi(str);
 	/* 获取纹波电压 */
 	strcpy(str,"");
 	res=HMI_Get(HMI_String_Type,"t3",str);
-	TestParameters_Structure.V_Ripple=my_atoi(str);
-	rt_kprintf("%s\r\n",str);
-	str[0]='\0';
+	TestParameters_Structure[Standard_val].V_Ripple=my_atoi(str);
 	/* 获取转换效率 */
 	strcpy(str,"");
 	res=HMI_Get(HMI_String_Type,"t4",str);
-	TestParameters_Structure.Efficiency=my_atoi(str);
-	rt_kprintf("%s\r\n",str);
-	str[0]='\0';
+	TestParameters_Structure[Standard_val].Efficiency=my_atoi(str);
 	/* 获取过流保护开关 */
 	strcpy(str,"");
 	res=HMI_Get(HMI_Vaule_Type,"bt1",str);
 	bit_temp=my_atoi(str);
-	TestParameters_Structure.Safety_Code=bit_temp;
+	TestParameters_Structure[Standard_val].Safety_Code=bit_temp;
 	/* 获取快充诱导开关 */
 	strcpy(str,"");
 	res=HMI_Get(HMI_Vaule_Type,"FastCharg_STA",str);
-	TestParameters_Structure.Quick_Charge=my_atoi(str);
+	TestParameters_Structure[Standard_val].Quick_Charge=my_atoi(str);
 	
 	return res;
 }

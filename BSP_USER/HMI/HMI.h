@@ -64,10 +64,6 @@
 #define HMI_ENDData_Type		0xfe	//透传模式就绪
 #define HMI_System_Type		0x88	//系统事件  自定义
 
-/*
- * 系统事件代码定义
- * 01	进入快速检测触发
- */
 
 /**
  * 指令执行情况枚举
@@ -105,10 +101,6 @@ HMI_Error HMI_RTC_Atoi(void);
 HMI_Error HMI_FastTest(void);
 HMI_Error HMI_Creat_NewBatch(void);
 void HMI_ShowError(u16 Running_Code);
-
-
-
-
 
 
 #endif

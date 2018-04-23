@@ -36,7 +36,7 @@ u8 Device_STA=0;
 u8 HMI_Event;
 char Global_str[10][10];
 rt_uint8_t Standard_val; //测试标准序号
-TestParameters_Type TestParameters_Structure;	//测试指标存放结构体,应用于修改指标和测试时加载指标
+TestParameters_Type TestParameters_Structure[4];	//测试指标存放结构体,应用于修改指标和测试时加载指标
 
 
 void Master_thread_entry(void* parameter)
@@ -51,16 +51,26 @@ void Master_thread_entry(void* parameter)
 			{
 				case 0x01 : 
 				{
-					//创建线程1 
-					CollectData_thread = rt_thread_create("GetData",CollectData_thread_entry, RT_NULL,512, 2,20);
-					//创建线程1 
-					HMI_FastTest_thread = rt_thread_create("HMI_1",HMI_FastTest_thread_entry, RT_NULL,1024,3,20);
-					
+					//创建线程：实时测量数据采集线程
+					CollectData_thread = rt_thread_create("GetData",CollectData_thread_entry, RT_NULL,512, 3,20);
+					//创建线程：快速测试界面显示线程
+					HMI_FastTest_thread = rt_thread_create("HMI_1",HMI_FastTest_thread_entry, RT_NULL,1024,2,20);
+					//创建线程：快充诱导线程
+					QuickCharge_thread = rt_thread_create("Quick",QuickCharge_thread_entry, RT_NULL,512,3,20);
+					//线程创建失败
+					if(CollectData_thread==RT_NULL||HMI_FastTest_thread==RT_NULL||QuickCharge_thread==RT_NULL)
+					{
+						#if	Thread_Debug
+							rt_kprintf("creatthread_error!\r\n");
+						#endif
+					}
 					HMI_File_Page(20);	//跳转到快速测试界面
+					/* 开始串口3中断响应开关 */
 					USART_ITConfig(USART3,USART_IT_IDLE,ENABLE);
 					USART_ITConfig(USART3,USART_IT_RXNE,ENABLE);   
 					rt_thread_startup(CollectData_thread);	//启动数据采集线程
 					rt_thread_startup(HMI_FastTest_thread);	//启动快速界面检测线程 
+					rt_thread_startup(QuickCharge_thread);	//启动快充检测线程 
 				}break;
 				case 0x02 : 
 				{
@@ -68,13 +78,20 @@ void Master_thread_entry(void* parameter)
 					USART_ITConfig(USART3,USART_IT_RXNE,DISABLE);   
 					rt_thread_delete(CollectData_thread);	//删除数据采集线程
 					rt_thread_delete(HMI_FastTest_thread);	//删除快速界面检测线程
+					rt_thread_delete(QuickCharge_thread);	//删除快充检测线程 
 					HMI_File_Page(1); 
 				}break;
 				case 0x03 : 
 				{
 					Entry_Code_Old=0x03;
-					//创建线程1 
+					//创建线程：批量列表线程
 					HMI_SelectBatch_thread = rt_thread_create("HMI_Batch",HMI_SelectBatch_thread_entry, RT_NULL,512,3,20);					
+					if(HMI_SelectBatch_thread==RT_NULL)
+					{
+						#if	Thread_Debug
+						rt_kprintf("creatthread_error!\r\n");
+						#endif	
+					}
 					rt_enter_critical();	//进入临界区
 					f_mount(&fat,"0:",1);	//挂载工作区
 					First_writeTestParameters();
@@ -106,14 +123,11 @@ void Master_thread_entry(void* parameter)
 				case 0x07 : 
 				{
 					Entry_Code_Old=0x07;
-					//创建模式选择线程
-					///HMI_SelectStandard_thread = rt_thread_create("Standard",HMI_SelectStandard_thread_entry, RT_NULL,512,3,20);
 					/* 获取批量目录名称并将其写入SD卡中 */
 					f_mount(&fat,"0",1);
 					HMI_Creat_NewBatch();
 					f_mount(NULL,"0",1);
 					HMI_File_Page(1);	//跳转到测试标准选择界面
-					//rt_thread_startup(HMI_SelectStandard_thread);	//启动线程
 				}break;
 				case 0x08 : 
 				{
@@ -146,15 +160,18 @@ void Master_thread_entry(void* parameter)
 					/* 禁止调度以防止干扰串口接收 */
 					rt_enter_critical();	//进入临界区
 					res=HMI_Standard_Atoi();	//获取界面标准参数并装载进结构体
+					f_mount(&fat,"0:",1);	//挂载工作区
+					if(Modify_TestParameters(&TestParameters_Structure[Standard_val],Standard_val)) rt_kprintf("WriteData_Error!\r\n");
+					f_mount(NULL,"0:",1);	//挂载工作区
 					rt_exit_critical();		//退出临界区
 					#if	Thread_Debug
-					rt_kprintf("res=%d\r\n",TestParameters_Structure.Vout);
-					rt_kprintf("res=%d\r\n",TestParameters_Structure.Vout_Tolerance);
-					rt_kprintf("res=%d\r\n",TestParameters_Structure.Cout_Max);
-					rt_kprintf("res=%d\r\n",TestParameters_Structure.V_Ripple);
-					rt_kprintf("res=%d\r\n",TestParameters_Structure.Efficiency);
-					rt_kprintf("res=%d\r\n",TestParameters_Structure.Safety_Code);
-					rt_kprintf("res=%d\r\n",TestParameters_Structure.Quick_Charge);
+					rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Vout);
+					rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Vout_Tolerance);
+					rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Cout_Max);
+					rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].V_Ripple);
+					rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Efficiency);
+					rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Safety_Code);
+					rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Quick_Charge);
 					#endif
 					HMI_File_Page(1);	//跳转到主界面
 				}break;
@@ -212,6 +229,7 @@ void HMIMonitor_thread_entry(void* parameter)
 		{
 			rt_mb_send(&HMI_Response_mb,HMI_Info[0]);
 		}
+		LED2=~LED2;
 		rt_thread_delay(100);
 	}
 }
@@ -224,6 +242,7 @@ void CollectData_thread_entry(void* parameter)
 {
 	while (1)
 	{
+		LED3=~LED3;
 		rt_enter_critical();	//进入临界区
 		ReadTimeData_structure.V_OUT=Get_PowerVoltage();	//采集电压
 		ReadTimeData_structure.C_OUT=Get_PowerCurrent();	//采集电流
@@ -241,6 +260,31 @@ void CollectData_thread_entry(void* parameter)
 	}
 }
 
+
+/*
+ * 快充检测诱导线程
+ */
+void QuickCharge_thread_entry(void* parameter)
+{
+	while(1)
+	{
+		/* 接收虚拟按键事件邮箱 */
+		if(rt_mb_recv(Event_mb,(rt_uint32_t*)&Event_Flag,RT_WAITING_FOREVER)==RT_EOK)
+		{
+			/* 接收到快充诱导时间 */
+			if(Event_Flag==1)
+			{
+				HMI_Print_Str("t8","开始'\r快充'\r诱导");
+				rt_thread_delay(500);
+				HMI_Print_Str("t8","MTK-PE'\r5v");
+			}
+		}
+		rt_thread_delay(500);
+	}	
+}
+
+
+
 /*
  * 快速检测HMI界面线程
  */
@@ -250,6 +294,7 @@ void HMI_FastTest_thread_entry(void* parameter)
 	ReadTimeData_Type* Showdata_Structure;
 	while(1)
 	{
+		LED0=~LED0;
 		if(rt_mb_recv(GetData_mb, (rt_uint32_t*)&Showdata_Structure, RT_WAITING_FOREVER)== RT_EOK)
 		{
 			str[0]='\0';
@@ -429,6 +474,7 @@ void HMI_SelectStandard_thread_entry(void* parameter)
 				case 3: Standard_val=0;break;
 				case 4: Standard_val=1;break;
 				case 5: Standard_val=2;break;
+				case 6: Standard_val=3;break;
 				default:break;
 			}
 		}
@@ -479,6 +525,23 @@ void Main_entry(void)
 {
 	/* set idle thread hook */
 //    rt_thread_idle_sethook(cpu_usage_idle_hook);
+	u8 res;
+	
+	rt_enter_critical();	//进入临界区
+	f_mount(&fat,"0:",1);	//挂载工作区
+	res=Read_TestParameters(&TestParameters_Structure[0],0); rt_kprintf("%d ReadData_ERROR!\r\n",res);
+	if(Read_TestParameters(&TestParameters_Structure[1],1)) rt_kprintf("ReadData_ERROR!\r\n");
+	if(Read_TestParameters(&TestParameters_Structure[2],2)) rt_kprintf("ReadData_ERROR!\r\n");
+	if(Read_TestParameters(&TestParameters_Structure[3],3)) rt_kprintf("ReadData_ERROR!\r\n");
+	if(f_mount(NULL,"0:",1))	rt_kprintf("NULL_Workarea_ERROR!\r\n");
+	rt_exit_critical();		//退出临界区
+	rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Vout);
+	rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Vout_Tolerance);
+	rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Cout_Max);
+	rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].V_Ripple);
+	rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Efficiency);
+	rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Safety_Code);
+	rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Quick_Charge);
 	
 	/* 初始化mailbox */
 	rt_mb_init(&HMI_Response_mb,"HMI_mb", /* 名称是HMI_mb */

@@ -62,3 +62,5 @@
 .\objects\board.o: ..\HARDWARE\DS18B20\ds18b20.h
 .\objects\board.o: ..\BSP_USER\HMI\HMI.h
 .\objects\board.o: ..\Common\usart3.h
+.\objects\board.o: ..\BSP_USER\CSV_Database\CSV_Database.h
+.\objects\board.o: ..\APP\app.h
