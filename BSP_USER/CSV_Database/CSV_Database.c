@@ -203,6 +203,7 @@ u8 Modify_TestParameters(TestParameters_Type* TestParameters_Structure,u8 Standa
 {
 	u8 res;
 	UINT check_count;
+	char str[100];
 	
 	res=f_open(&Fsrc,"0:/set.dat",FA_READ|FA_WRITE);
 	if(res!=0)
@@ -211,14 +212,15 @@ u8 Modify_TestParameters(TestParameters_Type* TestParameters_Structure,u8 Standa
 		/* 仍不能成功打开文件 */
 		return res; //返回错误码
 		//空间预分配   偏移3000
-		res=f_lseek(&Fsrc,3000);
-		if(res!=0) return 2;
 	}
-	//偏移(Standard_code*sizeof(TestParameters_Type)
-	res=f_lseek(&Fsrc,Standard_code*sizeof(TestParameters_Type));
+	sprintf(str,"%4d,%4d,%4d,%4d,%4d,%4d,%4d\r\n",TestParameters_Structure->Vout,TestParameters_Structure->Vout_Tolerance,
+	TestParameters_Structure->Cout_Max,TestParameters_Structure->V_Ripple,TestParameters_Structure->Efficiency,TestParameters_Structure->Safety_Code,
+	TestParameters_Structure->Quick_Charge);
+	rt_kprintf("%s\r\n",str);
+	res=f_lseek(&Fsrc,0x10+Standard_code*strlen(str));
 	if(res!=0) return 2;
-	res=f_write(&Fsrc,TestParameters_Structure,sizeof(TestParameters_Type),&check_count);
-	if(check_count!=sizeof(TestParameters_Type)||res!=0) return 1;	//写入出错,退出
+	res=f_write(&Fsrc,str,strlen(str),&check_count);
+	if(check_count!=strlen(str)||res!=0) return 1;	//写入出错,退出
 	res=f_close(&Fsrc);
 	
 	return res;
@@ -231,6 +233,7 @@ u8 Read_TestParameters(TestParameters_Type* TestParameters_Structure,u8 Standard
 {
 	u8 res;
 	UINT check_count;
+	char str[100];
 	
 	res=f_open(&Fsrc1,"0:/set.dat",FA_READ);
 	if(res != 0) 
@@ -238,11 +241,12 @@ u8 Read_TestParameters(TestParameters_Type* TestParameters_Structure,u8 Standard
 			if(res==4) First_writeTestParameters();	//是因为找不到配置文件错误则创建新的文件
 			else return 1;
 	}
-	//偏移(Standard_code*sizeof(TestParameters_Type)
-	res=f_lseek(&Fsrc1,Standard_code*sizeof(TestParameters_Type));
+	res=f_lseek(&Fsrc1,0x10+Standard_code*36);
 	if(res!=0) return res;
-	res=f_read(&Fsrc1,&TestParameters_Structure,sizeof(TestParameters_Type),&check_count);
-	if(res!=0||check_count!=sizeof(TestParameters_Type)) return 3;
+	res=f_read(&Fsrc1,str,36,&check_count);
+	if(res!=0||check_count!=36) return 3;
+	
+	
 	
 	return 0;	
 }
@@ -392,6 +396,19 @@ void my_itoa_Dot(int n,char str[],int dot_num)
 	str[i]=s2[k-j];
 	j--;
 	}while(j>=0);
+	}
+}
+
+
+void my_strncpy(char* str1,char* str2,u8 start_addr,u8 n)
+{
+	u8 i;
+	
+	str1+=start_addr;
+	
+	for(i=0;i<n;i++)
+	{
+		*str2++=*str1;
 	}
 }
 

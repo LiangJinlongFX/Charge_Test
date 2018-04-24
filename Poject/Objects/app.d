@@ -61,3 +61,4 @@
 .\objects\app.o: ..\BSP_USER\DAC\dac.h
 .\objects\app.o: ..\Common\usart3.h
 .\objects\app.o: ..\HARDWARE\HLW8032\hlw8032.h
+.\objects\app.o: ..\BSP_USER\STMFLASH\stmflash.h

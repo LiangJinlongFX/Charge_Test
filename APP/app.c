@@ -28,6 +28,7 @@
 #include "Data_Math.h"
 #include "usart3.h"
 #include "hlw8032.h"
+#include "stmflash.h"
 
 
 /* Private functions ---------------------------------------------------------*/
@@ -525,23 +526,29 @@ void Main_entry(void)
 {
 	/* set idle thread hook */
 //    rt_thread_idle_sethook(cpu_usage_idle_hook);
-	u8 res;
-	
+	UINT res;
+	u8 i;
+	char str[100];
+	char str1[]={0,1,2,3};
+	my_strncpy("123",str,0,3);
+	for(i=0;i<3;i++) rt_kprintf("%d ",str[i]);
 	rt_enter_critical();	//进入临界区
 	f_mount(&fat,"0:",1);	//挂载工作区
-	res=Read_TestParameters(&TestParameters_Structure[0],0); rt_kprintf("%d ReadData_ERROR!\r\n",res);
-	if(Read_TestParameters(&TestParameters_Structure[1],1)) rt_kprintf("ReadData_ERROR!\r\n");
-	if(Read_TestParameters(&TestParameters_Structure[2],2)) rt_kprintf("ReadData_ERROR!\r\n");
-	if(Read_TestParameters(&TestParameters_Structure[3],3)) rt_kprintf("ReadData_ERROR!\r\n");
-	if(f_mount(NULL,"0:",1))	rt_kprintf("NULL_Workarea_ERROR!\r\n");
+	res=Read_TestParameters(&TestParameters_Structure[0],4); rt_kprintf("%d ReadData_ERROR!\r\n",res);
+//	if(Read_TestParameters(&TestParameters_Structure[1],1)) rt_kprintf("ReadData_ERROR!\r\n");
+//	if(Read_TestParameters(&TestParameters_Structure[2],2)) rt_kprintf("ReadData_ERROR!\r\n");
+//	if(Read_TestParameters(&TestParameters_Structure[3],3)) rt_kprintf("ReadData_ERROR!\r\n");
+	f_mount(NULL,"0:",1);	//挂载工作区
 	rt_exit_critical();		//退出临界区
-	rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Vout);
-	rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Vout_Tolerance);
-	rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Cout_Max);
-	rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].V_Ripple);
-	rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Efficiency);
-	rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Safety_Code);
-	rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Quick_Charge);
+	//	rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Vout);
+//	rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Vout_Tolerance);
+//	rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Cout_Max);
+//	rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].V_Ripple);
+//	rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Efficiency);
+//	rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Safety_Code);
+//	rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Quick_Charge);
+//	rt_kprintf("res=%d\r\n",0*sizeof(TestParameters_Structure[0]));
+//	rt_kprintf("res=%d\r\n",sizeof(TestParameters_Structure));
 	
 	/* 初始化mailbox */
 	rt_mb_init(&HMI_Response_mb,"HMI_mb", /* 名称是HMI_mb */

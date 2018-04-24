@@ -43,13 +43,13 @@ typedef struct
 typedef struct
 {
 	u16 Vout;			//额定输出电压
-	u8 Vout_Tolerance;	//输出电压容差
 	u16 Cout_Max;	//最大输出电流
+	u16 Vout_Tolerance;	//输出电压容差
 	u16 V_Ripple;	//纹波电压
-	u8 Efficiency; //转换效率
-	u8 Safety_Code;	//安全检测开关
-	u8 Quick_Charge;	//快充检测开关
-	u8 Test_Limit;	//检测项目开关
+	u16 Efficiency; //转换效率
+	u16 Safety_Code;	//安全检测开关
+	u16 Quick_Charge;	//快充检测开关
+	u16 Test_Limit;	//检测项目开关
 }TestParameters_Type;
 
 typedef enum 
@@ -86,6 +86,10 @@ unsigned int my_atoi(char s[]);
 void my_itoa(int n,char str[]);
 
 void my_itoa_Dot(int n,char str[],int dot_num);
+
+void my_strncpy(char* str1,char* str2,u8 start_addr,u8 n);
+
+
 
 #endif
 
