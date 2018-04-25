@@ -234,6 +234,7 @@ u8 Read_TestParameters(TestParameters_Type* TestParameters_Structure,u8 Standard
 	u8 res;
 	UINT check_count;
 	char str[100];
+	char str_temp[10];
 	
 	res=f_open(&Fsrc1,"0:/set.dat",FA_READ);
 	if(res != 0) 
@@ -241,13 +242,31 @@ u8 Read_TestParameters(TestParameters_Type* TestParameters_Structure,u8 Standard
 			if(res==4) First_writeTestParameters();	//是因为找不到配置文件错误则创建新的文件
 			else return 1;
 	}
-	res=f_lseek(&Fsrc1,0x10+Standard_code*36);
+	if(Standard_code==0)
+		res=f_lseek(&Fsrc1,0x10);
+	else
+		res=f_lseek(&Fsrc1,0x10+Standard_code*36);
 	if(res!=0) return res;
 	res=f_read(&Fsrc1,str,36,&check_count);
-	if(res!=0||check_count!=36) return 3;
+	if(res!=0) return 3;
 	
-	
-	
+	rt_kprintf("%s\r\n",str);
+	/* 将字符数值转换成数值 */
+	rt_strncpy(str_temp,str,4);
+	TestParameters_Structure->Vout=my_atoi(str_temp);
+	rt_strncpy(str_temp,str+5,4);
+	TestParameters_Structure->Vout_Tolerance=my_atoi(str_temp);
+	rt_strncpy(str_temp,str+10,4);
+	TestParameters_Structure->Cout_Max=my_atoi(str_temp);
+	rt_strncpy(str_temp,str+15,4);
+	TestParameters_Structure->V_Ripple=my_atoi(str_temp);
+	rt_strncpy(str_temp,str+20,4);
+	TestParameters_Structure->Efficiency=my_atoi(str_temp);
+	rt_strncpy(str_temp,str+25,4);
+	TestParameters_Structure->Safety_Code=my_atoi(str_temp);
+	rt_strncpy(str_temp,str+30,4);
+	TestParameters_Structure->Quick_Charge=my_atoi(str_temp);
+		
 	return 0;	
 }
 
@@ -312,6 +331,30 @@ u8 First_writeTestParameters(void)
 	res=Modify_TestParameters(&TestParameters_temp,3);
 	
 	return res;
+}
+
+u8 Poweron_ReadTestParameters(void)
+{
+	u8 res[4];
+	
+	rt_enter_critical(); /* 进入临界区*/
+	if(f_mount(&fat,"0:",1)) rt_kprintf("f_mount_ERROR!\r\n");	//挂载工作区
+	res[0]=Read_TestParameters(&TestParameters_Structure[0],0);
+	res[1]=Read_TestParameters(&TestParameters_Structure[1],1);
+	res[2]=Read_TestParameters(&TestParameters_Structure[2],2);
+	res[3]=Read_TestParameters(&TestParameters_Structure[3],3);
+	if(f_mount(NULL,"0:",1)) rt_kprintf("mount_ERROR!\r\n");	//挂载工作区
+	rt_exit_critical();		//退出临界区
+	#if	Thread_Debug
+	rt_kprintf("res=%d %d %d %d\r\n",res[0],res[1],res[2],res[3]);
+	rt_kprintf("Vout=%d\r\n",TestParameters_Structure[Standard_val].Vout);
+	rt_kprintf("Vout_Tolerance=%d\r\n",TestParameters_Structure[Standard_val].Vout_Tolerance);
+	rt_kprintf("Cout_Max=%d\r\n",TestParameters_Structure[Standard_val].Cout_Max);
+	rt_kprintf("V_Ripple=%d\r\n",TestParameters_Structure[Standard_val].V_Ripple);
+	rt_kprintf("Efficiency=%d\r\n",TestParameters_Structure[Standard_val].Efficiency);
+	rt_kprintf("Safety_Code=%d\r\n",TestParameters_Structure[Standard_val].Safety_Code);
+	rt_kprintf("Quick_Charge=%d\r\n",TestParameters_Structure[Standard_val].Quick_Charge);	
+	#endif
 }
 
 

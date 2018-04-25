@@ -43,6 +43,9 @@ TestParameters_Type TestParameters_Structure[4];	//测试指标存放结构体,应用于修改
 void Master_thread_entry(void* parameter)
 {
 	u8 res;
+	
+	if(Poweron_ReadTestParameters()) rt_kprintf("Read set.dat ERROR!\r\n");
+	
 	while(1)
 	{
 		/* 等待HMI串口监控线程的触发邮件 */
@@ -166,13 +169,13 @@ void Master_thread_entry(void* parameter)
 					f_mount(NULL,"0:",1);	//挂载工作区
 					rt_exit_critical();		//退出临界区
 					#if	Thread_Debug
-					rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Vout);
-					rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Vout_Tolerance);
-					rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Cout_Max);
-					rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].V_Ripple);
-					rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Efficiency);
-					rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Safety_Code);
-					rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Quick_Charge);
+					rt_kprintf("Vout=%d\r\n",TestParameters_Structure[Standard_val].Vout);
+					rt_kprintf("Vout_Tolerance=%d\r\n",TestParameters_Structure[Standard_val].Vout_Tolerance);
+					rt_kprintf("Cout_Max=%d\r\n",TestParameters_Structure[Standard_val].Cout_Max);
+					rt_kprintf("V_Ripple=%d\r\n",TestParameters_Structure[Standard_val].V_Ripple);
+					rt_kprintf("Efficiency=%d\r\n",TestParameters_Structure[Standard_val].Efficiency);
+					rt_kprintf("Safety_Code=%d\r\n",TestParameters_Structure[Standard_val].Safety_Code);
+					rt_kprintf("Quick_Charge=%d\r\n",TestParameters_Structure[Standard_val].Quick_Charge);
 					#endif
 					HMI_File_Page(1);	//跳转到主界面
 				}break;
@@ -524,31 +527,6 @@ void cpu_usage_idle_hook(void)
 
 void Main_entry(void)
 {
-	/* set idle thread hook */
-//    rt_thread_idle_sethook(cpu_usage_idle_hook);
-	UINT res;
-	u8 i;
-	char str[100];
-	char str1[]={0,1,2,3};
-	my_strncpy("123",str,0,3);
-	for(i=0;i<3;i++) rt_kprintf("%d ",str[i]);
-	rt_enter_critical();	//进入临界区
-	f_mount(&fat,"0:",1);	//挂载工作区
-	res=Read_TestParameters(&TestParameters_Structure[0],4); rt_kprintf("%d ReadData_ERROR!\r\n",res);
-//	if(Read_TestParameters(&TestParameters_Structure[1],1)) rt_kprintf("ReadData_ERROR!\r\n");
-//	if(Read_TestParameters(&TestParameters_Structure[2],2)) rt_kprintf("ReadData_ERROR!\r\n");
-//	if(Read_TestParameters(&TestParameters_Structure[3],3)) rt_kprintf("ReadData_ERROR!\r\n");
-	f_mount(NULL,"0:",1);	//挂载工作区
-	rt_exit_critical();		//退出临界区
-	//	rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Vout);
-//	rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Vout_Tolerance);
-//	rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Cout_Max);
-//	rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].V_Ripple);
-//	rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Efficiency);
-//	rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Safety_Code);
-//	rt_kprintf("res=%d\r\n",TestParameters_Structure[Standard_val].Quick_Charge);
-//	rt_kprintf("res=%d\r\n",0*sizeof(TestParameters_Structure[0]));
-//	rt_kprintf("res=%d\r\n",sizeof(TestParameters_Structure));
 	
 	/* 初始化mailbox */
 	rt_mb_init(&HMI_Response_mb,"HMI_mb", /* 名称是HMI_mb */
@@ -594,7 +572,7 @@ void Main_entry(void)
 	//创建线程1 
     Master_thread = rt_thread_create("Master", //线程1的名称是t1 
 							Master_thread_entry, RT_NULL, //入口是thread1_entry，参数是RT_NULL 
-							512, //线程堆栈大小
+							1024, //线程堆栈大小
 							3, //线程优先级
 							20);//时间片tick
 

@@ -81,6 +81,8 @@ u8 Creat_NewBatchDir(char* path);	//创建新的批量目录
 
 u8 Scan_BatchDir(u8 start_val,u8 end_val);	//检索批量目录
 
+u8 Poweron_ReadTestParameters(void); //上电时读出SD卡中配置文件
+
 unsigned int my_atoi(char s[]);
 
 void my_itoa(int n,char str[]);
