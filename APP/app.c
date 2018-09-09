@@ -527,6 +527,7 @@ void cpu_usage_idle_hook(void)
 
 void Main_entry(void)
 {
+
 	
 	/* 初始化mailbox */
 	rt_mb_init(&HMI_Response_mb,"HMI_mb", /* 名称是HMI_mb */

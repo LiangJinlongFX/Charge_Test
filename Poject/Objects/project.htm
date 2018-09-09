@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Wed Apr 25 17:20:48 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Mon May 14 20:01:17 2018
 <BR><P>
 <H3>Maximum Stack Usage =        856 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1527,10 +1527,11 @@ Global Symbols
 <LI><a href="#[211]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart1_init
 </UL>
 
-<P><STRONG><a name="[56]"></a>OTG_FS_IRQHandler</STRONG> (Thumb, 10 bytes, Stack size 8 bytes, usbd_usr.o(i.OTG_FS_IRQHandler))
+<P><STRONG><a name="[56]"></a>OTG_FS_IRQHandler</STRONG> (Thumb, 16 bytes, Stack size 8 bytes, usbd_usr.o(i.OTG_FS_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = OTG_FS_IRQHandler &rArr; USBD_OTG_ISR_Handler &rArr; DCD_HandleUsbReset_ISR &rArr; USB_OTG_FlushTxFifo &rArr; USB_OTG_BSP_uDelay &rArr; delay_us &rArr; delay_osschedunlock &rArr; rt_exit_critical &rArr; rt_schedule
 </UL>
 <BR>[Calls]<UL><LI><a href="#[13e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBD_OTG_ISR_Handler
+<LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f40_41xxx.o(RESET)
 </UL>
@@ -2504,6 +2505,7 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HMI_Print
 <LI><a href="#[3c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_Alarm_IRQHandler
+<LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OTG_FS_IRQHandler
 </UL>
 
 <P><STRONG><a name="[260]"></a>__c89printf</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printfa.o(i.__0printf), UNUSED)

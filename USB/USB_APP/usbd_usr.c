@@ -30,6 +30,7 @@ USB_OTG_CORE_HANDLE  USB_OTG_dev;
 //处理所有USB中断
 void OTG_FS_IRQHandler(void)
 {
+		printf("11\r\n");
   	USBD_OTG_ISR_Handler(&USB_OTG_dev);
 }  
 //指向DEVICE_PROP结构体
