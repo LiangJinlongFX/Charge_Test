@@ -323,7 +323,7 @@
             <wLevel>2</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
-            <uC99>0</uC99>
+            <uC99>1</uC99>
             <useXO>0</useXO>
             <v6Lang>1</v6Lang>
             <v6LangP>1</v6LangP>
@@ -655,6 +655,11 @@
               <FileType>1</FileType>
               <FilePath>..\APP\app.c</FilePath>
             </File>
+            <File>
+              <FileName>debug.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\APP\debug.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -821,6 +826,18 @@
       </component>
     </components>
     <files>
+      <file attr="config" category="source" condition="STM32F405xx_ARMCC" name="Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f405xx.s" version="2.5.0">
+        <instance index="0" removed="1">RTE\Device\STM32F405RGTx\startup_stm32f405xx.s</instance>
+        <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="2.5.0" condition="STM32F4 CMSIS"/>
+        <package name="STM32F4xx_DFP" schemaVersion="1.3" url="http://www.keil.com/pack" vendor="Keil" version="2.10.0"/>
+        <targetInfos/>
+      </file>
+      <file attr="config" category="source" name="Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\system_stm32f4xx.c" version="2.5.0">
+        <instance index="0" removed="1">RTE\Device\STM32F405RGTx\system_stm32f4xx.c</instance>
+        <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="2.5.0" condition="STM32F4 CMSIS"/>
+        <package name="STM32F4xx_DFP" schemaVersion="1.3" url="http://www.keil.com/pack" vendor="Keil" version="2.10.0"/>
+        <targetInfos/>
+      </file>
       <file attr="config" category="source" name="bsp\board.c" version="2.1.1">
         <instance index="0">RTE\RTOS\board.c</instance>
         <component Cbundle="RT-Thread" Cclass="RTOS" Cgroup="kernel" Cvendor="rt-thread" Cversion="2.1.2" condition="CMSIS Core with RTOS"/>

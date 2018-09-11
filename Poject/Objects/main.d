@@ -1,7 +1,7 @@
 .\objects\main.o: ..\SYSTEM\main.c
 .\objects\main.o: ..\SYSTEM\stm32f4xx.h
 .\objects\main.o: ..\CORE\core_cm4.h
-.\objects\main.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\main.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\main.o: ..\CORE\core_cmInstr.h
 .\objects\main.o: ..\CORE\core_cmFunc.h
 .\objects\main.o: ..\CORE\core_cmSimd.h
@@ -38,29 +38,29 @@
 .\objects\main.o: ..\BSP_USER\LED\led.h
 .\objects\main.o: ..\Common\delay.h
 .\objects\main.o: ..\Common\usart1.h
-.\objects\main.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\main.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\main.o: ..\BSP_USER\SDIO_SD\sdio_sdcard.h
 .\objects\main.o: ..\BSP_USER\DAC\dac.h
 .\objects\main.o: ..\Common\usart2.h
-.\objects\main.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
+.\objects\main.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
 .\objects\main.o: .\RTE\RTOS\rtconfig.h
 .\objects\main.o: .\RTE\_Target_1\RTE_Components.h
-.\objects\main.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdebug.h
-.\objects\main.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdef.h
-.\objects\main.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdarg.h
-.\objects\main.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtservice.h
-.\objects\main.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtm.h
-.\objects\main.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
+.\objects\main.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdebug.h
+.\objects\main.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdef.h
+.\objects\main.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\main.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtservice.h
+.\objects\main.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtm.h
+.\objects\main.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
 .\objects\main.o: ..\BSP_USER\CSV_Database\CSV_Database.h
 .\objects\main.o: ..\BSP_USER\RTC\rtc.h
 .\objects\main.o: ..\APP\app.h
 .\objects\main.o: ..\BSP_USER\HMI\HMI.h
-.\objects\main.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rthw.h
+.\objects\main.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rthw.h
 .\objects\main.o: ..\FATFS\src\ff.h
 .\objects\main.o: ..\FATFS\src\integer.h
 .\objects\main.o: ..\FATFS\src\ffconf.h
 .\objects\main.o: ..\FATFS\exfuns\exfuns.h
-.\objects\main.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\main.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\main.o: ..\Common\usart3.h
 .\objects\main.o: ..\BSP_USER\DMA\dma.h
 .\objects\main.o: ..\BSP_USER\Data_Math\Data_Math.h
@@ -77,3 +77,5 @@
 .\objects\main.o: ..\USB\STM32_USB_OTG_Driver\inc\usb_defines.h
 .\objects\main.o: ..\USB\STM32_USB_Device_Library\Core\inc\usbd_usr.h
 .\objects\main.o: ..\USB\USB_APP\usbd_desc.h
+.\objects\main.o: ..\HARDWARE\TLC5615\tlc5615.h
+.\objects\main.o: ..\APP\debug.h

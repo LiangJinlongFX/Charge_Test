@@ -3,7 +3,7 @@
 .\objects\spi.o: ..\Common\sys.h
 .\objects\spi.o: ..\SYSTEM\stm32f4xx.h
 .\objects\spi.o: ..\CORE\core_cm4.h
-.\objects\spi.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\spi.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\spi.o: ..\CORE\core_cmInstr.h
 .\objects\spi.o: ..\CORE\core_cmFunc.h
 .\objects\spi.o: ..\CORE\core_cmSimd.h

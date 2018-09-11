@@ -3,7 +3,7 @@
 .\objects\led.o: ..\Common\sys.h
 .\objects\led.o: ..\SYSTEM\stm32f4xx.h
 .\objects\led.o: ..\CORE\core_cm4.h
-.\objects\led.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\led.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\led.o: ..\CORE\core_cmInstr.h
 .\objects\led.o: ..\CORE\core_cmFunc.h
 .\objects\led.o: ..\CORE\core_cmSimd.h

@@ -5,7 +5,7 @@
 .\objects\usbd_msc_core.o: ..\USB\USB_APP\usb_conf.h
 .\objects\usbd_msc_core.o: ..\SYSTEM\stm32f4xx.h
 .\objects\usbd_msc_core.o: ..\CORE\core_cm4.h
-.\objects\usbd_msc_core.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\usbd_msc_core.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\usbd_msc_core.o: ..\CORE\core_cmInstr.h
 .\objects\usbd_msc_core.o: ..\CORE\core_cmFunc.h
 .\objects\usbd_msc_core.o: ..\CORE\core_cmSimd.h

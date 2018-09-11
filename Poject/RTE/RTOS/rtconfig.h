@@ -60,7 +60,7 @@
 
 // <e>Software timers Configuration
 // <i> Enables user timers
-#define RT_USING_TIMER_SOFT         0
+#define RT_USING_TIMER_SOFT         1
 #if RT_USING_TIMER_SOFT == 0
 #undef RT_USING_TIMER_SOFT
 #endif

@@ -61,6 +61,8 @@ extern int __bss_end;
 #include "usart3.h"
 #include "CSV_Database.h"
 #include "app.h"
+#include "tlc5615.h"
+#include "debug.h"
 
 
  
@@ -71,18 +73,19 @@ void rt_hw_board_init()
 	SysTick_Config(SystemCoreClock / RT_TICK_PER_SECOND);
 	
 	delay_init(168);		//初始化延时函数
-	//NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
-	uart1_init(9600);		//初始化串口1 HMI用
+	uart1_init(115200);		//初始化串口1 HMI用
 	uart2_init(115200);	//提前初始化串口2以输出初始化状态
-//	uart3_init(4800);		//初始化串口3接收HLW8032数据
+	//uart3_init(4800);	//初始化串口3接收HLW8032数据
+	logging_info("Initialize the peripherals...");
 	LED_Init();					//初始化指示灯
 	Switch_Init();
 	Adc_Init();
 	Dac_Init();
-	USART2_printf("================================\r\n");
-	if(SD_Init())  rt_kprintf("SD_ERROR!\r\n");
-	if(My_RTC_Init()) rt_kprintf("RTC_ERROR!\r\n");
-	USART2_printf("================================\r\n");
+	TLC5615_Init();			//初始化TLC5615
+	if(SD_Init())  
+		logging_error("SD_ERROR!");
+	if(My_RTC_Init()) 
+		logging_error("RTC_ERROR!");
 	
 		
     /* Call components board initial (use INIT_BOARD_EXPORT()) */

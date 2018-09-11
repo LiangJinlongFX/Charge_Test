@@ -1,6 +1,14 @@
 #include "led.h"
 #include "sys.h"
 
+/**
+  * @file   	led.c 
+  * @author  Liang
+  * @version V1.0.0
+  * @date    2017-4-26
+  * @brief	指示灯驱动
+  **/
+
 void LED_Init(void)
 {    	 
   GPIO_InitTypeDef  GPIO_InitStructure;
@@ -15,5 +23,5 @@ void LED_Init(void)
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;                   //上拉
   GPIO_Init(GPIOC, &GPIO_InitStructure);                         //初始化GPIO
 	
-	GPIO_SetBits(GPIOC, GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5);   	
+  GPIO_SetBits(GPIOC, GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5);   	
 }

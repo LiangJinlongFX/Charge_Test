@@ -29,6 +29,7 @@
 #include "usart3.h"
 #include "hlw8032.h"
 #include "stmflash.h"
+#include "debug.h"
 
 
 /* Private functions ---------------------------------------------------------*/
@@ -39,68 +40,67 @@ char Global_str[10][10];
 rt_uint8_t Standard_val; //测试标准序号
 TestParameters_Type TestParameters_Structure[4];	//测试指标存放结构体,应用于修改指标和测试时加载指标
 
-
+/**
+ * 主线程
+ * @param
+ * @return
+ * 用于初始化以及对其他线程的控制
+ */
 void Master_thread_entry(void* parameter)
 {
 	u8 res;
 	
-	if(Poweron_ReadTestParameters()) rt_kprintf("Read set.dat ERROR!\r\n");
+	/* 读取存储体内的设置参数 */
+	if(Poweron_ReadTestParameters())
+		logging_error("Read set.dat ERROR!");
 	
+	/* Run Forever */
 	while(1)
 	{
 		/* 等待HMI串口监控线程的触发邮件 */
 		if(rt_mb_recv(&HMI_Response_mb,(rt_uint32_t*)HMI_Info,RT_WAITING_FOREVER)==RT_EOK)
 		{
+			logging_debug("case %d",HMI_Info[0]);
 			switch(HMI_Info[0])
 			{
+				/* 进入快速检测交互界面 */
 				case 0x01 : 
 				{
-					//创建线程：实时测量数据采集线程
-					CollectData_thread = rt_thread_create("GetData",CollectData_thread_entry, RT_NULL,512, 3,20);
-					//创建线程：快速测试界面显示线程
+					/* 初始化定时器 用于定时采集检测信息 */
+					rt_timer_init(&timer1, "timer1",timeout1,RT_NULL,500,RT_TIMER_FLAG_PERIODIC);
+					/* 创建快速测试界面显示线程 */
 					HMI_FastTest_thread = rt_thread_create("HMI_1",HMI_FastTest_thread_entry, RT_NULL,1024,2,20);
-					//创建线程：快充诱导线程
-					QuickCharge_thread = rt_thread_create("Quick",QuickCharge_thread_entry, RT_NULL,512,3,20);
-					//线程创建失败
-					if(CollectData_thread==RT_NULL||HMI_FastTest_thread==RT_NULL||QuickCharge_thread==RT_NULL)
-					{
-						#if	Thread_Debug
-							rt_kprintf("creatthread_error!\r\n");
-						#endif
-					}
-					HMI_File_Page(20);	//跳转到快速测试界面
-					/* 开始串口3中断响应开关 */
+					/* 跳转到快速测试界面 */
+					HMI_File_Page(20);
+					/* 使能串口3中断响应开关 */
 					USART_ITConfig(USART3,USART_IT_IDLE,ENABLE);
 					USART_ITConfig(USART3,USART_IT_RXNE,ENABLE);   
-					rt_thread_startup(CollectData_thread);	//启动数据采集线程
-					rt_thread_startup(HMI_FastTest_thread);	//启动快速界面检测线程 
-					rt_thread_startup(QuickCharge_thread);	//启动快充检测线程 
+					rt_timer_start(&timer1);								// 启动软件定时器1
+					rt_thread_startup(HMI_FastTest_thread);	// 启动快速界面检测线程 
 				}break;
+				
+				/* 退出快速检测交互界面 */
 				case 0x02 : 
 				{
+					/* 关闭串口3中断响应开关 */
 					USART_ITConfig(USART3,USART_IT_IDLE,DISABLE);
 					USART_ITConfig(USART3,USART_IT_RXNE,DISABLE);   
-					rt_thread_delete(CollectData_thread);	//删除数据采集线程
+					rt_timer_stop(&timer1);									//停止软件定时器1
 					rt_thread_delete(HMI_FastTest_thread);	//删除快速界面检测线程
-					rt_thread_delete(QuickCharge_thread);	//删除快充检测线程 
-					HMI_File_Page(1); 
+					HMI_File_Page(1); 											//跳转到主界面
 				}break;
+				
+				/* 进入批量选择交互界面 */
 				case 0x03 : 
 				{
 					Entry_Code_Old=0x03;
-					//创建线程：批量列表线程
+					/* 创建线程：批量列表线程 */
 					HMI_SelectBatch_thread = rt_thread_create("HMI_Batch",HMI_SelectBatch_thread_entry, RT_NULL,512,3,20);					
-					if(HMI_SelectBatch_thread==RT_NULL)
-					{
-						#if	Thread_Debug
-						rt_kprintf("creatthread_error!\r\n");
-						#endif	
-					}
 					rt_enter_critical();	//进入临界区
 					f_mount(&fat,"0:",1);	//挂载工作区
 					First_writeTestParameters();
 					rt_exit_critical();		//退出临界区
-					HMI_File_Page(8);	//跳转到列表显示界面
+					HMI_File_Page(8);			//跳转到列表显示界面
 					rt_thread_startup(HMI_SelectBatch_thread);	//启动线程
 				}break;
 				case 0x04 :
@@ -221,9 +221,11 @@ void Master_thread_entry(void* parameter)
 	}
 }
 
-
-/*
- * HMI监听进程 空闲状态监听HMI串口 一进入特定页面立即触发主进程，并将hmi串口交由主进程控制
+/**
+ * HMI事件监听线程
+ * @param
+ * @return
+ * 空闲状态监听HMI串口 一进入特定页面立即触发主进程，并将hmi串口交由主进程控制
  */
 void HMIMonitor_thread_entry(void* parameter)
 {
@@ -238,14 +240,14 @@ void HMIMonitor_thread_entry(void* parameter)
 	}
 }
 
-
-/*
- * 数据采集线程
+/**
+ * 检测数据采集回调函数
+ * @param
+ * @return
+ * 采集USB端口的电源电压/电流/纹波电压
  */
-void CollectData_thread_entry(void* parameter)
+void timeout1(void* parameter)
 {
-	while (1)
-	{
 		LED3=~LED3;
 		rt_enter_critical();	//进入临界区
 		ReadTimeData_structure.V_OUT=Get_PowerVoltage();	//采集电压
@@ -254,33 +256,33 @@ void CollectData_thread_entry(void* parameter)
 		if(USART3_RX_Flag)
 		{
 			USART3_RX_Flag=0;
-			if(HLW8032Get_Data(&HLW8032Data_Structure)) continue;
+			if(HLW8032Get_Data(&HLW8032Data_Structure)) return;
 			ReadTimeData_structure.V_IN=HLW8032Data_Structure.AC_Voltage;
 			ReadTimeData_structure.C_IN=HLW8032Data_Structure.AC_Current;
 		}
 		rt_exit_critical();		//退出临界区
 		rt_mb_send(GetData_mb,(rt_uint32_t)&ReadTimeData_structure);
-		rt_thread_delay(500);
-	}
 }
 
 
-/*
- * 快充检测诱导线程
+/**
+ * HMI交互界面事件处理线程
+ * @param
+ * @return
+ * 
  */
-void QuickCharge_thread_entry(void* parameter)
+void EventProcessing_thread_entry(void* parameter)
 {
 	while(1)
 	{
 		/* 接收虚拟按键事件邮箱 */
 		if(rt_mb_recv(Event_mb,(rt_uint32_t*)&Event_Flag,RT_WAITING_FOREVER)==RT_EOK)
 		{
+			logging_debug("Receive interface events ———— Event_Flag=%d",Event_Flag);
 			/* 接收到快充诱导时间 */
 			if(Event_Flag==1)
 			{
-				HMI_Print_Str("t8","开始'\r快充'\r诱导");
-				rt_thread_delay(500);
-				HMI_Print_Str("t8","MTK-PE'\r5v");
+				logging_debug("Detected QuickCharge...");
 			}
 		}
 		rt_thread_delay(500);
@@ -289,19 +291,22 @@ void QuickCharge_thread_entry(void* parameter)
 
 
 
-/*
- * 快速检测HMI界面线程
+/**
+ * 快速检测参数显示进程
+ * @param   
+ * @return 
+ * @brief 
  */
 void HMI_FastTest_thread_entry(void* parameter)
 {
 	char str[10];
-	ReadTimeData_Type* Showdata_Structure;
+	ReadTimeData_Type* Showdata_Structure;	//实时检测数据结构体
+	
 	while(1)
 	{
 		LED0=~LED0;
 		if(rt_mb_recv(GetData_mb, (rt_uint32_t*)&Showdata_Structure, RT_WAITING_FOREVER)== RT_EOK)
 		{
-			str[0]='\0';
 			sprintf(str,"%.2f",(*Showdata_Structure).V_IN);
 			HMI_Print_Str("t6",str);	//显示AC输入电压
 			str[0]='\0';
@@ -315,17 +320,21 @@ void HMI_FastTest_thread_entry(void* parameter)
 			HMI_Print_Str("t10",str);	//显示DC输出电流
 			str[0]='\0';
 			HMI_Print_Str("t11",str);	//显示转换效率
+			str[0]='\0';
 			sprintf(str,"%.3f",(*Showdata_Structure).V_Ripple);
 			HMI_Print_Str("t12",str);	//显示纹波电压
 			str[0]='\0';
 			HMI_Print_Str("t8",str);	//显示备注信息
 		}
-		rt_thread_delay(100);
+		rt_thread_delay(200);
 	}
 }
 
-/*
- * 批量列表显示进程
+/**
+ * 批量列表显示线程
+ * @param   
+ * @return 
+ * @brief 
  */
 void HMI_ShowBatchList_thread_entry(void* parameter)
 {
@@ -342,6 +351,7 @@ void HMI_ShowBatchList_thread_entry(void* parameter)
 	{
 		if(rt_mb_recv(Event_mb,(rt_uint32_t*)&Event_Flag,RT_WAITING_FOREVER)==RT_EOK)
 		{
+			logging_debug("Receive interface events	 Event_Flag=%d",Event_Flag);
 			rt_enter_critical(); /* 进入临界区*/
 			/* 上翻 */
 			if(Event_Flag==1)
@@ -367,8 +377,11 @@ void HMI_ShowBatchList_thread_entry(void* parameter)
 	}
 }
 
-/*
- * 批量列表选择进程
+/**
+ * 批量选择列表线程
+ * @param   
+ * @return 
+ * @brief 
  */
 void HMI_SelectBatch_thread_entry(void* parameter)
 {
@@ -377,13 +390,13 @@ void HMI_SelectBatch_thread_entry(void* parameter)
 	
 	/* 显示目录 */
 	count=Scan_BatchDir(Page_Flag,Page_Flag+4);
-	rt_kprintf("count=%d\r\n",count);
-	rt_kprintf("str=%s\r\n",Global_str[0]);
+	logging_debug("Get the number of entries: %d",count);
 	HMI_Print_Str("t0",Global_str[0]);
 	HMI_Print_Str("t1",Global_str[1]);
 	HMI_Print_Str("t2",Global_str[2]);
 	HMI_Print_Str("t3",Global_str[3]);
 	HMI_Print_Str("t4",Global_str[4]);
+	/* forever */
 	while(1)
 	{
 		/* 接收按键时间 */
@@ -545,40 +558,61 @@ void Main_entry(void)
 	if(Event_mb==RT_NULL) rt_kprintf("create mb failed \r\n");
 	
   delay_ms(800);
+	logging_debug("HMI Page 3");
  	HMI_File_Page(3);		 
-				 
-				 
-				   
-		//创建线程1
-   led1_thread = rt_thread_create("led1", //线程1的名称是t1 
+				
+	//创建 led1闪烁 线程
+	logging_debug("create thread led1");
+  led1_thread = rt_thread_create("led1", //线程1的名称是t1 
 							led1_thread_entry, RT_NULL, //入口是thread1_entry，参数是RT_NULL 
 							512, //线程堆栈大小
 							3, //线程优先级
 							20);//时间片tick
 
 	if (led1_thread != RT_NULL) //如果获得线程控制块，启动这个线程
-			rt_thread_startup(led1_thread); 
+			rt_thread_startup(led1_thread);
+	else
+		logging_warning("create thread led1 error!");
 
 
-	//创建线程1 
-    HMIMonitor_thread = rt_thread_create("HMIMonitor", //线程1的名称是t1 
+  //创建 HMI串口监控 线程
+	logging_debug("create thread HMIMonitor");
+  HMIMonitor_thread = rt_thread_create("HMIMonitor", //线程1的名称是t1 
 							HMIMonitor_thread_entry, RT_NULL, //入口是thread1_entry，参数是RT_NULL 
 							512, //线程堆栈大小
 							1, //线程优先级
 							20);//时间片tick
 
 	if (HMIMonitor_thread != RT_NULL) //如果获得线程控制块，启动这个线程
-			rt_thread_startup(HMIMonitor_thread); 
+			rt_thread_startup(HMIMonitor_thread);
+	else
+		logging_warning("create thread HMIMonitor error!");
 	
-	//创建线程1 
-    Master_thread = rt_thread_create("Master", //线程1的名称是t1 
+  //创建 交互事件检测 线程
+	logging_debug("create thread Processing");
+  EventProcessing_thread = rt_thread_create("Process", //线程1的名称是t1 
+							EventProcessing_thread_entry, RT_NULL, //入口是thread1_entry，参数是RT_NULL 
+							512, //线程堆栈大小
+							1, //线程优先级
+							20);//时间片tick
+
+	if (EventProcessing_thread != RT_NULL) //如果获得线程控制块，启动这个线程
+			rt_thread_startup(EventProcessing_thread);
+	else
+		logging_warning("create thread HMIMonitor error!");
+	
+	//创建 主控制 线程
+	logging_debug("create thread Master");
+  Master_thread = rt_thread_create("Master", //线程1的名称是t1 
 							Master_thread_entry, RT_NULL, //入口是thread1_entry，参数是RT_NULL 
 							1024, //线程堆栈大小
 							3, //线程优先级
 							20);//时间片tick
 
 	if (Master_thread != RT_NULL) //如果获得线程控制块，启动这个线程
-			rt_thread_startup(Master_thread); 
+		rt_thread_startup(Master_thread);
+	else
+		logging_warning("create thread Master error!");
 		
 }
 

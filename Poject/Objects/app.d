@@ -1,19 +1,19 @@
 .\objects\app.o: ..\APP\app.c
-.\objects\app.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
+.\objects\app.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
 .\objects\app.o: .\RTE\RTOS\rtconfig.h
 .\objects\app.o: .\RTE\_Target_1\RTE_Components.h
-.\objects\app.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdebug.h
-.\objects\app.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdef.h
-.\objects\app.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdarg.h
-.\objects\app.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtservice.h
-.\objects\app.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtm.h
-.\objects\app.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
+.\objects\app.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdebug.h
+.\objects\app.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdef.h
+.\objects\app.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\app.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtservice.h
+.\objects\app.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtm.h
+.\objects\app.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
 .\objects\app.o: ..\BSP_USER\LED\led.h
 .\objects\app.o: ..\Common\delay.h
 .\objects\app.o: ..\Common\sys.h
 .\objects\app.o: ..\SYSTEM\stm32f4xx.h
 .\objects\app.o: ..\CORE\core_cm4.h
-.\objects\app.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\app.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\app.o: ..\CORE\core_cmInstr.h
 .\objects\app.o: ..\CORE\core_cmFunc.h
 .\objects\app.o: ..\CORE\core_cmSimd.h
@@ -50,7 +50,7 @@
 .\objects\app.o: ..\BSP_USER\CSV_Database\CSV_Database.h
 .\objects\app.o: ..\BSP_USER\HMI\HMI.h
 .\objects\app.o: ..\Common\usart1.h
-.\objects\app.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\app.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\app.o: ..\BSP_USER\ADC\adc.h
 .\objects\app.o: ..\HARDWARE\DS18B20\ds18b20.h
 .\objects\app.o: ..\FATFS\src\ff.h
@@ -62,3 +62,4 @@
 .\objects\app.o: ..\Common\usart3.h
 .\objects\app.o: ..\HARDWARE\HLW8032\hlw8032.h
 .\objects\app.o: ..\BSP_USER\STMFLASH\stmflash.h
+.\objects\app.o: ..\APP\debug.h

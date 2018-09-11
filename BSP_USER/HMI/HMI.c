@@ -17,19 +17,17 @@ u8 HMI_TestLimit=0x88;
 /**
  * HMI响应处理函数
  * @param  HMI_Type HMI_Rx_String [页面类型指针 有效内容字符类型指针]
- * @return         [description]
+ * @return  HMI_Error  [description]
  */
 HMI_Error USART_Solution(u8 HMI_Type,char* HMI_Rx_String)
 {
 	u16 i=0;
-	
 	
 	//等待设备响应
 	do{
 		if(HMI_RX_FLAG) break;
 		i++;
 	}while(i<60000);
-	//while(!HMI_RX_FLAG);
 	//仍不能接收到标志位，返回无响应错误
 	if(!HMI_RX_FLAG) return HMI_NoResponse;
 	
@@ -45,9 +43,7 @@ HMI_Error USART_Solution(u8 HMI_Type,char* HMI_Rx_String)
 		case HMI_Instr_OK :	HMI_Type = HMI_Instr_OK; break;
 		default : break;
 	}
-	
-//	if(USART_RX_BUF[0]!=HMI_Type) return HMI_Parse_Error;
-	
+		
 	//从串口接收到的字符串提取有效数据
 	for(i=1;i<=UASRT1_RX_BUFFER_LEN-4;i++)
 	{
@@ -79,11 +75,12 @@ HMI_Error HMI_File_Page(u8 Page_ID)
 	
 	return HMI_OK;
 }
+
 /**
-* 发送字符串至HMI对象
- * @param  str [要发送的字符串]
- * @return     [description]
- */
+	* 发送字符串至HMI对象
+  * @param  str [要发送的字符串]
+  * @return     [description]
+  */
 HMI_Error HMI_Print_Str(char* Object_ID,char* fmt)
 {
 	char str[60];

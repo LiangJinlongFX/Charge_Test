@@ -3,7 +3,7 @@
 .\objects\tlc5615.o: ..\Common\sys.h
 .\objects\tlc5615.o: ..\SYSTEM\stm32f4xx.h
 .\objects\tlc5615.o: ..\CORE\core_cm4.h
-.\objects\tlc5615.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\tlc5615.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\tlc5615.o: ..\CORE\core_cmInstr.h
 .\objects\tlc5615.o: ..\CORE\core_cmFunc.h
 .\objects\tlc5615.o: ..\CORE\core_cmSimd.h

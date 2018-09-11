@@ -3,7 +3,7 @@
 .\objects\sdio_sdcard.o: ..\Common\sys.h
 .\objects\sdio_sdcard.o: ..\SYSTEM\stm32f4xx.h
 .\objects\sdio_sdcard.o: ..\CORE\core_cm4.h
-.\objects\sdio_sdcard.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\sdio_sdcard.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\sdio_sdcard.o: ..\CORE\core_cmInstr.h
 .\objects\sdio_sdcard.o: ..\CORE\core_cmFunc.h
 .\objects\sdio_sdcard.o: ..\CORE\core_cmSimd.h
@@ -36,6 +36,6 @@
 .\objects\sdio_sdcard.o: ..\STM32f4_LIB\inc\stm32f4xx_dac.h
 .\objects\sdio_sdcard.o: ..\STM32f4_LIB\inc\stm32f4xx_dcmi.h
 .\objects\sdio_sdcard.o: ..\STM32f4_LIB\inc\stm32f4xx_fsmc.h
-.\objects\sdio_sdcard.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\string.h
+.\objects\sdio_sdcard.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\string.h
 .\objects\sdio_sdcard.o: ..\Common\usart1.h
-.\objects\sdio_sdcard.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\sdio_sdcard.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdio.h

@@ -6,7 +6,7 @@
 .\objects\usbd_usr.o: ..\USB\USB_APP\usb_conf.h
 .\objects\usbd_usr.o: ..\SYSTEM\stm32f4xx.h
 .\objects\usbd_usr.o: ..\CORE\core_cm4.h
-.\objects\usbd_usr.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\usbd_usr.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\usbd_usr.o: ..\CORE\core_cmInstr.h
 .\objects\usbd_usr.o: ..\CORE\core_cmFunc.h
 .\objects\usbd_usr.o: ..\CORE\core_cmSimd.h
@@ -44,6 +44,6 @@
 .\objects\usbd_usr.o: ..\USB\STM32_USB_Device_Library\Core\inc\usbd_def.h
 .\objects\usbd_usr.o: ..\USB\USB_APP\usbd_conf.h
 .\objects\usbd_usr.o: ..\USB\STM32_USB_OTG_Driver\inc\usb_dcd_int.h
-.\objects\usbd_usr.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\usbd_usr.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\usbd_usr.o: ..\Common\usart1.h
 .\objects\usbd_usr.o: ..\Common\sys.h

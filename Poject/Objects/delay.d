@@ -3,7 +3,7 @@
 .\objects\delay.o: ..\Common\sys.h
 .\objects\delay.o: ..\SYSTEM\stm32f4xx.h
 .\objects\delay.o: ..\CORE\core_cm4.h
-.\objects\delay.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\delay.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\delay.o: ..\CORE\core_cmInstr.h
 .\objects\delay.o: ..\CORE\core_cmFunc.h
 .\objects\delay.o: ..\CORE\core_cmSimd.h
@@ -36,12 +36,12 @@
 .\objects\delay.o: ..\STM32f4_LIB\inc\stm32f4xx_dac.h
 .\objects\delay.o: ..\STM32f4_LIB\inc\stm32f4xx_dcmi.h
 .\objects\delay.o: ..\STM32f4_LIB\inc\stm32f4xx_fsmc.h
-.\objects\delay.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
+.\objects\delay.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
 .\objects\delay.o: .\RTE\RTOS\rtconfig.h
 .\objects\delay.o: .\RTE\_Target_1\RTE_Components.h
-.\objects\delay.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdebug.h
-.\objects\delay.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdef.h
-.\objects\delay.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdarg.h
-.\objects\delay.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtservice.h
-.\objects\delay.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtm.h
-.\objects\delay.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
+.\objects\delay.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdebug.h
+.\objects\delay.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdef.h
+.\objects\delay.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\delay.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtservice.h
+.\objects\delay.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtm.h
+.\objects\delay.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h

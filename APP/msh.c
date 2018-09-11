@@ -47,7 +47,7 @@ int showadc(void)
 	
 	res=Get_Adc_Average(1,ADC_Channel_8,20);
 	rt_kprintf("ADC1=%d\r\n",res);
-	res=Get_Adc_Average(2,ADC_Channel_0,1);
+	res=Get_Adc_Average(2,ADC_Channel_6,1);
 	rt_kprintf("ADC2=%d\r\n",res);
 	return 0;
 }
@@ -103,11 +103,23 @@ MSH_CMD_EXPORT(mtk,my command test);
 
 int qc(int argc,char** argv)
 {
-	QC20_AdjustVoltage(my_atoi(argv[1]));
+	u8 res;
+	
+	res=QuickCharge_Induction(my_atoi(argv[1]));
+	
+	rt_kprintf("res=%x\r\n",res);
+	
 	return 0;
 }
 
 MSH_CMD_EXPORT(qc,my command test);
 
+int qc_init(int argc,char** argv)
+{	
+	QC20_AdjustVoltage(my_atoi(argv[1]));
+	return 0;
+}
+
+MSH_CMD_EXPORT(qc_init,my command test);
 
 

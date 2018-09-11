@@ -1,11 +1,11 @@
 .\objects\usart3.o: ..\Common\usart3.c
 .\objects\usart3.o: ..\Common\usart3.h
-.\objects\usart3.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\usart3.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\usart3.o: ..\SYSTEM\stm32f4xx_conf.h
 .\objects\usart3.o: ..\STM32f4_LIB\inc\stm32f4xx_adc.h
 .\objects\usart3.o: ..\SYSTEM\stm32f4xx.h
 .\objects\usart3.o: ..\CORE\core_cm4.h
-.\objects\usart3.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\usart3.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\usart3.o: ..\CORE\core_cmInstr.h
 .\objects\usart3.o: ..\CORE\core_cmFunc.h
 .\objects\usart3.o: ..\CORE\core_cmSimd.h
@@ -38,13 +38,13 @@
 .\objects\usart3.o: ..\STM32f4_LIB\inc\stm32f4xx_fsmc.h
 .\objects\usart3.o: ..\Common\sys.h
 .\objects\usart3.o: ..\BSP_USER\DMA\dma.h
-.\objects\usart3.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
+.\objects\usart3.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
 .\objects\usart3.o: .\RTE\RTOS\rtconfig.h
 .\objects\usart3.o: .\RTE\_Target_1\RTE_Components.h
-.\objects\usart3.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdebug.h
-.\objects\usart3.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdef.h
-.\objects\usart3.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdarg.h
-.\objects\usart3.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtservice.h
-.\objects\usart3.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtm.h
-.\objects\usart3.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
-.\objects\usart3.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\string.h
+.\objects\usart3.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdebug.h
+.\objects\usart3.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdef.h
+.\objects\usart3.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\usart3.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtservice.h
+.\objects\usart3.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtm.h
+.\objects\usart3.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
+.\objects\usart3.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\string.h

@@ -21,8 +21,10 @@ void MTK_IncreaseVoltage(u8 Voltage_level);
 void MTK_DecreaseVoltage(u8 Voltage_level);
 
 u8 QC_Init(void);
+void QC_DisInit(void);
 
 void QC20_AdjustVoltage(u8 Voltage_level);
+u8 QuickCharge_Induction(u8 QuickCharge_Type);
 
 #endif
 

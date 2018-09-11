@@ -3,7 +3,7 @@
 .\objects\ds18b20.o: ..\Common\sys.h
 .\objects\ds18b20.o: ..\SYSTEM\stm32f4xx.h
 .\objects\ds18b20.o: ..\CORE\core_cm4.h
-.\objects\ds18b20.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\ds18b20.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\ds18b20.o: ..\CORE\core_cmInstr.h
 .\objects\ds18b20.o: ..\CORE\core_cmFunc.h
 .\objects\ds18b20.o: ..\CORE\core_cmSimd.h

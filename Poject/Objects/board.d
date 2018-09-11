@@ -1,17 +1,17 @@
 .\objects\board.o: RTE\RTOS\board.c
-.\objects\board.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rthw.h
-.\objects\board.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
+.\objects\board.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rthw.h
+.\objects\board.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
 .\objects\board.o: .\RTE\RTOS\rtconfig.h
 .\objects\board.o: .\RTE\_Target_1\RTE_Components.h
-.\objects\board.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdebug.h
-.\objects\board.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdef.h
-.\objects\board.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdarg.h
-.\objects\board.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtservice.h
-.\objects\board.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtm.h
-.\objects\board.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
+.\objects\board.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdebug.h
+.\objects\board.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdef.h
+.\objects\board.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\board.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtservice.h
+.\objects\board.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtm.h
+.\objects\board.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
 .\objects\board.o: ..\SYSTEM\stm32f4xx.h
 .\objects\board.o: ..\CORE\core_cm4.h
-.\objects\board.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\board.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\board.o: ..\CORE\core_cmInstr.h
 .\objects\board.o: ..\CORE\core_cmFunc.h
 .\objects\board.o: ..\CORE\core_cmSimd.h
@@ -48,7 +48,7 @@
 .\objects\board.o: ..\BSP_USER\LED\led.h
 .\objects\board.o: ..\Common\delay.h
 .\objects\board.o: ..\Common\usart1.h
-.\objects\board.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\board.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\board.o: ..\BSP_USER\SDIO_SD\sdio_sdcard.h
 .\objects\board.o: ..\BSP_USER\DAC\dac.h
 .\objects\board.o: ..\FATFS\src\ff.h
@@ -64,3 +64,5 @@
 .\objects\board.o: ..\Common\usart3.h
 .\objects\board.o: ..\BSP_USER\CSV_Database\CSV_Database.h
 .\objects\board.o: ..\APP\app.h
+.\objects\board.o: ..\HARDWARE\TLC5615\tlc5615.h
+.\objects\board.o: ..\APP\debug.h

@@ -3,7 +3,7 @@
 .\objects\hmi.o: ..\Common\sys.h
 .\objects\hmi.o: ..\SYSTEM\stm32f4xx.h
 .\objects\hmi.o: ..\CORE\core_cm4.h
-.\objects\hmi.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\hmi.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\hmi.o: ..\CORE\core_cmInstr.h
 .\objects\hmi.o: ..\CORE\core_cmFunc.h
 .\objects\hmi.o: ..\CORE\core_cmSimd.h
@@ -36,19 +36,19 @@
 .\objects\hmi.o: ..\STM32f4_LIB\inc\stm32f4xx_dac.h
 .\objects\hmi.o: ..\STM32f4_LIB\inc\stm32f4xx_dcmi.h
 .\objects\hmi.o: ..\STM32f4_LIB\inc\stm32f4xx_fsmc.h
-.\objects\hmi.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdio.h
-.\objects\hmi.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\string.h
+.\objects\hmi.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\hmi.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\string.h
 .\objects\hmi.o: ..\Common\usart1.h
 .\objects\hmi.o: ..\BSP_USER\CSV_Database\CSV_Database.h
-.\objects\hmi.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
+.\objects\hmi.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
 .\objects\hmi.o: .\RTE\RTOS\rtconfig.h
 .\objects\hmi.o: .\RTE\_Target_1\RTE_Components.h
-.\objects\hmi.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdebug.h
-.\objects\hmi.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdef.h
-.\objects\hmi.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdarg.h
-.\objects\hmi.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtservice.h
-.\objects\hmi.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtm.h
-.\objects\hmi.o: D:\Program Files\keil\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
+.\objects\hmi.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdebug.h
+.\objects\hmi.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtdef.h
+.\objects\hmi.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\hmi.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtservice.h
+.\objects\hmi.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtm.h
+.\objects\hmi.o: D:\Program Files\MDK\ARM\PACK\rt-thread\rtthread\2.1.1\include\rtthread.h
 .\objects\hmi.o: ..\APP\app.h
 .\objects\hmi.o: ..\Common\delay.h
 .\objects\hmi.o: ..\BSP_USER\RTC\rtc.h

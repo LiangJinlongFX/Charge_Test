@@ -12,6 +12,7 @@
 #include "rtthread.h"
 #include "app.h"
 #include "exfuns.h"
+#include "debug.h"
 
 
 
@@ -196,8 +197,11 @@ u8 Creat_NewBatchDir(char* path)
 
 
 
-/*
- * 参数指标存储函数
+/**
+ * 将修改的配置数据写回文件中
+ * @param  TestParameters_Type*[测试配置参数结构体指针] Standard_code[标准配置索引号 0-3]
+ * @return 错误码[0: 成功,1: 打开配置文件失败, 2: 偏移指针失败, 3 读取数据失败]
+ * @brief 
  */
 u8 Modify_TestParameters(TestParameters_Type* TestParameters_Structure,u8 Standard_code)
 {
@@ -210,24 +214,25 @@ u8 Modify_TestParameters(TestParameters_Type* TestParameters_Structure,u8 Standa
 	{
 		res=f_open(&Fsrc,"0:/set.dat",FA_READ|FA_WRITE|FA_CREATE_NEW);
 		/* 仍不能成功打开文件 */
-		return res; //返回错误码
-		//空间预分配   偏移3000
+		return 1; //返回错误码
 	}
 	sprintf(str,"%4d,%4d,%4d,%4d,%4d,%4d,%4d\r\n",TestParameters_Structure->Vout,TestParameters_Structure->Vout_Tolerance,
 	TestParameters_Structure->Cout_Max,TestParameters_Structure->V_Ripple,TestParameters_Structure->Efficiency,TestParameters_Structure->Safety_Code,
 	TestParameters_Structure->Quick_Charge);
-	rt_kprintf("%s\r\n",str);
 	res=f_lseek(&Fsrc,0x10+Standard_code*strlen(str));
 	if(res!=0) return 2;
 	res=f_write(&Fsrc,str,strlen(str),&check_count);
-	if(check_count!=strlen(str)||res!=0) return 1;	//写入出错,退出
+	if(check_count!=strlen(str)||res!=0) return 3;	//写入出错,退出
 	res=f_close(&Fsrc);
 	
 	return res;
 }
 
-/*
- * 读取测试指标信息
+/**
+ * 从文件中读取配置参数
+ * @param TestParameters_Type*[测试配置参数结构体指针] Standard_code[标准配置索引号 0-3 ]
+ * @return 错误码[0: 成功,1: 打开配置文件失败, 2: 偏移指针失败, 3 读取数据失败 ]
+ * @brief	 
  */
 u8 Read_TestParameters(TestParameters_Type* TestParameters_Structure,u8 Standard_code)
 {
@@ -239,18 +244,21 @@ u8 Read_TestParameters(TestParameters_Type* TestParameters_Structure,u8 Standard
 	res=f_open(&Fsrc1,"0:/set.dat",FA_READ);
 	if(res != 0) 
 	{
-			if(res==4) First_writeTestParameters();	//是因为找不到配置文件错误则创建新的文件
-			else return 1;
+			if(res==4) 
+				//是因为找不到配置文件错误则创建新的文件
+				First_writeTestParameters();
+			else 
+				return 1;
 	}
+	// 偏移读写指针到对应的索引首地址上
 	if(Standard_code==0)
 		res=f_lseek(&Fsrc1,0x10);
 	else
 		res=f_lseek(&Fsrc1,0x10+Standard_code*36);
-	if(res!=0) return res;
+	if(res!=0) return 2;
 	res=f_read(&Fsrc1,str,36,&check_count);
 	if(res!=0) return 3;
 	
-	rt_kprintf("%s\r\n",str);
 	/* 将字符数值转换成数值 */
 	rt_strncpy(str_temp,str,4);
 	TestParameters_Structure->Vout=my_atoi(str_temp);
@@ -270,10 +278,11 @@ u8 Read_TestParameters(TestParameters_Type* TestParameters_Structure,u8 Standard
 	return 0;	
 }
 
-/*
+/**
  * 获取批量目录信息
- * 使用全局字符串数组Global_str[10][10]存储目录信息
- * 返回 获取到条目的数量
+ * @param  start_val[获取下标 最小下标:0] end_val[获取上标] [end_val必须大于start_val,且之间距离不能大于6]
+ * @return 获取到条目的数量[0-获取出错]
+ * @brief 使用全局字符串数组Global_str[10][10]存储目录信息
  */
 u8 Scan_BatchDir(u8 start_val,u8 end_val)
 {
@@ -312,6 +321,12 @@ u8 Scan_BatchDir(u8 start_val,u8 end_val)
 	return count;
 }
 
+/**
+ * 初始化配置文件[用于首次使用]
+ * @param
+ * @return 错误码[0-成功]
+ * @brief 
+ */
 u8 First_writeTestParameters(void)
 {
 	u8 res;
@@ -333,28 +348,36 @@ u8 First_writeTestParameters(void)
 	return res;
 }
 
+/**
+ * 用于启动时从存储体加载配置文件
+ * @param   
+ * @return 
+ * @brief
+ */
 u8 Poweron_ReadTestParameters(void)
 {
 	u8 res[4];
 	
-	rt_enter_critical(); /* 进入临界区*/
-	if(f_mount(&fat,"0:",1)) rt_kprintf("f_mount_ERROR!\r\n");	//挂载工作区
+	rt_enter_critical(); /* 进入临界区 */
+	// 挂载工作区
+	if(f_mount(&fat,"0:",1))
+		logging_warning("f_mount_ERROR!");
 	res[0]=Read_TestParameters(&TestParameters_Structure[0],0);
 	res[1]=Read_TestParameters(&TestParameters_Structure[1],1);
 	res[2]=Read_TestParameters(&TestParameters_Structure[2],2);
 	res[3]=Read_TestParameters(&TestParameters_Structure[3],3);
-	if(f_mount(NULL,"0:",1)) rt_kprintf("mount_ERROR!\r\n");	//挂载工作区
+	// 注销工作区
+	if(f_mount(NULL,"0:",1)) 
+		logging_warning("f_mount_ERROR!");
 	rt_exit_critical();		//退出临界区
-	#if	Thread_Debug
-	rt_kprintf("res=%d %d %d %d\r\n",res[0],res[1],res[2],res[3]);
-	rt_kprintf("Vout=%d\r\n",TestParameters_Structure[Standard_val].Vout);
-	rt_kprintf("Vout_Tolerance=%d\r\n",TestParameters_Structure[Standard_val].Vout_Tolerance);
-	rt_kprintf("Cout_Max=%d\r\n",TestParameters_Structure[Standard_val].Cout_Max);
-	rt_kprintf("V_Ripple=%d\r\n",TestParameters_Structure[Standard_val].V_Ripple);
-	rt_kprintf("Efficiency=%d\r\n",TestParameters_Structure[Standard_val].Efficiency);
-	rt_kprintf("Safety_Code=%d\r\n",TestParameters_Structure[Standard_val].Safety_Code);
-	rt_kprintf("Quick_Charge=%d\r\n",TestParameters_Structure[Standard_val].Quick_Charge);	
-	#endif
+	logging_debug("res=%d %d %d %d",res[0],res[1],res[2],res[3]);
+	logging_debug("Vout=%d",TestParameters_Structure[Standard_val].Vout);
+	logging_debug("Vout_Tolerance=%d",TestParameters_Structure[Standard_val].Vout_Tolerance);
+	logging_debug("Cout_Max=%d",TestParameters_Structure[Standard_val].Cout_Max);
+	logging_debug("V_Ripple=%d",TestParameters_Structure[Standard_val].V_Ripple);
+	logging_debug("Efficiency=%d",TestParameters_Structure[Standard_val].Efficiency);
+	logging_debug("Safety_Code=%d",TestParameters_Structure[Standard_val].Safety_Code);
+	logging_debug("Quick_Charge=%d",TestParameters_Structure[Standard_val].Quick_Charge);	
 }
 
 

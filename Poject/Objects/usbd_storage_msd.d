@@ -5,7 +5,7 @@
 .\objects\usbd_storage_msd.o: ..\USB\USB_APP\usb_conf.h
 .\objects\usbd_storage_msd.o: ..\SYSTEM\stm32f4xx.h
 .\objects\usbd_storage_msd.o: ..\CORE\core_cm4.h
-.\objects\usbd_storage_msd.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\usbd_storage_msd.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\usbd_storage_msd.o: ..\CORE\core_cmInstr.h
 .\objects\usbd_storage_msd.o: ..\CORE\core_cmFunc.h
 .\objects\usbd_storage_msd.o: ..\CORE\core_cmSimd.h
@@ -41,4 +41,4 @@
 .\objects\usbd_storage_msd.o: ..\BSP_USER\SDIO_SD\sdio_sdcard.h
 .\objects\usbd_storage_msd.o: ..\Common\sys.h
 .\objects\usbd_storage_msd.o: ..\Common\usart1.h
-.\objects\usbd_storage_msd.o: D:\Program Files\keil\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\usbd_storage_msd.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdio.h
