@@ -3,7 +3,7 @@
 ////////////////////////////////////////////////////////////////////////////////////	
 #include "sys.h"
 //¶Ë¿Ú¶¨Òå
-#define SPI3_CS PBout(14)	 	  
+#define SPI3_CS PBout(6)	 	  
 
 void TLC5615_Init(void);
 void TLC5615_SetVoltage(u16 val);

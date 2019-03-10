@@ -120,7 +120,7 @@ u8 DS18B20_Init(void)
 //从ds18b20得到温度值
 //精度：0.1C
 //返回值：温度值 （-550~1250） 
-short DS18B20_Get_Temp(void)
+float DS18B20_Get_Temp(void)
 {
     u8 temp;
     u8 TL,TH;
@@ -141,7 +141,7 @@ short DS18B20_Get_Temp(void)
     tem=TH; //获得高八位
     tem<<=8;    
     tem+=TL;//获得底八位
-    tem=(double)tem*0.625;//转换     
+    tem=(float)tem*0.625f;//转换     
 	if(temp)return tem; //返回温度值
 	else return -tem;    
 }

@@ -1,19 +1,25 @@
 #include "spi.h"
-//////////////////////////////////////////////////////////////////////////////////	 
-						  
-////////////////////////////////////////////////////////////////////////////////// 	 
+/**
+  * @file   
+  * @author  Liang
+  * @version V1.0.0
+  * @date    2017-4-26
+  * @brief	STM32F405 SPI3初始化
+  **/
 
-
-//以下是SPI模块的初始化代码，配置成主机模式 						  
-//SPI口初始化
-//这里针是对SPI3的初始化
+/**
+ * SPI3初始化
+ * @param   
+ * @return 
+ * @brief 
+ **/
 void SPI3_Init(void)
 {	 
   GPIO_InitTypeDef  GPIO_InitStructure;
   SPI_InitTypeDef  SPI_InitStructure;
 	
   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);//使能GPIOB时钟
-  RCC_APB1PeriphClockCmd(RCC_APB1Periph_SPI3, ENABLE);//使能SPI1时钟
+  RCC_APB1PeriphClockCmd(RCC_APB1Periph_SPI3, ENABLE);//使能SPI3时钟
  
   //GPIOFB3,4,5初始化设置
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3|GPIO_Pin_4|GPIO_Pin_5;//PB3~5复用功能输出	
@@ -28,8 +34,8 @@ void SPI3_Init(void)
 	GPIO_PinAFConfig(GPIOB,GPIO_PinSource5,GPIO_AF_SPI3); //PB5复用为 SPI1
  
 	//这里只针对SPI口初始化
-	RCC_APB1PeriphResetCmd(RCC_APB1Periph_SPI3,ENABLE);//复位SPI1
-	RCC_APB1PeriphResetCmd(RCC_APB1Periph_SPI3,DISABLE);//停止复位SPI1
+	RCC_APB1PeriphResetCmd(RCC_APB1Periph_SPI3,ENABLE);//复位SPI3
+	RCC_APB1PeriphResetCmd(RCC_APB1Periph_SPI3,DISABLE);//停止复位SPI3
 
 	SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;  //设置SPI单向或者双向的数据模式:SPI设置为双线双向全双工
 	SPI_InitStructure.SPI_Mode = SPI_Mode_Master;		//设置SPI工作模式:设置为主SPI
@@ -44,8 +50,9 @@ void SPI3_Init(void)
  
 	SPI_Cmd(SPI3, ENABLE); //使能SPI外设
 
-	SPI3_ReadWriteByte(0xff);//启动传输		 
+	SPI3_ReadWriteByte(0xff);//启动传输
 }   
+
 //SPI3速度设置函数
 //SPI速度=fAPB1/分频系数
 //@ref SPI_BaudRate_Prescaler:SPI_BaudRatePrescaler_2~SPI_BaudRatePrescaler_256  
@@ -56,7 +63,8 @@ void SPI3_SetSpeed(u8 SPI_BaudRatePrescaler)
 	SPI3->CR1&=0XFFC7;//位3-5清零，用来设置波特率
 	SPI3->CR1|=SPI_BaudRatePrescaler;	//设置SPI1速度 
 	SPI_Cmd(SPI3,ENABLE); //使能SPI1
-} 
+}
+
 //SPI3 读写一个字节
 //TxData:要写入的字节
 //返回值:读取到的字节

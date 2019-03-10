@@ -219,7 +219,7 @@ u8 Modify_TestParameters(TestParameters_Type* TestParameters_Structure,u8 Standa
 	sprintf(str,"%4d,%4d,%4d,%4d,%4d,%4d,%4d\r\n",TestParameters_Structure->Vout,TestParameters_Structure->Vout_Tolerance,
 	TestParameters_Structure->Cout_Max,TestParameters_Structure->V_Ripple,TestParameters_Structure->Efficiency,TestParameters_Structure->Safety_Code,
 	TestParameters_Structure->Quick_Charge);
-	res=f_lseek(&Fsrc,0x10+Standard_code*strlen(str));
+	res=f_lseek(&Fsrc,Standard_code*strlen(str));
 	if(res!=0) return 2;
 	res=f_write(&Fsrc,str,strlen(str),&check_count);
 	if(check_count!=strlen(str)||res!=0) return 3;	//写入出错,退出
@@ -280,11 +280,11 @@ u8 Read_TestParameters(TestParameters_Type* TestParameters_Structure,u8 Standard
 
 /**
  * 获取批量目录信息
- * @param  start_val[获取下标 最小下标:0] end_val[获取上标] [end_val必须大于start_val,且之间距离不能大于6]
+ * @param  start_val[获取下标 最小下标:0] end_val[获取上标] [end_val必须大于start_val] *DirStr[][二维数组指针]
  * @return 获取到条目的数量[0-获取出错]
  * @brief 使用全局字符串数组Global_str[10][10]存储目录信息
  */
-u8 Scan_BatchDir(u8 start_val,u8 end_val)
+u8 Scan_BatchDir(u8 start_val,u8 end_val,char *DirStr[])
 {
 	FRESULT res;	//FATFS执行返回值
 	u8 i=0;
@@ -294,9 +294,7 @@ u8 Scan_BatchDir(u8 start_val,u8 end_val)
 	
 	/* 防止参数错误 */
 	if(end_val<start_val) return 0;
-	
-	if(end_val-start_val>6) return 0;
-	
+		
 	res = f_opendir(&tdir,"0:");  //打开一个目录
 	if(res != FR_OK) return 0;
 	
@@ -309,14 +307,11 @@ u8 Scan_BatchDir(u8 start_val,u8 end_val)
 			/* 文件名在提取窗口内，提取文件名 */
 			if(i>=start_val&&i<=end_val)
 			{
-				strcpy(Global_str[count++],fileinfo.fname);
+				strcpy(DirStr[count++],fileinfo.fname);
 			}
 			i++;
 		}
 	}
-	if(count<5)
-	for(i=count;i<=4;i++)
-		strcpy(Global_str[i]," ");
 	
 	return count;
 }

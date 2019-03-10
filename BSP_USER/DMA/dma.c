@@ -21,7 +21,13 @@
 //chx:DMA通道选择,@ref DMA_channel DMA_Channel_0~DMA_Channel_7
 //par:外设地址
 //mar:存储器地址
-//ndtr:数据传输量  
+//ndtr:数据传输量
+/**
+ * DMAx通道配置[外设到内存模式]
+ * @param	DMA_Stream_TypeDef[DMA传输流配置结构体] chx[DMA通道配置(务必根据外设选择正确的通道)]	mar[DMA存储内存首地址] ndtr[要传输的数据量]
+ * @return 
+ * @brief 
+ **/
 void MYDMA_Config(DMA_Stream_TypeDef *DMA_Streamx,u32 chx,u32 par,u32 mar,u16 ndtr)
 { 
  

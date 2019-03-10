@@ -1,12 +1,11 @@
 #ifndef __LED_H
 #define __LED_H
-
 /**
-  * @file    led.c 
+  * @file    led.c
   * @author  Liang
   * @version V1.0.0
   * @date    2017-4-26
-  * @brief	 指示灯驱动
+  * @brief	 GPIO控制LED
   **/
 
 //LED端口定义

@@ -7,6 +7,12 @@
 #include "rtc.h"
 #include "HMI.h"
 #include "Data_Math.h"
+#include "hlw8032.h"
+#include "stdio.h"
+#include "usart3.h"
+#include "tlc5615.h"
+#include "ds18b20.h"
+#include "Load_PID.h"
 
 int mycmd(void)
 {
@@ -32,9 +38,11 @@ MSH_CMD_EXPORT(print,my command test);
 
 int dac(int argc,char** argv)
 {
-	USB_DP_SetVol(my_atoi(argv[1]));
-	USB_DM_SetVol(my_atoi(argv[1]));
-	rt_kprintf("dac=%d\r\n",my_atoi(argv[1]));
+	u16 i;
+	
+	i=(u16)my_atoi(argv[1]);
+	TLC5615_SetVoltage(i);
+	rt_kprintf("dac=%d\r\n",i);
 	
 	return 0;
 }
@@ -43,25 +51,112 @@ MSH_CMD_EXPORT(dac,my command test);
 
 int showadc(void)
 {
-	u16 res;
-	
-	res=Get_Adc_Average(1,ADC_Channel_8,20);
-	rt_kprintf("ADC1=%d\r\n",res);
-	res=Get_Adc_Average(2,ADC_Channel_6,1);
-	rt_kprintf("ADC2=%d\r\n",res);
+
+	;
+
 	return 0;
 }
 
 MSH_CMD_EXPORT(showadc,my command test);
 
+int temp(void)
+{
+	char str[30];
+	float temp;
+	
+	temp=DS18B20_Get_Temp();
+	sprintf(str,"Temp=%0.3f\r\n",temp);
+	rt_kprintf("%s",str);
 
+	return 0;
+}
+
+MSH_CMD_EXPORT(temp,my command test);
+
+
+
+/**
+ * 检测交流参数
+ * @param   
+ * @return 
+ * @brief 
+ */
+int ACparameters(void)
+{
+	u8 res;
+	HLW8032Data_Type HLW8032Data_StructureData;
+	char str[30];
+	
+	res=HLW8032Get_Data(&HLW8032Data_StructureData);
+	if(res)
+	{
+		rt_kprintf("AC ERROR!!!\r\n");
+		return 0;
+	}
+	sprintf(str,"V=%.3f\r\nC=%.3f\r\nP=%.3f\r\n",HLW8032Data_StructureData.AC_Voltage,HLW8032Data_StructureData.AC_Current,HLW8032Data_StructureData.AC_Power);
+	rt_kprintf("%s",str);
+		
+	return 0;
+}
+MSH_CMD_EXPORT(ACparameters,my command test);
+
+/**
+ * 负载开关控制
+ * @param   
+ * @return 
+ * @brief 
+ **/
 int sw(void)
 {	
 	SW=~SW;	
 	return 0;
 }
-
 MSH_CMD_EXPORT(sw,my command test);
+
+/**
+ * 散热风扇开关控制
+ * @param   
+ * @return 
+ * @brief 
+ **/
+int fan(void)
+{	
+	FAN=~FAN;	
+	return 0;
+}
+MSH_CMD_EXPORT(fan,my command test);
+
+/**
+ * 继电器开关控制
+ * @param   
+ * @return 
+ * @brief 
+ **/
+int relay(void)
+{	
+	RELAY=~RELAY;	
+	return 0;
+}
+MSH_CMD_EXPORT(relay,my command test);
+
+/**
+ * 设置电子负载电流
+ * @param   
+ * @return 
+ * @brief 
+ **/
+int Set_Current(int argc,char** argv)
+{	
+	u32 vol;
+	
+	SW=0;
+	vol=my_atoi(argv[1]);
+	rt_kprintf("set=%d\r\n",vol);
+	Set_LoadCurrent((float)vol);
+	//TLC5615_SetVoltage(vol);
+	return 0;
+}
+MSH_CMD_EXPORT(Set_Current,my command test);
 
 int showtime(void)
 {
@@ -80,15 +175,17 @@ int showtime(void)
 
 MSH_CMD_EXPORT(showtime,my command test);
 
-int page(int argc,char** argv)
+int OCP(void)
 {
+	float Val;
 	
-	HMI_File_Page(*argv[1]); 
+	Val=OverCurrent_Detection();
+	rt_kprintf("OCP=%d\r\n",(u32)Val);
 	
 	return 0;
 }
 
-MSH_CMD_EXPORT(page,my command test);
+MSH_CMD_EXPORT(OCP,my command test);
 
 int mtk(int argc,char** argv)
 {

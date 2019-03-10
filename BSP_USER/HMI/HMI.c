@@ -8,6 +8,7 @@
 #include "app.h"
 #include "delay.h"
 #include "rtc.h"
+#include "debug.h"
 
 /*
  * 批量检测条目限制变量 bit7:转换效率 bit6:上电时间 bit5:电路保护 bit4:OCP bit3:OVP bit2:cmax bit1:vmax bit0:纹波  1：为有效
@@ -149,37 +150,43 @@ HMI_Error HMI_Page_ACK(u8 Page_ID)
 /*
  * 在界面显示当前测试标准参数
  */
-HMI_Error HMI_StandardPage_Show(void)
+/**
+ * 在标准选择界面中显示当前参数
+ * @param None   
+ * @return HMI_Error
+ * @brief 
+ **/
+HMI_Error HMI_StandardPage_Show(TestParameters_Type *Parameters)
 {
 	char Num_str[10];
 	u8 Code_temp;
 	
 	/* 显示额定输出电压 */
-	my_itoa(TestParameters_Structure[Standard_val].Vout,Num_str);
+	my_itoa(Parameters->Vout,Num_str);
 	HMI_Print_Str("t0",Num_str);
 	Num_str[0]='\0';
 	/* 显示输出电压容差 */
-	my_itoa(TestParameters_Structure[Standard_val].Vout_Tolerance,Num_str);
+	my_itoa(Parameters->Vout_Tolerance,Num_str);
 	HMI_Print_Str("t1",Num_str);
 	Num_str[0]='\0';
 	/* 显示最大输出电流值 */
-	my_itoa(TestParameters_Structure[Standard_val].Cout_Max,Num_str);
+	my_itoa(Parameters->Cout_Max,Num_str);
 	HMI_Print_Str("t2",Num_str);
 	Num_str[0]='\0';
 	/* 显示纹波电压 */
-	my_itoa(TestParameters_Structure[Standard_val].V_Ripple,Num_str);
+	my_itoa(Parameters->V_Ripple,Num_str);
 	HMI_Print_Str("t3",Num_str);
 	Num_str[0]='\0';
 	/* 显示转换效率 */
-	my_itoa(TestParameters_Structure[Standard_val].Efficiency,Num_str);
+	my_itoa(Parameters->Efficiency,Num_str);
 	HMI_Print_Str("t4",Num_str);
 	Num_str[0]='\0';
 	/* 显示过流保护开关 */
-	if(TestParameters_Structure[Standard_val].Safety_Code)	Code_temp=1;
+	if(Parameters->Safety_Code)	Code_temp=1;
 	else Code_temp=0;
 	HMI_Print_Val("bt1",Code_temp);
 	/* 显示快充诱导开关 */
-	HMI_Print_Val("FastCharg_STA",TestParameters_Structure[Standard_val].Quick_Charge);
+	HMI_Print_Val("FastCharg_STA",Parameters->Quick_Charge);
 
 	return HMI_OK;
 }
@@ -236,29 +243,30 @@ HMI_Error HMI_Standard_Atoi(void)
 {
 	char str[20];
 	u8 bit_temp;	//位缓存
-	u8 res=HMI_OK;
+	HMI_Error res=HMI_OK;
 	
 	/* 获取额定输出电压 */
+	sprintf(str,"");
 	res=HMI_Get(HMI_String_Type,"t0",str);
 	TestParameters_Structure[Standard_val].Vout=my_atoi(str);
 	/* 获取电压容差 */
-	strcpy(str,"");
+	sprintf(str,"");
 	res=HMI_Get(HMI_String_Type,"t1",str);
 	TestParameters_Structure[Standard_val].Vout_Tolerance=my_atoi(str);
 	/* 获取最大输出电流 */
-	strcpy(str,"");
+	sprintf(str,"");
 	res=HMI_Get(HMI_String_Type,"t2",str);
 	TestParameters_Structure[Standard_val].Cout_Max=my_atoi(str);
 	/* 获取纹波电压 */
-	strcpy(str,"");
+	sprintf(str,"");
 	res=HMI_Get(HMI_String_Type,"t3",str);
 	TestParameters_Structure[Standard_val].V_Ripple=my_atoi(str);
 	/* 获取转换效率 */
-	strcpy(str,"");
+	sprintf(str,"");
 	res=HMI_Get(HMI_String_Type,"t4",str);
 	TestParameters_Structure[Standard_val].Efficiency=my_atoi(str);
 	/* 获取过流保护开关 */
-	strcpy(str,"");
+	sprintf(str,"");
 	res=HMI_Get(HMI_Vaule_Type,"bt1",str);
 	bit_temp=my_atoi(str);
 	TestParameters_Structure[Standard_val].Safety_Code=bit_temp;
@@ -313,7 +321,7 @@ HMI_Error HMI_TestLimit_Atoi(u8 * LimitVal)
 	char str[5];
 	u8 temp1=0;
 	u8 temp2=0;
-	u8 res=HMI_OK;
+	HMI_Error res=HMI_OK;
 	
 	res=HMI_Get(HMI_Vaule_Type,"bt0",str);
 	temp1=my_atoi(str);
@@ -380,7 +388,6 @@ HMI_Error HMI_RTC_Atoi(void)
 {
 	char str1[20];
 	char str2[10];
-	char str_temp;
 	u8 year,month,day,hour,min;
 	int res1;
 	u8 res2;
@@ -412,7 +419,6 @@ HMI_Error HMI_ShowBatch(void)
 {
 	char str[5][10];
 	char Event_Info[3];
-	u8 Page_Flag;
 	u8 Exit_Flag=0;
 	while(1)
 	{
@@ -446,7 +452,7 @@ HMI_Error HMI_ShowBatch(void)
 HMI_Error HMI_Creat_NewBatch(void)
 {
 	char str[20];
-	u8 res;
+	HMI_Error res;
 	
 	/* 禁止调度以防止干扰串口接收 */
 	rt_enter_critical();	//进入临界区

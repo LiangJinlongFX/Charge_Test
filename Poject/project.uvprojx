@@ -336,7 +336,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F40_41xxx,USE_STDPERIPH_DRIVER,ARM_MATH_CM4,__CC_ARM,ARM_MATH_M, USE_USB_OTG_FS</Define>
               <Undefine></Undefine>
-              <IncludePath>..\BSP_USER\LED;..\CORE;..\Common;..\STM32f4_LIB\inc;..\SYSTEM;..\BSP_USER\SDIO_SD;..\FATFS\exfuns;..\FATFS\src;..\BSP_USER\DAC;..\BSP_USER\CSV_Database;.\RTE\RTOS;.\RTE;..\BSP_USER\RTC;..\APP;..\BSP_USER\HMI;..\BSP_USER\Switch;..\BSP_USER\ADC;..\BSP_USER\SPI;..\HARDWARE\TLC5615;..\BSP_USER\WKUP;..\HARDWARE\DS18B20;..\BSP_USER\Switch;..\BSP_USER\Data_Math;..\DSP_LIB\Include;..\DSP_LIB;..\BSP_USER\DMA;..\HARDWARE\HLW8032;..\USB\STM32_USB_Device_Library\Core\inc;..\USB\STM32_USB_Device_Library\Class\msc\inc;..\USB\STM32_USB_OTG_Driver\inc;..\USB\USB_APP;..\BSP_USER\STMFLASH</IncludePath>
+              <IncludePath>..\BSP_USER\LED;..\CORE;..\Common;..\STM32f4_LIB\inc;..\SYSTEM;..\BSP_USER\SDIO_SD;..\FATFS\exfuns;..\FATFS\src;..\BSP_USER\DAC;..\BSP_USER\CSV_Database;.\RTE\RTOS;.\RTE;..\BSP_USER\RTC;..\APP;..\BSP_USER\HMI;..\BSP_USER\Switch;..\BSP_USER\ADC;..\BSP_USER\SPI;..\HARDWARE\TLC5615;..\BSP_USER\WKUP;..\HARDWARE\DS18B20;..\BSP_USER\Switch;..\BSP_USER\Data_Math;..\DSP_LIB\Include;..\DSP_LIB;..\BSP_USER\DMA;..\HARDWARE\HLW8032;..\USB\STM32_USB_Device_Library\Core\inc;..\USB\STM32_USB_Device_Library\Class\msc\inc;..\USB\STM32_USB_OTG_Driver\inc;..\USB\USB_APP;..\BSP_USER\STMFLASH;..\BSP_USER\Load_PID</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -491,9 +491,9 @@
               <FilePath>..\BSP_USER\DMA\dma.c</FilePath>
             </File>
             <File>
-              <FileName>stmflash.c</FileName>
+              <FileName>Load_PID.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\BSP_USER\STMFLASH\stmflash.c</FilePath>
+              <FilePath>..\BSP_USER\Load_PID\Load_PID.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -616,9 +616,9 @@
               <FilePath>..\STM32f4_LIB\src\stm32f4xx_spi.c</FilePath>
             </File>
             <File>
-              <FileName>stm32f4xx_flash.c</FileName>
+              <FileName>stm32f4xx_tim.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\STM32f4_LIB\src\stm32f4xx_flash.c</FilePath>
+              <FilePath>..\STM32f4_LIB\src\stm32f4xx_tim.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -801,6 +801,12 @@
     <apis/>
     <components>
       <component Cclass="CMSIS" Cgroup="CORE" Cvendor="ARM" Cversion="5.0.2" condition="ARMv6_7_8-M Device">
+        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.2.0"/>
+        <targetInfos>
+          <targetInfo name="Target 1"/>
+        </targetInfos>
+      </component>
+      <component Cclass="CMSIS" Cgroup="DSP" Cvendor="ARM" Cversion="1.5.2" condition="CMSIS DSP">
         <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.2.0"/>
         <targetInfos>
           <targetInfo name="Target 1"/>

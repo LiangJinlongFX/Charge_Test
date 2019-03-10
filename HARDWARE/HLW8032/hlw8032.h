@@ -40,20 +40,12 @@ typedef struct
 #define default_PowerparameterREG_Val  0x4c2fe8		//默认功率参数
 
 
-#define V_K1 1.93f			//电压计算比例系数
+#define V_K1 1.93f		//电压计算比例系数
 #define C_K2 1.975f		//电流计算比例系数
 #define P_K3 3.914f		//功率计算比例系数
 
-extern HLW8032REG_Type HLW8032REG_Structure;	//HLW8032寄存器值结构体
-extern HLW8032Data_Type HLW8032Data_Structure;	//HLW8032测量数据结构体
-
-u8 UsartToStruct(void);
-u8 HLW8032Get_Data(HLW8032Data_Type* HLW8032Data_Struct);
-
-
-
-
-
-
+u8 UsartToStruct(HLW8032REG_Type *HLW8032REG_Structure);
+u8 HLW8032Get_Data(HLW8032Data_Type *HLW8032Data_Struct);
 
 #endif
+

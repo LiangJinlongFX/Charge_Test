@@ -7,6 +7,8 @@
   **/
 #include "tlc5615.h"
 #include "spi.h"
+#include "delay.h"
+#include "rtthread.h"
 
 /**
  * TLC5615初始化
@@ -20,37 +22,38 @@ void TLC5615_Init(void)
 	
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB,ENABLE);
 	
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_14;         							//CS对应IO口
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;         							//CS对应IO口
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;                  //普通输出模式
   GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;                 //推挽输出
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;             //100MHz
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;                   //上拉
   GPIO_Init(GPIOB, &GPIO_InitStructure);                         //初始化GPIO
 	
-	GPIO_SetBits(GPIOB, GPIO_Pin_14); 
+	GPIO_SetBits(GPIOB, GPIO_Pin_6); 
 	
 	SPI3_Init();
 	
-	SPI3_SetSpeed(6);
+	SPI3_SetSpeed(SPI_BaudRatePrescaler_256);
 }
 
 /**
  * 设置TLC5615输出电压
- * @param  电压值[0-65535]
+ * @param  电压值[0-5000]
  * @return 
  * @brief 
  */
 void TLC5615_SetVoltage(u16 val)
 {
-	u16 temp;
+	uint32_t temp=val;
+	
+	temp=val*1023/5000;
 	
 	SPI3_CS = 0;
 	
-	temp=val<<2;
-	temp=temp&0xffc;
+	temp<<=2;
 	
-	SPI3_ReadWriteByte(temp&0xff);
-	SPI3_ReadWriteByte(temp<<8);
+	SPI3_ReadWriteByte((temp&0xf00)>>8);
+	SPI3_ReadWriteByte(temp&0xfc);
 	
 	SPI3_CS = 1;
 }

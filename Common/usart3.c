@@ -9,7 +9,12 @@ u8 USART3_RX_BUF[100];	//串口3接收缓存数组
 u8 USART3_RX_Size;			//串口3当前接收的字节数
 u8 USART3_RX_Flag;			//串口3接收完成标志
 
-
+/**
+ * 串口3初始化
+ * @param  bound[波特率]
+ * @return 
+ * @brief 
+ **/
 void uart3_init(u32 bound)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
@@ -65,7 +70,13 @@ void uart3_init(u32 bound)
 	
 }
 
-void USART3_IRQHandler(void)                	//串口3中断服务程序
+/**
+ * 串口3中断服务程序
+ * @param   
+ * @return 
+ * @brief 
+ **/
+void USART3_IRQHandler(void)                	
 {
 	/* 通知RTT进入中断 */
 	rt_interrupt_enter();
@@ -85,3 +96,4 @@ void USART3_IRQHandler(void)                	//串口3中断服务程序
 	/* 通知RTT退出中断 */
 	rt_interrupt_leave();
 }
+
