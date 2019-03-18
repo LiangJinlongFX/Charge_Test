@@ -11,16 +11,8 @@
 #include "stdio.h"
 #include "usart3.h"
 #include "tlc5615.h"
-#include "ds18b20.h"
 #include "Load_PID.h"
 
-int mycmd(void)
-{
-	rt_kprintf("hello world!\r\n");
-	return 0;
-}
-
-MSH_CMD_EXPORT(mycmd,my command test);
 
 int print(int argc,char** argv)
 {
@@ -58,21 +50,6 @@ int showadc(void)
 }
 
 MSH_CMD_EXPORT(showadc,my command test);
-
-int temp(void)
-{
-	char str[30];
-	float temp;
-	
-	temp=DS18B20_Get_Temp();
-	sprintf(str,"Temp=%0.3f\r\n",temp);
-	rt_kprintf("%s",str);
-
-	return 0;
-}
-
-MSH_CMD_EXPORT(temp,my command test);
-
 
 
 /**

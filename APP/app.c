@@ -23,7 +23,6 @@
 #include "HMI.h"
 #include "usart1.h"
 #include "adc.h"
-#include "ds18b20.h"
 #include "ff.h"  
 #include "exfuns.h"
 #include "Data_Math.h"
@@ -34,8 +33,6 @@
 
 
 /* Private functions ---------------------------------------------------------*/
-
-u8 Device_STA=0;
 u8 HMI_Event;
 char Global_str[30][20];
 rt_uint8_t Standard_val; //测试标准序号
@@ -248,7 +245,6 @@ void HMIMonitor_thread_entry(void* parameter)
  */
 void GetData_timerout(void* parameter)
 {
-	LED0=~LED0;
 	rt_enter_critical();	//进入临界区
 	Get_Power_Val_All(&Global_Measured_Structure);
 	rt_exit_critical();		//退出临界区
@@ -326,7 +322,6 @@ void HMI_FastTest_thread_entry(void* parameter)
 	
 	while(1)
 	{
-		LED0=~LED0;
 		Get_Power_Val_All(&Global_Measured_Structure);
 		sprintf(str,"%.3f",Global_Measured_Structure.Measured_AC_Voltage);
 		HMI_Print_Str("t6",str);	//显示AC输入电压
@@ -496,32 +491,29 @@ void HMI_SelectStandard_thread_entry(void* parameter)
 
 
   
-//线程LED1
-void led1_thread_entry(void* parameter)
+/**
+ * 系统指示灯闪烁线程
+ * @param   
+ * @return 
+ * @brief 
+ **/
+void led_thread_entry(void* parameter)
 {	
 	while (1)
 	{
-		LED1 =~LED1;
-		rt_thread_delay(1000);
-	}
-}
-
-/*
- * 空闲任务线程 系统运行指示灯闪烁
- */
-void cpu_usage_idle_hook(void)
-{
-	while (1)
-	{
-		LED0 =~LED0;
+		SYS_LED = ~SYS_LED;
 		rt_thread_delay(1000);
 	}
 }
 
 
 
-
-
+/**
+ * APP入口主函数
+ * @param   
+ * @return 
+ * @brief 
+ **/
 void Main_entry(void)
 {
 
@@ -569,14 +561,14 @@ void Main_entry(void)
  	HMI_File_Page(Page_Init);		 
 				
 	/* 创建 led1闪烁 线程 */
-	logging_debug("create thread led1");
-  led1_thread = rt_thread_create("led1", //线程1的名称是t1 
-							led1_thread_entry, RT_NULL, //入口是thread1_entry，参数是RT_NULL 
+	logging_debug("create thread sys_led");
+  led_thread = rt_thread_create("led", //线程1的名称是t1 
+							led_thread_entry, RT_NULL, //入口是thread1_entry，参数是RT_NULL 
 							512, //线程堆栈大小
 							3, //线程优先级
 							20);//时间片tick
-	if (led1_thread != RT_NULL) //如果获得线程控制块，启动这个线程
-			rt_thread_startup(led1_thread);
+	if (led_thread != RT_NULL) //如果获得线程控制块，启动这个线程
+			rt_thread_startup(led_thread);
 	else
 		logging_error("create thread led1 error!");
 

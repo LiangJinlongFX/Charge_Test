@@ -12,34 +12,11 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx.h"
-#include "sys.h"
-#include "led.h"
-#include "delay.h"
-#include "usart1.h"
-#include "sdio_sdcard.h"
-#include "dac.h"
-#include "usart2.h"
-#include <rtthread.h>
-#include "CSV_Database.h"
-#include "rtc.h"
 #include "app.h"
-#include "HMI.h"
-#include <rthw.h>
-#include "ff.h"
-#include "exfuns.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include "usart3.h"
-#include "dma.h"
-#include "Data_Math.h"
-#include "hlw8032.h"
-
-#include "usbd_msc_core.h"
-#include "usbd_usr.h"
-#include "usbd_desc.h"
-#include "usb_conf.h"
+#include <rtthread.h>
 #include "tlc5615.h"
-#include "debug.h"
+#include "delay.h"
+#include "adc.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
