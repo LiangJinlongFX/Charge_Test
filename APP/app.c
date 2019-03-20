@@ -38,6 +38,34 @@ char Global_str[30][20];
 rt_uint8_t Standard_val; //测试标准序号
 TestParameters_Type TestParameters_Structure[4];	//测试指标存放结构体,应用于修改指标和测试时加载指标
 
+
+static void Default_SetStandard(void)
+{
+	TestParameters_Structure[0].Vout = 5000;
+	TestParameters_Structure[0].Vout_Tolerance = 500;
+	TestParameters_Structure[0].Cout_Max = 2000;
+	TestParameters_Structure[0].V_Ripple =50;
+	TestParameters_Structure[0].Quick_Charge = 0;
+	
+	TestParameters_Structure[1].Vout = 5000;
+	TestParameters_Structure[1].Vout_Tolerance = 500;
+	TestParameters_Structure[1].Cout_Max = 2000;
+	TestParameters_Structure[1].V_Ripple =20;
+	TestParameters_Structure[1].Quick_Charge = 0x0f;
+	
+	TestParameters_Structure[2].Vout = 5000;
+	TestParameters_Structure[2].Vout_Tolerance = 500;
+	TestParameters_Structure[2].Cout_Max = 2000;
+	TestParameters_Structure[2].V_Ripple =50;
+	TestParameters_Structure[2].Quick_Charge = 0x09;
+	
+	TestParameters_Structure[3].Vout = 5000;
+	TestParameters_Structure[3].Vout_Tolerance = 500;
+	TestParameters_Structure[3].Cout_Max = 2000;
+	TestParameters_Structure[3].V_Ripple =50;
+	TestParameters_Structure[3].Quick_Charge = 0x0f;
+}
+
 /**
  * HMI控制主线程
  * @param
@@ -46,9 +74,10 @@ TestParameters_Type TestParameters_Structure[4];	//测试指标存放结构体,应用于修改
  */
 void Master_thread_entry(void* parameter)
 {
-	u8 res;	
+	u8 res;
 	
 	/* Run Forever */
+	LEDG = 0;
 	while(1)
 	{
 		/* 等待HMI串口监控线程的触发邮件 */
@@ -60,10 +89,15 @@ void Master_thread_entry(void* parameter)
 				/* 进入快速检测交互界面 */
 				case 0x01 : 
 				{
+					Current_HMIEvent = 0x01;
 					/* 创建快速测试界面显示线程 */
 					HMI_FastTest_thread = rt_thread_create("HMI_1",HMI_FastTest_thread_entry, RT_NULL,1024,2,20);
 					/* 跳转到快速测试界面 */
 					HMI_File_Page(Page_fast_testing);
+					/* 闭合交流继电器 */
+					RELAY = 1;
+					/* 开启散热风扇 */
+					FAN = 1;
 					/* 使能串口3中断响应开关 */
 					USART_ITConfig(USART3,USART_IT_IDLE,ENABLE);
 					USART_ITConfig(USART3,USART_IT_RXNE,ENABLE);
@@ -74,6 +108,11 @@ void Master_thread_entry(void* parameter)
 				/* 退出快速检测交互界面 */
 				case 0x02 : 
 				{
+					Current_HMIEvent = 0x02;
+					/* 断开交流继电器 */
+					RELAY = 0;
+					/* 关闭散热风扇 */
+					FAN = 0;
 					/* 关闭串口3中断响应开关 */
 					USART_ITConfig(USART3,USART_IT_IDLE,DISABLE);
 					USART_ITConfig(USART3,USART_IT_RXNE,DISABLE);
@@ -84,6 +123,7 @@ void Master_thread_entry(void* parameter)
 				/* 进入批量选择交互界面 */
 				case 0x03 : 
 				{
+					Current_HMIEvent = 0x03;
 					Entry_Code_Old=0x03;
 					/* 创建线程：批量列表线程 */
 					HMI_SelectBatch_thread = rt_thread_create("HMI_Batch",HMI_SelectBatch_thread_entry, RT_NULL,1024,3,20);					
@@ -94,6 +134,7 @@ void Master_thread_entry(void* parameter)
 				/* 选中批量后进入批量标准选择线程 */
 				case 0x04 :
 				{
+					Current_HMIEvent = 0x04;
 					Entry_Code_Old=0x04;
 					//创建模式选择线程
 					HMI_SelectStandard_thread = rt_thread_create("Standard",HMI_SelectStandard_thread_entry, RT_NULL,512,3,20);
@@ -104,18 +145,21 @@ void Master_thread_entry(void* parameter)
 				/* 进入批量选择但取消选择 */
 				case 0x05 :
 				{	
+					Current_HMIEvent = 0x05;
 					rt_thread_delete(HMI_SelectBatch_thread);	//删除批量选择线程
 					HMI_File_Page(Page_main);	//跳转到主界面界面
 				}break;
 				/* 选择批量标准中中途放弃 */
 				case 0x06 :
 				{
+					Current_HMIEvent = 0x06;
 					rt_thread_delete(HMI_SelectStandard_thread);	//删除批量选择线程
 					HMI_File_Page(Page_main);	//跳转到主界面界面
 				}break;
 				/* 创建了新批量并将其写入SD卡 */
 				case 0x07 : 
 				{
+					Current_HMIEvent = 0x07;
 					Entry_Code_Old=0x07;
 					/* 获取批量目录名称并将其写入SD卡中 */
 					f_mount(&fat,"0",1);
@@ -123,9 +167,35 @@ void Master_thread_entry(void* parameter)
 					f_mount(NULL,"0",1);
 					HMI_File_Page(Page_main);	//跳转到测试标准选择界面
 				}break;
+				/* 进入批量检测界面 */
+				case 0x08 : 
+				{
+					Current_HMIEvent = 0x08;
+					/* 闭合交流继电器 */
+					RELAY = 1;
+					/* 开启散热风扇 */
+					FAN = 1;
+					rt_thread_delay(1000);
+					//创建批量检测线程
+					HMI_Batch_thread = rt_thread_create("Batch",HMI_Batch_thread_entry, RT_NULL,512,3,20);
+					rt_thread_startup(HMI_Batch_thread);	//启动线程
+					
+				}break;
+				/* 退出批量检测界面 */
+				case 0x09 : 
+				{
+					Current_HMIEvent = 0x09;
+					/* 断开交流继电器 */
+					RELAY = 0;
+					/* 关闭散热风扇 */
+					FAN = 0;
+					rt_thread_delete(HMI_Batch_thread);	//删除批量选择线程
+					HMI_File_Page(Page_main);	//跳转到主界面界面
+				}break;
 				/* 标准设置交互中选择标准序号 */
 				case 0x0a : 
 				{
+					Current_HMIEvent = 0x0a;
 					Entry_Code_Old=0x0a;
 					//创建模式选择线程
 					HMI_SelectStandard_thread = rt_thread_create("Standard",HMI_SelectStandard_thread_entry, RT_NULL,512,3,20);					
@@ -135,6 +205,7 @@ void Master_thread_entry(void* parameter)
 				/* 标准设置交互中选择标准序号事件结束 */
 				case 0x0b : 
 				{
+					Current_HMIEvent = 0x0b;
 					rt_thread_delete(HMI_SelectStandard_thread);
 					HMI_File_Page(Page_standard);		//跳转到测试标准设置界面
 					#if	Thread_Debug
@@ -152,6 +223,7 @@ void Master_thread_entry(void* parameter)
 				/* 标准设置交互中设置标准 */
 				case 0x0c : 
 				{
+					Current_HMIEvent = 0x0c;
 					/* 禁止调度以防止干扰串口接收 */
 					res=HMI_Standard_Atoi();	//获取界面标准参数并装载进结构体
 					rt_enter_critical();	//进入临界区
@@ -159,6 +231,7 @@ void Master_thread_entry(void* parameter)
 					if(Modify_TestParameters(&TestParameters_Structure[Standard_val],Standard_val)) rt_kprintf("WriteData_Error!\r\n");
 					f_mount(NULL,"0:",1);	//注销工作区
 					rt_exit_critical();		//退出临界区
+					Default_SetStandard();
 					#if	Thread_Debug
 					logging_debug("Standard_val: %d",Standard_val);
 					logging_debug("Vout=%d",TestParameters_Structure[Standard_val].Vout);
@@ -174,28 +247,34 @@ void Master_thread_entry(void* parameter)
 				/* 测试开关设置进入界面 */
 				case 0x0d	:
 				{
+					Current_HMIEvent = 0x0d;
 					HMI_File_Page(12);	//跳转到开关界面
 					HMI_TestLimit_Itoa();
 				}break;
 				/* 测试开关设置退出界面 */
 				case 0x0e	:
 				{
+					Current_HMIEvent = 0x0e;
 					/* 禁止调度以防止干扰串口接收 */
 					rt_enter_critical();	//进入临界区
 					HMI_TestLimit_Atoi(&HMI_TestLimit);
 					rt_exit_critical();		//退出临界区
+					logging_debug("HMI_TestLimit=%x",HMI_TestLimit);
 					HMI_File_Page(1);	//跳转到主界面
 				}break;
 				/* 进入时间设置界面 */
 				case 0x0f	:
 				{
+					Current_HMIEvent = 0x0f;
 					HMI_File_Page(17);	//跳转到时间界面
 					HMI_RTC_Show();
 				}break;
 				/* 退出时间设置界面 */
 				case 0x10	:
 				{
-					HMI_RTC_Atoi();
+					Current_HMIEvent = 0x10;
+					if(HMI_RTC_Atoi() != HMI_OK)
+						logging_debug("Set Time failed!");
 					HMI_File_Page(1);
 				}break;
 				
@@ -231,25 +310,8 @@ void HMIMonitor_thread_entry(void* parameter)
 			/* 接收到HMI系统事件信息,发送邮箱通知别的线程 */
 			rt_mb_send(HMI_Response_mb,HMI_Info[0]);
 		}
-		LED2=~LED2;
 		rt_thread_delay(100);
 	}
-}
-
-/**
- * 检测数据采集回调函数
- * @param
- * @return
- * 采集USB端口的电源电压/电流/纹波电压
- * 使用软件定时器回调函数
- */
-void GetData_timerout(void* parameter)
-{
-	rt_enter_critical();	//进入临界区
-	Get_Power_Val_All(&Global_Measured_Structure);
-	rt_exit_critical();		//退出临界区
-	/* 发送数据地址给别的线程 */
-	rt_mb_send(GetData_mb,(rt_uint32_t)&Global_ReadTimeData_structure);
 }
 
 
@@ -257,7 +319,6 @@ void GetData_timerout(void* parameter)
  * HMI交互界面事件处理线程
  * @param
  * @return
- * 
  */
 void EventProcessing_thread_entry(void* parameter)
 {
@@ -267,7 +328,7 @@ void EventProcessing_thread_entry(void* parameter)
 	
 	while(1)
 	{
-		/* 接收虚拟按键事件邮箱 */
+		/* 等待接收虚拟按键事件邮箱 */
 		if(rt_mb_recv(Event_mb,(rt_uint32_t*)&Event_Flag,RT_WAITING_FOREVER)==RT_EOK)
 		{
 			logging_debug("Receive Interface Event:%d",Event_Flag);
@@ -276,20 +337,32 @@ void EventProcessing_thread_entry(void* parameter)
 				/* 接收到快充诱导事件 */
 				if(Event_Flag==1)
 				{
+					LEDB = 0;
 					logging_debug("Detected QuickCharge...");
-					/* 对所有快充协议进行诱导 */
-					rt_enter_critical();	//进入临界区
-					res=QuickCharge_Induction(0x0f);
-					sprintf(str,"QC: %x",res);
+					sprintf(str,"QC Test");
 					HMI_Print_Str("t8",str);
-					rt_exit_critical();		//退出临界区
+					QC20_AdjustVoltage(0);
+					rt_thread_delay(1000);
+					QC20_AdjustVoltage(1);
+					rt_thread_delay(1000);
+					QC20_AdjustVoltage(0);
+					rt_thread_delay(1000);
+					QC20_AdjustVoltage(2);
+					rt_thread_delay(1000);
+					QC20_AdjustVoltage(0);
+					sprintf(str,"QC END");
+					HMI_Print_Str("t8",str);
+					LEDB = 1;
 				}
 				else if(Event_Flag==2)
 				{
 					logging_debug("Start OCP TEST...");
+					sprintf(str,"OCP Test");
+					HMI_Print_Str("t8",str);
 					/* 进行过流保护测试 */
+					rt_thread_suspend(HMI_FastTest_thread);	//挂起快速检测界面线程
 					rt_enter_critical();	//进入临界区
-					Val=OverCurrent_Detection();
+					Val = OverCurrent_Detection();
 					if(Val == 0)
 					{
 						sprintf(str,"NO LOAD!");
@@ -300,7 +373,8 @@ void EventProcessing_thread_entry(void* parameter)
 						sprintf(str,"OCP: %d",(u32)Val);
 						HMI_Print_Str("t8",str);
 					}
-					rt_exit_critical();		//退出临界区				
+					rt_exit_critical();		//退出临界区
+					rt_thread_resume(HMI_FastTest_thread);	//恢复快速检测界面线程
 				}
 			}
 		}
@@ -323,25 +397,107 @@ void HMI_FastTest_thread_entry(void* parameter)
 	while(1)
 	{
 		Get_Power_Val_All(&Global_Measured_Structure);
-		sprintf(str,"%.3f",Global_Measured_Structure.Measured_AC_Voltage);
+		sprintf(str,"%.1f",Global_Measured_Structure.Measured_AC_Voltage);
 		HMI_Print_Str("t6",str);	//显示AC输入电压
 		str[0]='\0';
 		sprintf(str,"%.3f",Global_Measured_Structure.Measured_AC_Current);
 		HMI_Print_Str("t7",str);	//显示AC输入电流
 		str[0]='\0';
-		sprintf(str,"%.3f",(Global_Measured_Structure.Measured_USB_Voltage)/1000);
+		sprintf(str,"%.0f",Global_Measured_Structure.Measured_USB_Voltage);
 		HMI_Print_Str("t9",str);	//显示DC输出电压
 		str[0]='\0';
-		sprintf(str,"%.3f",Global_Measured_Structure.Measured_AC_Current);
+		sprintf(str,"%.0f",Global_Measured_Structure.Measured_USB_Current);
 		HMI_Print_Str("t10",str);	//显示DC输出电流
 		str[0]='\0';
+		sprintf(str,"%s","no data");
 		HMI_Print_Str("t11",str);	//显示转换效率
 		str[0]='\0';
-		sprintf(str,"%.3f",0.00f);
+		sprintf(str,"%.1f",Global_Measured_Structure.Measured_Ripple_Val);
 		HMI_Print_Str("t12",str);	//显示纹波电压
 		str[0]='\0';
 		rt_thread_delay(200);
 	}
+}
+
+/**
+ * 批量检测界面线程
+ * @param   
+ * @return 
+ * @brief 
+ **/
+void HMI_Batch_thread_entry(void* parameter)
+{
+	float value;
+	MeasuredData_Type MeasuredData_Structure;
+		
+	logging_debug("HMI_TestLimit=%x",HMI_TestLimit);
+	logging_debug("V_Ripple=%d",TestParameters_Structure[Standard_val].V_Ripple);
+	logging_debug("Vout=%d Vout_Tolerance=%d",TestParameters_Structure[Standard_val].Vout,TestParameters_Structure[Standard_val].Vout_Tolerance);
+	logging_debug("Cout_Max=%d",TestParameters_Structure[Standard_val].Cout_Max);
+	logging_debug("Quick_Charge=%x",TestParameters_Structure[Standard_val].Quick_Charge);
+	do{
+		LEDB = 0;
+		rt_enter_critical();	//进入临界区
+		Get_Power_Val_All(&MeasuredData_Structure);
+		rt_exit_critical();		//退出临界区
+		logging_debug("V=%d",(u16)MeasuredData_Structure.Measured_USB_Voltage);
+		logging_debug("R=%d",(u16)MeasuredData_Structure.Measured_Ripple_Val);
+		if(HMI_TestLimit&0x01)
+		{
+			/* 检测电源纹波 */
+			logging_debug("Ripple_Val");
+			if(MeasuredData_Structure.Measured_Ripple_Val > TestParameters_Structure[Standard_val].V_Ripple)
+				HMI_Print("t3.bco=63618");
+			else
+				HMI_Print("t3.bco=1793");
+		}
+		
+		if(HMI_TestLimit&0x02)
+		{
+			logging_debug("V OUT");
+			/* 检测输出电压是否正常 */
+			if(MeasuredData_Structure.Measured_USB_Voltage < (TestParameters_Structure[Standard_val].Vout - TestParameters_Structure[Standard_val].Vout_Tolerance))
+			{
+				HMI_Print("t1.bco=63618");
+			}
+			else if(MeasuredData_Structure.Measured_USB_Voltage > (TestParameters_Structure[Standard_val].Vout + TestParameters_Structure[Standard_val].Vout_Tolerance))
+			{
+				HMI_Print("t1.bco=63618");
+			}
+			else
+				HMI_Print("t1.bco=1793");
+		}
+		
+		if(HMI_TestLimit&0x04)
+		{
+			logging_debug("C MAX");
+			/* 检测最大输出电流是否正常 */
+			rt_enter_critical();	//进入临界区
+			value = OverCurrent_Detection();
+			rt_exit_critical();		//退出临界区
+			if(value < (TestParameters_Structure[Standard_val].Cout_Max - 500))
+			{
+				HMI_Print("t2.bco=63618");
+				HMI_Print("t6.bco=63618");
+			}
+			else
+			{
+				HMI_Print("t2.bco=1793");
+				HMI_Print("t6.bco=1793");
+			}
+		}		
+		
+		if(HMI_TestLimit&0x08)
+		{
+			logging_debug("QC");
+			/* 快充功能检测 */
+			if(QuickCharge_Induction(TestParameters_Structure[Standard_val].Quick_Charge))
+				HMI_Print("t7.bco=1793");
+			else
+				HMI_Print("t7.bco=63618");
+		}
+		LEDB = 1;
+	}while(rt_mb_recv(Event_mb,(rt_uint32_t*)&Event_Flag,RT_WAITING_FOREVER)==RT_EOK);
 }
 
 /**
@@ -478,7 +634,9 @@ void HMI_SelectStandard_thread_entry(void* parameter)
 		if(Entry_Code_Old==0x04||Entry_Code_Old==0x07)
 		{
 			rt_thread_delay(100);
-			HMI_File_Page(19);
+			HMI_File_Page(Page_connection);		//提示连接设备
+			rt_thread_delay(1000);
+			HMI_File_Page(Page_batch_testing);	//跳转到批量测试界面
 		}
 		/*测试标准设置交互部分*/
 		else
@@ -525,7 +683,9 @@ void Main_entry(void)
 	else
 		logging_debug("Read set.dat OK!");
 	
-	
+	/* 设置默认标准值,正式应用时务必将其去除掉 */
+	Default_SetStandard();
+		
 	/* 创建mailbox */
 	HMI_Response_mb=rt_mb_create("HMI_mb", /* 名称是HMI_mb */
 			   32, /* 每封邮件的大小是4字节 */
@@ -543,16 +703,7 @@ void Main_entry(void)
 	if(GetData_mb==RT_NULL)
 		logging_error("create GetData_mb failed \r\n");	
 	if(Event_mb==RT_NULL)
-		logging_error("create Event_mb failed \r\n");
-	
-	/* create timer*/
-	GetData_timer = rt_timer_create("timer1", /* 定时器名字是timer1 */
-														GetData_timerout, /* 超时时回调的处理函数*/
-														RT_NULL, /* 超时函数的入口参数*/
-														500, /* 定时长度，以OS Tick为单位，即10个OS Tick */
-														RT_TIMER_FLAG_PERIODIC); /* 周期性定时器*/
-	if(GetData_timer==RT_NULL)
-		logging_error("create GetData_timer failed \r\n");
+		logging_error("create Event_mb failed \r\n");	
 	
   /* 延时一段时间,等待HMI屏幕初始化完毕 */
 	delay_ms(800);

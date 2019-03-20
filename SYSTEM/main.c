@@ -17,6 +17,9 @@
 #include "tlc5615.h"
 #include "delay.h"
 #include "adc.h"
+#include "hlw8032.h"
+#include "stdio.h"
+#include "switch.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -32,8 +35,15 @@
   */
 int main()
 {
+	u8 res;
+	
 	Main_entry();
-	return 0;
+//	RELAY=1;
+//	delay_ms(1000);
+//	res=QuickCharge_Induction(0x07);
+//	rt_kprintf("res=%x\r\n",res);
+//	while(1);
+
 }
 
 

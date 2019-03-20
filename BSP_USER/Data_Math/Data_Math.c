@@ -71,9 +71,7 @@ void ADCValue_Dealwith(u32 Measure_Vol[3])
 	Voltage_Average=(Voltage_Val-(Voltage_Max+Voltage_Min))/(ADC12_BUFFER_SIZE/3-2);
 	Current_Average=(Current_Val-(Current_Max+Current_Min))/(ADC12_BUFFER_SIZE/3-2);
 	Ripple_Average=Ripple_Val/(ADC12_BUFFER_SIZE/3);
-	
-	//logging_debug("%d %d %d\r\n",Voltage_Average,Current_Average,Ripple_Average);
-	
+		
 	/* 赋值给外部参数 */
 	Measure_Vol[0]=Voltage_Average;
 	Measure_Vol[1]=Current_Average;
@@ -103,8 +101,10 @@ void Get_Power_Val_All(MeasuredData_Type *pp)
 	Val=(float)(Adc_Val[1])*3300/4096;
 	pp->Measured_USB_Current=Measured_Current_K*Val-Measured_Current_Offset;
 	if(pp->Measured_USB_Current<0) pp->Measured_USB_Current=0;
-	// 计算USB口耗散功率
-	pp->Measured_USB_Power=pp->Measured_USB_Voltage*pp->Measured_USB_Current;
+	// 计算USB口耗散功率(视在功率)
+	pp->Measured_USB_Power=pp->Measured_USB_Voltage*pp->Measured_USB_Current / 1000;
+	// 获取纹波电压值
+	pp->Measured_Ripple_Val=(float)((Adc_Val[0])*3300/4096) / 20;		//默认放大20倍
 	// 获取交流检测参数
 	if(!HLW8032Get_Data(&HLW8032Data_StructureData))
 	{
@@ -118,13 +118,6 @@ void Get_Power_Val_All(MeasuredData_Type *pp)
 		pp->Measured_AC_Current = 0;
 		pp->Measured_AC_Power = 0;		
 	}
-	// 调试输出
-	logging_debug("Measured_USB_Voltage=%dmV\r\n",(u32)pp->Measured_USB_Voltage);
-	logging_debug("Measured_USB_Current=%dmA\r\n",(u32)pp->Measured_USB_Current);
-	logging_debug("Measured_USB_Power=%dmW\r\n",(u32)pp->Measured_USB_Power);
-	logging_debug("Measured_AC_Voltage=%d\r\n",(u32)pp->Measured_AC_Voltage);
-	logging_debug("Measured_AC_Current=%d\r\n",(u32)pp->Measured_AC_Current);
-	logging_debug("Measured_AC_Power=%d\r\n",(u32)pp->Measured_AC_Power);
 	
 }
 
@@ -354,7 +347,7 @@ u8 QC_Init()
 	do{
 		//temp_Val=Get_Adc2(7);		//获取D-电压
 		if(temp_Val>730&&temp_Val<760) break;		//D-与D+断开, D-恢复0电压
-		rt_thread_delay(2);
+		delay_ms(2);
 		i++;
 	}while(i<500);
 	if(temp_Val<730||temp_Val>760) return 1;	//D-跟随D+失败
@@ -363,7 +356,7 @@ u8 QC_Init()
 	do{
 		//temp_Val=Get_Adc2(7);	//获取D-电压
 		if(temp_Val<100) return 0;	//D-与D+断开, D-恢复0电压
-		rt_thread_delay(2);
+		delay_ms(2);
 		i++;
 	}while(i<500);
 	
@@ -398,11 +391,12 @@ void QC20_AdjustVoltage(u8 Voltage_level)
 		case 6:{USB_DM_SetVol(3299);delay_ms(100);USB_DM_SetVol(600);delay_ms(100);USB_DM_SetVol(3299);}break;		//continuous mode  V-
 		default:break;
 	}
+	delay_ms(500);
 }
 
 /**
  * 快充诱导函数
-* @param  Detected_level[诱导级别 |0|0|0|0|MTK-PE有效标志|QC2.0有效标志|QC3.0有效标志|详细诱导电压| 置1为激活]
+ * @param  Detected_level[诱导级别 |0|0|0|0|MTK-PE有效标志|QC2.0有效标志|QC3.0有效标志|详细诱导电压| 置1为激活]
  * @return Results[检测结果 |MTK-PE有效标志|QC2.0有效标志|QC3.0有效标志|PE-7V|PE-9V|PE-12V|QC-9V|QC-12V| ]
  * @brief 诱导设置说明 |不诱导 Detected_level=0|仅检测是否有快充功能 Detected_level=0x0E|检测MTK-PE并检测诱导出具体的电压值 Detected_level=0x09
  */
@@ -428,7 +422,7 @@ u8 QuickCharge_Induction(u8 Detected_level)
 				Results = Results|0x10; //将QC-9V有效位置位
 				break;
 			}
-			rt_thread_delay(20);
+			delay_ms(20);
 			i++;
 		}while(i<50);
 		if(Detected_level&0x01)
@@ -444,7 +438,7 @@ u8 QuickCharge_Induction(u8 Detected_level)
 					Results = Results|0x08; //将QC-9V有效位置位
 					break;
 				}
-				rt_thread_delay(20);
+				delay_ms(20);
 				i++;
 			}while(i<50);
 			logging_debug("detected PE-12V");
@@ -458,7 +452,7 @@ u8 QuickCharge_Induction(u8 Detected_level)
 					Results = Results|0x04; //将QC-12V有效位置位
 					break;
 				}
-				rt_thread_delay(20);
+				delay_ms(20);
 				i++;
 			}while(i<50);
 		}
@@ -469,14 +463,15 @@ u8 QuickCharge_Induction(u8 Detected_level)
 	if(Detected_level&0x04||Detected_level&0x02)
 	{
 		logging_debug("Start QC!!!");
-		if(QC_Init())
-		{
+//		if(QC_Init())
+//		{
 //			logging_debug("QC cannot be detected or maybe QC_Init!!!");
-//			Results = Results & 0xbf;		//将QC2.0有效位至零
-//			return Results;
-		}
+//			//Results = Results & 0xbf;		//将QC2.0有效位至零
+//			//return Results;
+//		}
 		logging_debug("detected QC2.0-9V");
-		rt_thread_delay(500);
+		QC20_AdjustVoltage(0);	//复位至5V
+		delay_ms(1000);
 		QC20_AdjustVoltage(1);	//QC2.0诱导9V
 		i=0;
 		do{
@@ -489,23 +484,27 @@ u8 QuickCharge_Induction(u8 Detected_level)
 				Results = Results|0x02; //将QC-9V有效位置位
 				break;
 			}
-			rt_thread_delay(20);
+			delay_ms(20);
 			i++;
 		}while(i<50);
 		if((Detected_level&0x01)&&(Results&0x40))
 		{
+			QC20_AdjustVoltage(0);	//复位至5V
+			delay_ms(1000);
 			logging_debug("detected QC2.0-12V");
 			QC20_AdjustVoltage(2);	//QC2.0诱导12V
+			delay_ms(1000);
 			i=0;
 			do{
 				PowerVoltage = Get_PowerVoltage();
+				logging_debug("PowerVoltage: %d",(u32)PowerVoltage);
 				if((PowerVoltage>11500)&&(PowerVoltage<12500))
 				{
 					logging_debug("QC2.0 - 12V");
 					Results = Results|0x01; //将QC-9V有效位置位
 					break;
 				}
-				rt_thread_delay(20);
+				delay_ms(20);
 				i++;
 			}while(i<50);
 		}
@@ -513,16 +512,22 @@ u8 QuickCharge_Induction(u8 Detected_level)
 		{
 			logging_debug("detected QC3.0");
 			QC20_AdjustVoltage(0);	//复位至5V
-			rt_thread_delay(100);
+			delay_ms(1000);
 			QC20_AdjustVoltage(4);	//进入QC连续调整模式(QC3.0)
-			rt_thread_delay(100);
+			delay_ms(1000);
 			//增加电压至6V
 			QC20_AdjustVoltage(5);
+			delay_ms(200);
 			QC20_AdjustVoltage(5);
+			delay_ms(200);
 			QC20_AdjustVoltage(5);
+			delay_ms(200);
 			QC20_AdjustVoltage(5);
+			delay_ms(200);
 			QC20_AdjustVoltage(5);
+			delay_ms(200);
 			PowerVoltage = Get_PowerVoltage();
+			logging_debug("PowerVoltage: %d",(u32)PowerVoltage);
 			if((PowerVoltage>5500)&&(PowerVoltage<6500))
 			{
 				logging_debug("QC3.0");

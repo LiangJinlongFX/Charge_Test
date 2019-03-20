@@ -48,7 +48,7 @@ void Dac_Init(void)
 	DAC_SetChannel2Data(DAC_Align_12b_R, 0);  //12位右对齐数据格式设置DAC值
 }
 //设置通道1输出电压
-//vol:0~3300,代表0~3.3V
+//vol:0~3300,代表0~3300V
 void Dac1_Set_Vol(u16 vol)
 {
 	double temp=vol;

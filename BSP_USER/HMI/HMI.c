@@ -11,9 +11,9 @@
 #include "debug.h"
 
 /*
- * 批量检测条目限制变量 bit7:转换效率 bit6:上电时间 bit5:电路保护 bit4:OCP bit3:OVP bit2:cmax bit1:vmax bit0:纹波  1：为有效
+ * 批量检测条目限制变量 bit7:null bit6:null bit5:转换效率 bit4:OCP bit3:快充诱导 bit2:最大输出电流 bit1:额定电压 bit0:纹波峰值  1：为有效
  */
-u8 HMI_TestLimit=0x88;
+u8 HMI_TestLimit=0x3f;
 
 /**
  * HMI响应处理函数
@@ -405,6 +405,7 @@ HMI_Error HMI_RTC_Atoi(void)
 	hour=my_atoi(str2);
 	str2[0]=str1[8];str2[1]=str1[9];str2[2]='\0';
 	min=my_atoi(str2);
+	logging_debug("%d-%d-%d %d:%d",year,month,day,hour,min);
 	if(month>12||month<1||day>31||day<1||day>31||hour>24||hour<1||min>60) return HMI_Parse_Error;
 	RTC_Set_Date(year,month,day,1);
 	res1=hour-12;

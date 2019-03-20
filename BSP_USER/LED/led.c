@@ -29,5 +29,5 @@ void LED_Init(void)
   GPIO_Init(GPIOC, &GPIO_InitStructure);                         //初始化GPIO
 	
 	/* 默认为点亮状态 */
-	GPIO_ResetBits(GPIOC, GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5);   	
+	GPIO_SetBits(GPIOC, GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5);   	
 }

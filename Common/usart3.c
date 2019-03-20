@@ -78,6 +78,8 @@ void uart3_init(u32 bound)
  **/
 void USART3_IRQHandler(void)                	
 {
+	u8 i;
+	
 	/* 通知RTT进入中断 */
 	rt_interrupt_enter();
 	if(USART_GetITStatus(USART3, USART_IT_RXNE)!= RESET)
@@ -91,7 +93,14 @@ void USART3_IRQHandler(void)
 	{
 		USART_ReceiveData(USART3);//读取数据 注意：这句必须要,否则不能够清除中断标志位。
 		USART_ClearFlag(USART3,USART_FLAG_IDLE);
-		if(USART3_RX_Size>=24) USART3_RX_Flag=1;
+		if(USART3_RX_Size>=24) 
+		{
+			USART3_RX_Flag=1;
+//			for(i=0; i<24; i++)
+//				rt_kprintf("%x ",USART3_RX_BUF[i]);
+//			rt_kprintf("\r\n");
+//			USART3_RX_Size=0;
+		}
 	}
 	/* 通知RTT退出中断 */
 	rt_interrupt_leave();

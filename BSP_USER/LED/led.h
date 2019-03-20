@@ -10,8 +10,8 @@
 
 //LED端口定义
 #define SYS_LED PCout(2)	//系统状态LED	 
-#define LED1 PCout(3)
-#define LED2 PCout(4)
+#define LEDB PCout(3)
+#define LEDG PCout(4)
 #define LED3 PCout(5)	
 
 //函数声明

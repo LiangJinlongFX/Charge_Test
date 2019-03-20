@@ -5,6 +5,7 @@
 #include "delay.h"
 #include "rtthread.h"
 #include "switch.h"
+#include "led.h"
 
 LoadCtrl_TypeDef Global_LoadCtrl_Structure;
 
@@ -115,16 +116,21 @@ float OverCurrent_Detection(void)
 	// 逐步加大DAC输出电压,直到电压跌落
 	while(1)
 	{
+		LEDB = ~LEDB;
 		if(OverCurrent_DetectionVoltage(&OCP_Structure))
 		{
 			SW = 1;	//断开负载
 			TLC5615_SetVoltage(0);	//恢复零电压
+			LEDB = 1;
 			return OCP_Structure.Current_Max;
 		}
 		TLC5615_SetVoltage(DAC_Val+=OCP_Structure.DAC_Step);
 		delay_ms(50);
-		if(DAC_Val>3000)
-			return 0;			
+		if(DAC_Val>4000)
+		{
+			LEDB = 1;
+			return 0;
+		}
 	}
 }
 

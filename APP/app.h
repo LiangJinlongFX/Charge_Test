@@ -52,6 +52,7 @@ static rt_thread_t HMIMonitor_thread=RT_NULL;
 static rt_thread_t Master_thread=RT_NULL;
 static rt_thread_t CollectData_thread=RT_NULL;
 static rt_thread_t HMI_FastTest_thread=RT_NULL;
+static rt_thread_t HMI_Batch_thread=RT_NULL;
 static rt_thread_t HMI_SelectBatch_thread=RT_NULL;
 static rt_thread_t HMI_SelectStandard_thread=RT_NULL;
 static rt_thread_t EventProcessing_thread=RT_NULL;
@@ -62,6 +63,7 @@ void HMIMonitor_thread_entry(void* parameter);		//HMI系统信息监控进程
 void Master_thread_entry(void* parameter);				//线程控制主线程
 void CollectData_thread_entry(void* parameter);		//实时数据采集进程
 void HMI_FastTest_thread_entry(void* parameter);	//快速检测HMI界面线程
+void HMI_Batch_thread_entry(void* parameter);			//批量检测HMI界面线程
 void HMI_SelectBatch_thread_entry(void* parameter);	//批量选择线程
 void HMI_SelectStandard_thread_entry(void* parameter); //测试标准选择线程
 void EventProcessing_thread_entry(void* parameter);			//界面交互事件处理线程

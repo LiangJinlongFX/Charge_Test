@@ -3,8 +3,8 @@
 #include "sys.h"
 
 #define SW PCout(0)
-#define RELAY PCout(13)
-#define FAN PAout(15)	
+#define RELAY PCout(13)		//1[¿ªÆô]
+#define FAN PAout(15)			//1[¿ªÆô]
 
 void Switch_Init(void);
 

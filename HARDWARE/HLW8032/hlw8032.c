@@ -35,9 +35,9 @@ u8 UsartToStruct(HLW8032REG_Type *HLW8032REG_Structure)
 		HLW8032REG_Structure->CheckREG_Val=USART3_RX_BUF[1];
 		
 		/* 使用默认值,不必从寄存器获取默认值 */
-		//	HLW8032REG_Structure->VoltageparameterREG_Val=USART3_RX_BUF[2];
-		//	HLW8032REG_Structure->VoltageparameterREG_Val=(HLW8032REG_Structure->VoltageparameterREG_Val<<8)|USART3_RX_BUF[3];
-		//	HLW8032REG_Structure->VoltageparameterREG_Val=(HLW8032REG_Structure->VoltageparameterREG_Val<<8)|USART3_RX_BUF[4];
+		HLW8032REG_Structure->VoltageparameterREG_Val=USART3_RX_BUF[2];
+		HLW8032REG_Structure->VoltageparameterREG_Val=(HLW8032REG_Structure->VoltageparameterREG_Val<<8)|USART3_RX_BUF[3];
+		HLW8032REG_Structure->VoltageparameterREG_Val=(HLW8032REG_Structure->VoltageparameterREG_Val<<8)|USART3_RX_BUF[4];
 		
 		/* 读取电压值 */
 		HLW8032REG_Structure->VoltageREG_Val=USART3_RX_BUF[5];
@@ -45,9 +45,9 @@ u8 UsartToStruct(HLW8032REG_Type *HLW8032REG_Structure)
 		HLW8032REG_Structure->VoltageREG_Val=(HLW8032REG_Structure->VoltageREG_Val<<8)|USART3_RX_BUF[7];
 		
 		/* 使用默认值,不必从寄存器获取默认值 */
-		//	HLW8032REG_Structure->CurrentParameterREG_Val=USART3_RX_BUF[8];
-		//	HLW8032REG_Structure->CurrentParameterREG_Val=(HLW8032REG_Structure->CurrentParameterREG_Val<<8)|USART3_RX_BUF[9];
-		//	HLW8032REG_Structure->CurrentParameterREG_Val=(HLW8032REG_Structure->CurrentParameterREG_Val<<8)|USART3_RX_BUF[10];
+		HLW8032REG_Structure->CurrentParameterREG_Val=USART3_RX_BUF[8];
+		HLW8032REG_Structure->CurrentParameterREG_Val=(HLW8032REG_Structure->CurrentParameterREG_Val<<8)|USART3_RX_BUF[9];
+		HLW8032REG_Structure->CurrentParameterREG_Val=(HLW8032REG_Structure->CurrentParameterREG_Val<<8)|USART3_RX_BUF[10];
 
 		/* 读取电流值 */
 		HLW8032REG_Structure->CurrentREG_Val=USART3_RX_BUF[11];
@@ -55,9 +55,9 @@ u8 UsartToStruct(HLW8032REG_Type *HLW8032REG_Structure)
 		HLW8032REG_Structure->CurrentREG_Val=(HLW8032REG_Structure->CurrentREG_Val<<8)|USART3_RX_BUF[13];
 
 		/* 使用默认值,不必从寄存器获取默认值 */
-		//	HLW8032REG_Structure->PowerparameterREG_Val=USART3_RX_BUF[14];
-		//	HLW8032REG_Structure->PowerparameterREG_Val=(HLW8032REG_Structure->PowerparameterREG_Val<<8)|USART3_RX_BUF[15];
-		//	HLW8032REG_Structure->PowerparameterREG_Val=(HLW8032REG_Structure->PowerparameterREG_Val<<8)|USART3_RX_BUF[16];
+		HLW8032REG_Structure->PowerparameterREG_Val=USART3_RX_BUF[14];
+		HLW8032REG_Structure->PowerparameterREG_Val=(HLW8032REG_Structure->PowerparameterREG_Val<<8)|USART3_RX_BUF[15];
+		HLW8032REG_Structure->PowerparameterREG_Val=(HLW8032REG_Structure->PowerparameterREG_Val<<8)|USART3_RX_BUF[16];
 
 		/* 读取功率值 */
 		HLW8032REG_Structure->PowerREG_Val=USART3_RX_BUF[17];
@@ -93,9 +93,15 @@ u8 HLW8032Get_Data(HLW8032Data_Type *HLW8032Data_Struct)
 	if(HLW8032REG_StructureData.StateREG_Val==0xaa) return 2;	//芯片误差修正功能失效,寄存器值不能使用
 	
 	/* 根据公式计算测量数据 */
+	/* 使用默认参数 */
+	
 	HLW8032Data_Struct->AC_Voltage = ((float)default_VoltageparameterREG/(float)HLW8032REG_StructureData.VoltageREG_Val)*V_K1;	//计算电压
 	HLW8032Data_Struct->AC_Current = ((float)default_CurrentParameterREG/(float)HLW8032REG_StructureData.CurrentREG_Val)*C_K2;	//计算电流
 	HLW8032Data_Struct->AC_Power   = ((float)default_PowerparameterREG_Val/(float)HLW8032REG_StructureData.PowerREG_Val)*P_K3;	//计算有功功率
 
+	/* 使用寄存器参数 */
+	//	HLW8032Data_Struct->AC_Voltage = ((float)HLW8032REG_StructureData.VoltageparameterREG_Val/(float)HLW8032REG_StructureData.VoltageREG_Val)*V_K1;	//计算电压
+	//	HLW8032Data_Struct->AC_Current = ((float)HLW8032REG_StructureData.CurrentParameterREG_Val/(float)HLW8032REG_StructureData.CurrentREG_Val)*C_K2;	//计算电流
+	//	HLW8032Data_Struct->AC_Power   = ((float)HLW8032REG_StructureData.PowerparameterREG_Val/(float)HLW8032REG_StructureData.PowerREG_Val)*P_K3;	//计算有功功率
 	return 0;
 }

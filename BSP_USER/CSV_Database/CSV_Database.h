@@ -50,14 +50,14 @@ typedef struct
  **/
 typedef struct
 {
-	u16 Vout;						//额定输出电压
-	u16 Cout_Max;				//最大输出电流
-	u16 Vout_Tolerance;	//输出电压容差
-	u16 V_Ripple;				//纹波电压
-	u16 Efficiency; 		//转换效率
-	u16 Safety_Code;		//安全检测开关
-	u16 Quick_Charge;		//快充检测开关
-	u16 Test_Limit;			//检测项目开关
+	u16 Vout;						//额定输出电压  [x]mV
+	u16 Cout_Max;				//最大输出电流	[x]mA
+	u16 Vout_Tolerance;	//输出电压容差	+-[X]mV
+	u16 V_Ripple;				//纹波电压			[x]mV
+	u16 Efficiency; 		//转换效率			未定义
+	u16 Safety_Code;		//安全检测开关	bit0: OCP
+	u16 Quick_Charge;		//快充检测开关	诱导设置说明 |不诱导 Detected_level=0|仅检测是否有快充功能 Detected_level=0x0E|检测MTK-PE并检测诱导出具体的电压值 Detected_level=0x09
+	u16 Test_Limit;			//检测项目开关	未定义,使用全局检测开关
 }TestParameters_Type;
 
 /* 数据库函数错误码 */
